@@ -1,1672 +1,1344 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Home Base" />
-  <title>Home Base — Amelia & Josiah</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body, #root { height: 100%; }
-    body { font-family: system-ui, sans-serif; background: #F8F9FA; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Home Base"/>
+<title>Home Base · Amelia & Josiah</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg:       #F7F8FC;
+  --surface:  #FFFFFF;
+  --border:   #E4E8F0;
+  --t1: #0D1117; --t2: #4A5568; --t3: #9BAAB8;
+  --indigo: #5B5FD6; --indigo-l: #EEEEFF; --indigo-d: #4649C0;
+  --green: #18B76B; --green-l: #EDFAF4;
+  --red: #E8434B; --red-l: #FEF1F2;
+  --amber: #E8960A; --amber-l: #FFF8E6;
+  --radius: 12px; --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+  --font: 'DM Sans', system-ui, sans-serif;
+  --sidebar-w: 210px; --topbar-h: 52px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);font-family:var(--font);color:var(--t1);-webkit-text-size-adjust:100%}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ── LAYOUT ── */
+#app{display:flex;height:100vh;overflow:hidden}
+#sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;z-index:100}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+#topbar{height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
+#content{flex:1;overflow-y:auto;padding:28px}
+.page{display:none}.page.active{display:block;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SIDEBAR ── */
+.sb-brand{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
+.sb-brand h1{font-size:14px;font-weight:700;letter-spacing:-.01em;margin-bottom:2px}
+.sb-brand p{font-size:11px;color:var(--t3)}
+.sb-countdown{margin:14px 12px 0;padding:12px 14px;border-radius:var(--radius-sm)}
+.sb-countdown.c-safe{background:var(--indigo-l);border:1px solid #C5C8F8}
+.sb-countdown.c-warn{background:var(--amber-l);border:1px solid #FADFA0}
+.sb-countdown.c-danger{background:var(--red-l);border:1px solid #FBCACC}
+.sb-countdown .lbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.sb-countdown .days{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.sb-countdown .sub{font-size:11px;margin-top:3px}
+.sb-nav{flex:1;padding:10px 8px;overflow-y:auto}
+.nb{display:flex;align-items:center;gap:9px;width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--t2);font-size:13px;font-weight:500;cursor:pointer;text-align:left;margin-bottom:2px;font-family:var(--font);transition:all .12s}
+.nb:hover{background:var(--bg);color:var(--t1)}
+.nb.on{background:var(--indigo-l);color:var(--indigo);font-weight:600}
+.nb .ico{width:20px;text-align:center;font-size:15px;flex-shrink:0}
+.nb-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.sb-foot{padding:14px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--t3);line-height:1.9}
+
+/* ── TOPBAR ── */
+.tb-title{font-size:14px;font-weight:600}
+.tb-meta{display:flex;gap:18px;align-items:center;font-size:12px;color:var(--t3)}
+.tb-div{width:1px;height:16px;background:var(--border)}
+.tb-urgent{color:var(--red);font-weight:700}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.card-sm{padding:14px 16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+hr.div{border:none;border-top:1px solid var(--border);margin:14px 0}
+
+/* ── TYPE ── */
+.pg-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.pg-sub{font-size:13px;color:var(--t2);margin-bottom:22px}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.sec-hdr-label{font-size:13px;font-weight:600;color:var(--t2)}
+.lbl{display:block;font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font);font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn:hover{opacity:.85}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--indigo);color:#fff;padding:9px 18px;font-size:13px;border-radius:var(--radius-sm)}
+.btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--border);padding:8px 15px;font-size:13px;border-radius:var(--radius-sm)}
+.btn-danger{background:var(--red-l);color:var(--red);border:1px solid #FBCACC;padding:6px 12px;font-size:12px;border-radius:6px}
+.btn-subtle{background:var(--bg);color:var(--t2);border:1px solid var(--border);padding:6px 12px;font-size:12px;border-radius:6px}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
+
+/* ── FORMS — stable, never re-rendered while focused ── */
+.field{margin-bottom:14px}
+input,textarea,select{width:100%;padding:9px 12px;font-size:14px;color:var(--t1);background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);transition:border-color .15s;-webkit-appearance:none;appearance:none}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(91,95,214,.12)}
+textarea{resize:vertical;line-height:1.6;min-height:80px}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BAAB8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+
+/* ── STARS ── */
+.stars{display:flex;gap:3px}
+.star{font-size:18px;cursor:pointer;color:#DDE3EE;transition:color .1s;user-select:none;-webkit-user-select:none}
+.star.on{color:#F59E0B}
+.star:hover~.star{color:#DDE3EE!important}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(13,17,23,.5);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.overlay.open{display:flex}
+.modal-box{background:var(--surface);border-radius:16px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg);display:flex;flex-direction:column}
+.modal-head{padding:20px 22px 0;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:10;flex-shrink:0}
+.modal-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.modal-tabs-row{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:1px}
+.mtab{background:transparent;color:var(--t3);border:none;padding:8px 14px;border-radius:8px 8px 0 0;cursor:pointer;font-size:12px;font-weight:600;font-family:var(--font);transition:all .15s;white-space:nowrap}
+.mtab.on{background:var(--indigo-l);color:var(--indigo)}
+.modal-body{padding:20px 22px 24px;flex:1}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.x-btn{background:none;border:none;font-size:22px;color:var(--t3);cursor:pointer;line-height:1;padding:2px 6px;border-radius:6px;transition:color .12s}
+.x-btn:hover{color:var(--t1)}
+
+/* ── LISTING CARDS ── */
+.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.lcard{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s}
+.lcard:hover{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(91,95,214,.08),var(--shadow)}
+.lcard-photo{height:116px;background:linear-gradient(135deg,var(--indigo-l),var(--green-l));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:32px}
+.lcard-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.rank-pip{position:absolute;top:9px;left:9px;background:rgba(13,17,23,.75);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px}
+.lcard-body{padding:14px 15px;flex:1;display:flex;flex-direction:column;gap:10px}
+.lcard-foot{padding:10px 15px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.stat-tile{border-radius:var(--radius-sm);padding:8px 10px;border:1px solid var(--border);background:var(--bg)}
+.next-strip{background:var(--bg);border-radius:var(--radius-sm);padding:8px 11px;border-left:3px solid var(--indigo)}
+.score-mini{border-radius:7px;padding:7px 10px}
+
+/* ── FILTERS ── */
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pill{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap}
+.pill.on{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+
+/* ── PROGRESS ── */
+.pbar{height:5px;background:var(--border);border-radius:10px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:10px;transition:width .4s}
+.meter{height:6px;background:var(--border);border-radius:10px;overflow:hidden;margin-top:7px}
+.meter-fill{height:100%;border-radius:10px;transition:width .4s}
+
+/* ── CHECKLIST ── */
+.phase-btn{display:flex;align-items:center;gap:11px;width:100%;padding:14px 17px;background:var(--surface);border:none;cursor:pointer;border-radius:var(--radius);font-family:var(--font);transition:background .12s;text-align:left}
+.phase-btn:hover{background:var(--bg)}
+.phase-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.check-row{display:flex;gap:12px;padding:11px 10px;border-radius:var(--radius-sm);cursor:pointer;transition:background .12s;margin-bottom:2px}
+.check-row:hover{background:#F5F7FF}
+.check-row.done{opacity:.6;background:var(--green-l)}
+.chkbox{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;transition:all .15s;margin-top:1px}
+.chkbox.on{background:var(--green);border-color:var(--green)}
+
+/* ── COMPARE TABLE ── */
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+.cmp-table th{padding:10px 16px;font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;text-align:center;background:var(--bg)}
+.cmp-table th:first-child{text-align:left}
+.cmp-table td{padding:9px 16px;border-bottom:1px solid var(--border)}
+.cmp-table tr:hover td{background:#F8FAFF}
+.cmp-hdr td{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;background:var(--bg)}
+.cmp-hi{background:var(--indigo-l)!important}
+
+/* ── AI ── */
+.verdict-bar{background:var(--t1);border-radius:var(--radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.flag-row{display:flex;gap:9px;margin-bottom:8px;font-size:13px;line-height:1.6;color:var(--t2)}
+.q-row{padding:8px 12px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:7px;font-size:13px;color:var(--t2);line-height:1.55;border-left:2px solid var(--indigo)}
+.nonneg-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:var(--radius-sm);margin-bottom:7px}
+
+/* ── SPINNER ── */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;animation:spin .7s linear infinite}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:70px 20px}
+.empty .em{font-size:44px;margin-bottom:14px}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  #sidebar{display:none}
+  #app{flex-direction:column}
+  #main{height:100vh}
+  #content{padding:16px;padding-bottom:76px}
+  #topbar{padding:0 16px}
+  .tb-meta{display:none}
+  .listings-grid{grid-template-columns:1fr}
+  .g2{grid-template-columns:1fr}
+  .g4{grid-template-columns:1fr 1fr}
+  .modal-box{border-radius:20px 20px 0 0;max-height:92vh;position:fixed;bottom:0;left:0;right:0;max-width:100%}
+  .overlay{align-items:flex-end;padding:0}
+  #mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:200;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .mob{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border:none;background:transparent;font-family:var(--font);font-size:10px;font-weight:500;color:var(--t3);cursor:pointer}
+  .mob.on{color:var(--indigo)}
+  .mob .mico{font-size:20px;line-height:1}
+}
+@media(min-width:641px){#mobile-nav{display:none}}
+</style>
 </head>
 <body>
-  <div id="root"></div>
+<div id="app">
 
-  <script>
-    // ─── localStorage persistence ───
-    async function storageGet(key) {
-      try {
-        const val = localStorage.getItem(key);
-        if (val === null) throw new Error('not found');
-        return { value: val };
-      } catch(e) { throw e; }
-    }
-    async function storageSet(key, value) {
-      try { localStorage.setItem(key, value); } catch(e) { console.warn('Storage failed', e); }
-    }
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sb-brand">
+      <h1>Amelia &amp; Josiah</h1>
+      <p>Fort Collins · May 10 🏠</p>
+    </div>
+    <div class="sb-countdown safe" id="cd-box">
+      <div class="lbl" id="cd-lbl" style="color:var(--indigo)">Deadline</div>
+      <div class="days" id="cd-days" style="color:var(--indigo)">—</div>
+      <div class="sub" id="cd-sub" style="color:var(--indigo)">days until May 10</div>
+    </div>
+    <nav class="sb-nav" id="desk-nav"></nav>
+    <div class="sb-foot">1 cat · 2BR · In-unit W/D<br>Both on Harmony corridor<br>S of Mulberry · E of College</div>
+  </aside>
 
-    // ─── Anthropic API proxy for AI Analyzer ───
-    // The AI Analyzer tab calls the Anthropic API. Since this is a standalone
-    // HTML file, the API call will work the same way as the Claude artifact.
-    // If you want to use the AI tab outside of claude.ai, you would need to
-    // add your own API key here:
-    // const ANTHROPIC_API_KEY = "sk-ant-...";
-    // And modify the fetch headers in the AIAnalyzer component.
-  </script>
+  <!-- MAIN -->
+  <div id="main">
+    <header id="topbar">
+      <span class="tb-title" id="tb-title">Dashboard</span>
+      <div class="tb-meta">
+        <span id="meta-l">0 listings</span>
+        <div class="tb-div"></div>
+        <span id="meta-t">0/34 tasks</span>
+        <div class="tb-div"></div>
+        <span id="meta-d">— days left</span>
+      </div>
+    </header>
+    <main id="content">
+      <div id="page-dashboard" class="page active"></div>
+      <div id="page-listings"  class="page"></div>
+      <div id="page-ai"        class="page"></div>
+      <div id="page-compare"   class="page"></div>
+      <div id="page-budget"    class="page"></div>
+      <div id="page-checklist" class="page"></div>
+    </main>
+  </div>
 
-  <script type="text/babel" data-presets="react">
-    const { useState, useEffect, useRef } = React;
+  <!-- MOBILE NAV -->
+  <nav id="mobile-nav"></nav>
+</div>
 
+<!-- LISTING MODAL — built once, never destroyed -->
+<div class="overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-row">
+        <span id="modal-title" style="font-size:17px;font-weight:700">Add a Listing</span>
+        <button class="x-btn" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-tabs-row" id="modal-tabs-row"></div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
 
-
-// ─────────────────────────────────────────
-//  CONSTANTS & DATA
-// ─────────────────────────────────────────
-
-const DEADLINE = new Date("2025-05-10");
+<script>
+'use strict';
+// ═══════════════════════════════════════════
+//  CONSTANTS
+// ═══════════════════════════════════════════
+const DEADLINE = new Date('2025-05-10');
 const daysLeft = () => Math.max(0, Math.ceil((DEADLINE - new Date()) / 86400000));
 
-const STATUSES = ["Saved","Contacted","Tour Scheduled","Tour Done","Applied","Waitlisted","Rejected","Lease Signed"];
-const STATUS_COLOR = {
-  "Saved":         { bg:"#F1F5F9", text:"#64748B", dot:"#94A3B8" },
-  "Contacted":     { bg:"#FFF7ED", text:"#C2410C", dot:"#FB923C" },
-  "Tour Scheduled":{ bg:"#EFF6FF", text:"#1D4ED8", dot:"#60A5FA" },
-  "Tour Done":     { bg:"#F0FDF4", text:"#15803D", dot:"#4ADE80" },
-  "Applied":       { bg:"#FDF4FF", text:"#7E22CE", dot:"#C084FC" },
-  "Waitlisted":    { bg:"#FEFCE8", text:"#A16207", dot:"#FACC15" },
-  "Rejected":      { bg:"#FFF1F2", text:"#BE123C", dot:"#FB7185" },
-  "Lease Signed":  { bg:"#F0FDF4", text:"#166534", dot:"#22C55E" },
+const STATUSES = ['Saved','Contacted','Tour Scheduled','Tour Done','Applied','Waitlisted','Rejected','Lease Signed'];
+const SC = {
+  'Saved':          {bg:'#F1F5F9',tx:'#64748B'},
+  'Contacted':      {bg:'#FFF7ED',tx:'#C2410C'},
+  'Tour Scheduled': {bg:'#EFF6FF',tx:'#1D4ED8'},
+  'Tour Done':      {bg:'#F0FDF4',tx:'#15803D'},
+  'Applied':        {bg:'#FDF4FF',tx:'#7E22CE'},
+  'Waitlisted':     {bg:'#FEFCE8',tx:'#A16207'},
+  'Rejected':       {bg:'#FFF1F2',tx:'#BE123C'},
+  'Lease Signed':   {bg:'#DCFCE7',tx:'#166534'},
 };
-
-const NEXT_ACTIONS = {
-  "Saved":          "Call to confirm pet policy & availability",
-  "Contacted":      "Schedule an in-person tour",
-  "Tour Scheduled": "Prepare tour questions & review the listing",
-  "Tour Done":      "Score it & compare with other options",
-  "Applied":        "Follow up if no response in 48 hours",
-  "Waitlisted":     "Keep searching — don't pause for this one",
-  "Rejected":       "Note why and move on",
-  "Lease Signed":   "🎉 You got it! Start the moving checklist",
+const NEXT = {
+  'Saved':          'Call to confirm pet policy & availability',
+  'Contacted':      'Schedule an in-person tour',
+  'Tour Scheduled': 'Prepare tour questions & review the listing',
+  'Tour Done':      'Score it & compare with other options',
+  'Applied':        'Follow up if no response in 48 hours',
+  'Waitlisted':     'Keep searching — don\'t pause for this one',
+  'Rejected':       'Note why and move on',
+  'Lease Signed':   '🎉 You got it! Start the moving checklist',
 };
-
 const SCORE_CATS = [
-  { key:"location",  label:"Location",     icon:"📍" },
-  { key:"value",     label:"Value",        icon:"💰" },
-  { key:"space",     label:"Space",        icon:"📐" },
-  { key:"light",     label:"Natural Light",icon:"☀️" },
-  { key:"cat",       label:"Cat Friendly", icon:"🐱" },
-  { key:"vibe",      label:"Overall Vibe", icon:"✨" },
+  {k:'location',l:'Location',i:'📍'},
+  {k:'value',   l:'Value',   i:'💰'},
+  {k:'space',   l:'Space',   i:'📐'},
+  {k:'light',   l:'Natural Light',i:'☀️'},
+  {k:'cat',     l:'Cat Friendly',i:'🐱'},
+  {k:'vibe',    l:'Overall Vibe',i:'✨'},
 ];
-
-const CHECKLIST_PHASES = [
-  {
-    phase: "Right Now", color: "#EF4444",
-    items: [
-      { id:"c1",  task:"Pull both credit scores", tip:"Use Credit Karma — free, no score impact. Most FC landlords want 620+. Do this TODAY so there are no surprises." },
-      { id:"c2",  task:"Collect income documents", tip:"2 most recent pay stubs each. Self-employed? Tax return + 3 months bank statements. Have these as PDFs ready to send." },
-      { id:"c3",  task:"Set up search alerts on Zillow, Apartments.com & Facebook Marketplace", tip:"Good 2BRs in SE Fort Collins go in 24–48 hours. Alerts are essential." },
-      { id:"c4",  task:"Define your budget ceiling together", tip:"Use the Budget tab. Agree on a max number before you see anything — it's easy to creep up once you're excited about a place." },
-      { id:"c5",  task:"Map out the sublease scenarios", tip:"Model both: Plan A (sublease found by June 1) and Plan B (Josiah pays both leases June–July). Know what Plan B actually costs." },
-      { id:"c6",  task:"Write your non-negotiables list together", tip:"In-unit W/D, parking, pet-friendly are already locked. What else? Agree before you start touring so you're not negotiating with each other at showings." },
-    ]
-  },
-  {
-    phase: "Week 1–2", color: "#F97316",
-    items: [
-      { id:"c7",  task:"Add 8–12 listings to the tracker", tip:"Don't filter too hard yet. Case volume matters — you want options before you narrow down." },
-      { id:"c8",  task:"Drive your search zone on a weeknight", tip:"South of Mulberry, east of College. Walk a block near each area you're considering. Night vibes matter." },
-      { id:"c9",  task:"Call ahead about cat policy before every tour", tip:"Saves wasted trips. Ask: deposit amount, monthly pet rent, any restrictions. Fort Collins private landlords are often more flexible than big complexes." },
-      { id:"c10", task:"Both of you rate listings as you find them", tip:"Even a first impression score helps you prioritize. Don't wait until after tours." },
-      { id:"c11", task:"Build a rental résumé (one page each)", tip:"Name, job, income, credit score range, references. Landlords love it. Makes you look prepared and serious." },
-    ]
-  },
-  {
-    phase: "Week 2–3", color: "#EAB308",
-    items: [
-      { id:"c12", task:"Schedule tours for your top 5 picks", tip:"Request in-person. Fort Collins has private landlords who show on short notice — be flexible with timing." },
-      { id:"c13", task:"Check natural light at tours — morning or midday", tip:"Your #1 day-to-day priority. South or west-facing windows. Stand in the main living area and look up." },
-      { id:"c14", task:"Ask what the last tenant paid in utilities", tip:"Not 'what are utilities like' — ask for a real number. Xcel bills vary wildly by unit age and insulation." },
-      { id:"c15", task:"Rate each place the same day — both of you", tip:"Memory fades fast. Rate it in the parking lot, not a week later." },
-      { id:"c16", task:"Test cell signal inside each unit", tip:"Some SE FC complexes have thick walls. Test while you're standing in the bedroom." },
-      { id:"c17", task:"Add tour notes & photos to each listing in the app", tip:"You'll forget details. Even a few bullet points and a photo link helps enormously when comparing later." },
-    ]
-  },
-  {
-    phase: "Week 3–4", color: "#22C55E",
-    items: [
-      { id:"c18", task:"Use Compare to narrow to your top 2", tip:"Look at combined scores + budget impact side by side. Let data inform the gut." },
-      { id:"c19", task:"Submit applications fast on your top pick", tip:"Have all docs ready to upload. In Fort Collins, a prepared applicant beats a higher-income slow one." },
-      { id:"c20", task:"Read the lease fully before signing", tip:"Check: early termination fee, pet clause specifics, renewal terms, entry notice requirements (CO law = 24 hours)." },
-      { id:"c21", task:"Try to negotiate", tip:"If the unit has sat 2+ weeks, ask about price or first month free. FC landlords are more negotiable than Denver." },
-    ]
-  },
-  {
-    phase: "4–6 Weeks Before May 10", color: "#3B82F6",
-    items: [
-      { id:"c22", task:"Book movers or reserve a truck immediately after signing", tip:"May is peak moving season in Fort Collins (CSU semester end). Moving trucks and movers book 3–4 weeks out." },
-      { id:"c23", task:"Get renters insurance quote", tip:"$12–20/mo. Most FC landlords now require it. Lemonade or Progressive are fast to set up online." },
-      { id:"c24", task:"Set up Xcel Energy transfer", tip:"Call 1-800-895-4999 or go online. Do this 2 weeks before move-in date." },
-      { id:"c25", task:"Schedule internet install — Ting or Xfinity", tip:"Ting fiber is excellent in SE Fort Collins. Book 2 weeks out — installation slots fill." },
-      { id:"c26", task:"Start decluttering and packing non-essentials", tip:"Books, seasonal clothes, décor. Label boxes by room. Future you will be grateful." },
-    ]
-  },
-  {
-    phase: "Final 2 Weeks", color: "#8B5CF6",
-    items: [
-      { id:"c27", task:"Submit USPS mail forwarding", tip:"Go to usps.com. Takes 3–5 days to activate. Don't forget this one — easy to miss." },
-      { id:"c28", task:"Update address everywhere", tip:"Bank, employer, subscriptions, DMV, voter registration, Amazon, insurance." },
-      { id:"c29", task:"Confirm move-in logistics with landlord", tip:"Key handoff time, truck parking, elevator reservation if needed, loading dock access." },
-      { id:"c30", task:"Update sublease status — finalize Plan A or B", tip:"If no sublease by April 20th, commit to Plan B mentally and financially. Don't leave this ambiguous." },
-    ]
-  },
-  {
-    phase: "Move Day 🎉", color: "#06B6D4",
-    items: [
-      { id:"c31", task:"Full walkthrough & document all existing damage", tip:"Timestamped photos and video of every room, every wall, every scuff BEFORE anything comes in. Protects your deposit." },
-      { id:"c32", task:"Collect every key, fob, and access card", tip:"Main door, mailbox, garage, building entry, amenity access. Count everything in front of the landlord." },
-      { id:"c33", task:"Test everything: appliances, outlets, hot water, A/C", tip:"Run the dishwasher. Test every burner. Check all outlets. Flush every toilet. Do it now." },
-      { id:"c34", task:"Set up a safe room for your cat first", tip:"Pick one quiet room. Put in litter, food, water, familiar blanket before any boxes come in. Keeps them calm during chaos." },
-    ]
-  },
+const PHASES = [
+  {phase:'Right Now',color:'#EF4444',items:[
+    {id:'c1', task:'Pull both credit scores',              tip:'Credit Karma — free, no score impact. FC landlords want 620+. Do this TODAY.'},
+    {id:'c2', task:'Collect income documents',             tip:'2 pay stubs each. Have PDFs ready to send immediately when you find a place.'},
+    {id:'c3', task:'Set search alerts on Zillow, Apartments.com & Facebook Marketplace', tip:'Good 2BRs in SE FC go in 24–48 hours. Alerts are non-negotiable.'},
+    {id:'c4', task:'Agree on your budget ceiling together', tip:'Use the Budget tab first. Agree on a max before you tour anything.'},
+    {id:'c5', task:'Map out the sublease scenarios',        tip:'Plan A: sublease by June 1. Plan B: Josiah pays both June–July. Know what B costs.'},
+    {id:'c6', task:'Write your non-negotiables together',   tip:'W/D, parking, pet-friendly are locked. What else? Agree before showings start.'},
+  ]},
+  {phase:'Week 1–2',color:'#F97316',items:[
+    {id:'c7', task:'Add 8–12 listings to the tracker',       tip:'Don\'t filter too hard yet. Volume matters before you narrow down.'},
+    {id:'c8', task:'Drive your search zone on a weeknight',  tip:'South of Mulberry, east of College. Night vibes are real data.'},
+    {id:'c9', task:'Call about cat policy before every tour',tip:'Ask: deposit, monthly pet rent, any breed/weight restrictions.'},
+    {id:'c10',task:'Both rate listings as you find them',    tip:'Even a quick first impression score helps prioritize.'},
+    {id:'c11',task:'Build a rental résumé (one page each)',  tip:'Name, job, income, credit score range, references. Landlords love it.'},
+  ]},
+  {phase:'Week 2–3',color:'#EAB308',items:[
+    {id:'c12',task:'Schedule tours for your top 5',          tip:'FC private landlords often show on short notice — be flexible.'},
+    {id:'c13',task:'Check natural light at tours (morning or midday)', tip:'Your #1 priority. South or west-facing windows. Stand in the main room and look up.'},
+    {id:'c14',task:'Ask what the last tenant paid in utilities', tip:'Not "what are utilities like" — a real number. Xcel varies wildly by unit age.'},
+    {id:'c15',task:'Rate each place the same day — both of you', tip:'Memory fades fast. Rate in the parking lot, not a week later.'},
+    {id:'c16',task:'Test cell signal inside each unit',      tip:'Some SE FC complexes have thick walls. Test in the bedroom.'},
+    {id:'c17',task:'Add notes & photos to each listing',     tip:'Even a few bullet points helps enormously when comparing later.'},
+  ]},
+  {phase:'Week 3–4',color:'#22C55E',items:[
+    {id:'c18',task:'Use Compare to narrow to your top 2',    tip:'Let combined scores + budget impact guide the gut.'},
+    {id:'c19',task:'Submit applications fast on your top pick', tip:'A prepared applicant beats a higher-income slow one in FC.'},
+    {id:'c20',task:'Read the lease fully before signing',    tip:'Check: early termination fee, pet clause, renewal terms, entry notice (CO law = 24hr).'},
+    {id:'c21',task:'Try to negotiate',                       tip:'If it\'s sat 2+ weeks, ask for a price drop or first month free.'},
+  ]},
+  {phase:'4–6 Weeks Out',color:'#3B82F6',items:[
+    {id:'c22',task:'Book movers or a truck right after signing', tip:'May is CSU move-out season. Movers book 3–4 weeks out.'},
+    {id:'c23',task:'Get renters insurance',                  tip:'$12–20/mo. Most FC landlords require it. Lemonade or Progressive are fast.'},
+    {id:'c24',task:'Set up Xcel Energy transfer',            tip:'Call 1-800-895-4999 or go online. Do 2 weeks before move-in.'},
+    {id:'c25',task:'Schedule internet install (Ting or Xfinity)', tip:'Ting fiber is excellent in SE FC. Book 2 weeks out.'},
+    {id:'c26',task:'Start packing non-essentials',           tip:'Books, seasonal clothes, décor. Label by room.'},
+  ]},
+  {phase:'Final 2 Weeks',color:'#8B5CF6',items:[
+    {id:'c27',task:'Submit USPS mail forwarding',            tip:'usps.com — takes 3–5 days. Easy to forget.'},
+    {id:'c28',task:'Update address everywhere',              tip:'Bank, employer, subscriptions, DMV, voter reg, Amazon, insurance.'},
+    {id:'c29',task:'Confirm move-in logistics with landlord', tip:'Key handoff, truck parking, elevator if needed.'},
+    {id:'c30',task:'Finalize Plan A or Plan B on the sublease', tip:'If no sublease by April 20, commit to Plan B. Don\'t leave this ambiguous.'},
+  ]},
+  {phase:'Move Day 🎉',color:'#06B6D4',items:[
+    {id:'c31',task:'Full walkthrough — photograph all existing damage', tip:'Timestamped photos of every room BEFORE boxes come in. Protects your deposit.'},
+    {id:'c32',task:'Collect every key, fob, and access card', tip:'Main door, mailbox, garage, building entry. Count in front of the landlord.'},
+    {id:'c33',task:'Test everything: appliances, outlets, hot water', tip:'Run the dishwasher. Test every burner. Check all outlets. Do it now.'},
+    {id:'c34',task:'Set up a safe room for your cat first', tip:'One quiet room with litter, food, water, familiar blanket before any boxes.'},
+  ]},
 ];
-
-const ALL_CHECKLIST = CHECKLIST_PHASES.flatMap(p => p.items.map(i => ({ ...i, phase: p.phase })));
+const ALL_ITEMS = PHASES.flatMap(p => p.items);
 
 const FC_TIPS = [
-  "SE Fort Collins 2BR typically runs $1,500–$2,100/mo right now.",
-  "Always ask: 'What did the previous tenant pay monthly for electric + gas?' Not an estimate — a real number.",
-  "Ting fiber internet is excellent in SE Fort Collins and often faster than Xfinity.",
-  "May is CSU move-out season — book movers the day you sign your lease.",
-  "Private landlords in Fort Collins are usually much more flexible on cats than large complexes.",
-  "Colorado law requires 24-hour notice before landlord entry. Any lease overriding this is a red flag.",
-  "Ask about the lease renewal policy upfront — some FC landlords raise rent 10–15% at renewal.",
-  "Xcel Energy gas bills spike Oct–March. Budget $80–100/mo for gas in winter, not $40.",
+  'SE Fort Collins 2BR typically runs $1,500–$2,100/mo right now.',
+  'Always ask the landlord what the previous tenant paid for electric + gas — a real number, not an estimate.',
+  'Ting fiber internet is excellent in SE Fort Collins and often faster than Xfinity.',
+  'May is CSU move-out season — book movers the day you sign your lease.',
+  'Private landlords in Fort Collins are usually much more flexible on cats than large complexes.',
+  'Colorado law requires 24-hour notice before landlord entry. Any lease overriding this is a red flag.',
+  'Ask about rent increase policy at renewal — some FC landlords raise 10–15%.',
+  'Xcel Energy gas bills spike Oct–March. Budget $80–100/mo in winter, not $40.',
 ];
-
-const EMPTY_PROP = () => ({
-  name:"", address:"", neighborhood:"", type:"Apartment", status:"Saved",
-  rent:"", deposit:"", sqft:"", beds:"2", baths:"1",
-  catDeposit:"", catRent:"", catPolicy:"",
-  parking:"", laundry:"", availDate:"", leaseLength:"",
-  url:"", photos:["","",""],
-  pros:"", cons:"", tourNotes:"", notes:"",
-  ameliaScores: { location:0, value:0, space:0, light:0, cat:0, vibe:0 },
-  josiahScores: { location:0, value:0, space:0, light:0, cat:0, vibe:0 },
-  nextActionCustom:"",
-  landlordLog:[],
-});
-
-// ─────────────────────────────────────────
-//  GLOBAL STYLES
-// ─────────────────────────────────────────
-
-const GS = () => (
-  <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    html, body { height:100%; background:#F8F9FA; }
-    ::-webkit-scrollbar { width:4px; height:4px; }
-    ::-webkit-scrollbar-track { background:transparent; }
-    ::-webkit-scrollbar-thumb { background:#E2E8F0; border-radius:4px; }
-    ::-webkit-scrollbar-thumb:hover { background:#CBD5E1; }
-    input, textarea, select, button { font-family:'DM Sans',sans-serif; }
-    input:focus, textarea:focus, select:focus { outline:2px solid #6366F1; outline-offset:-1px; }
-    button:hover { opacity:0.88; transition:opacity 0.12s; }
-    .hov-row:hover { background:#F8FAFF !important; }
-    .hov-card:hover { border-color:#6366F1 !important; box-shadow:0 0 0 3px rgba(99,102,241,0.08) !important; }
-    .hov-nav:hover { background:#F1F5F9 !important; color:#1E293B !important; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-    .fade-up { animation:fadeUp 0.25s ease forwards; }
-    @keyframes spin { to{transform:rotate(360deg)} }
-    .spin { animation:spin 0.7s linear infinite; display:inline-block; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-    .pulse { animation:pulse 2s ease-in-out infinite; }
-  `}</style>
-
-);
-
-// ─────────────────────────────────────────
-//  DESIGN TOKENS
-// ─────────────────────────────────────────
-
-const C = {
-// Surfaces
-bg:       “#F8F9FA”,
-surface:  “#FFFFFF”,
-border:   “#E8ECF0”,
-borderHov:”#6366F1”,
-// Text
-t1: “#0F172A”,
-t2: “#475569”,
-t3: “#94A3B8”,
-// Brand
-indigo:   “#6366F1”,
-indigoL:  “#EEF2FF”,
-indigoD:  “#4F46E5”,
-// States
-green:    “#22C55E”,
-greenL:   “#F0FDF4”,
-red:      “#EF4444”,
-redL:     “#FFF1F2”,
-amber:    “#F59E0B”,
-amberL:   “#FFFBEB”,
-};
-
-// ─────────────────────────────────────────
-//  ATOMS
-// ─────────────────────────────────────────
-
-const Text = ({ as=“div”, size=14, weight=400, color=C.t1, style:sx={}, children, …rest }) => {
-const El = as;
-return <El style={{ fontSize:size, fontWeight:weight, color, fontFamily:”‘DM Sans’,sans-serif”, lineHeight:1.5, …sx }} {…rest}>{children}</El>;
-};
-
-const Label = ({ children, style:sx={} }) => (
-<Text size={11} weight={600} color={C.t3} style={{ letterSpacing:“0.06em”, textTransform:“uppercase”, marginBottom:5, …sx }}>{children}</Text>
-);
-
-const Input = ({ value, onChange, placeholder, type=“text”, multiline, rows=3, style:sx={}, disabled }) =>
-multiline
-? <textarea value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} rows={rows} disabled={disabled}
-style={{ width:“100%”, padding:“8px 11px”, fontSize:13, color:C.t1, background:C.bg, border:`1px solid ${C.border}`, borderRadius:7, resize:“vertical”, lineHeight:1.5, …sx }} />
-: <input type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} disabled={disabled}
-style={{ width:“100%”, padding:“8px 11px”, fontSize:13, color:C.t1, background:C.bg, border:`1px solid ${C.border}`, borderRadius:7, …sx }} />;
-
-const Select = ({ value, onChange, options, style:sx={} }) => (
-<select value={value} onChange={e=>onChange(e.target.value)}
-style={{ width:“100%”, padding:“8px 11px”, fontSize:13, color:C.t1, background:C.bg, border:`1px solid ${C.border}`, borderRadius:7, …sx }}>
-{options.map(o => typeof o===“string” ? <option key={o}>{o}</option> : <option key={o.v} value={o.v}>{o.l}</option>)}
-</select>
-);
-
-const Btn = ({ children, onClick, variant=“primary”, size=“md”, full=false, style:sx={} }) => {
-const v = {
-primary: { background:C.indigo, color:”#fff”, border:“none” },
-ghost:   { background:“transparent”, color:C.t2, border:`1px solid ${C.border}` },
-danger:  { background:C.redL, color:C.red, border:`1px solid #FECDD3` },
-subtle:  { background:C.bg, color:C.t2, border:`1px solid ${C.border}` },
-};
-const s = {
-sm: { padding:“5px 12px”, fontSize:12, borderRadius:6 },
-md: { padding:“8px 16px”, fontSize:13, borderRadius:7 },
-lg: { padding:“10px 20px”, fontSize:14, borderRadius:8 },
-};
-return (
-<button onClick={onClick} style={{ …v[variant], …s[size], fontWeight:600, cursor:“pointer”,
-width:full?“100%”:“auto”, display:“inline-flex”, alignItems:“center”, gap:6, transition:“opacity 0.12s”, …sx }}>
-{children}
-</button>
-);
-};
-
-const Badge = ({ children, color=”#64748B”, bg=”#F1F5F9” }) => (
-<span style={{ background:bg, color, fontSize:11, fontWeight:600, padding:“2px 8px”,
-borderRadius:20, fontFamily:”‘DM Sans’,sans-serif”, whiteSpace:“nowrap” }}>
-{children}
-</span>
-);
-
-const Card = ({ children, style:sx={}, className=”” }) => (
-
-  <div className={className} style={{ background:C.surface, border:`1px solid ${C.border}`,
-    borderRadius:12, padding:20, ...sx }}>{children}</div>
-);
-
-const Divider = ({ my=16 }) => <div style={{ height:1, background:C.border, margin:`${my}px 0` }} />;
-
-const Grid = ({ cols=2, gap=12, children, style:sx={} }) => (
-
-  <div style={{ display:"grid", gridTemplateColumns:`repeat(${cols},1fr)`, gap, ...sx }}>{children}</div>
-);
-
-const Stars = ({ val, onChange, size=16 }) => (
-
-  <div style={{ display:"flex", gap:2 }}>
-    {[1,2,3,4,5].map(n => (
-      <span key={n} onClick={() => onChange && onChange(val===n?0:n)}
-        style={{ fontSize:size, cursor:onChange?"pointer":"default", color:n<=val?"#F59E0B":"#E2E8F0",
-          lineHeight:1, userSelect:"none", transition:"color 0.1s" }}>★</span>
-    ))}
-  </div>
-);
-
-const ProgressRing = ({ value, max, size=56, stroke=4, color=C.indigo }) => {
-const r = (size-stroke*2)/2;
-const circ = 2*Math.PI*r;
-const pct = Math.min(1, value/max);
-return (
-<svg width={size} height={size} style={{ transform:“rotate(-90deg)” }}>
-<circle cx={size/2} cy={size/2} r={r} fill="none" stroke={C.border} strokeWidth={stroke} />
-<circle cx={size/2} cy={size/2} r={r} fill=“none” stroke={color} strokeWidth={stroke}
-strokeDasharray={circ} strokeDashoffset={circ*(1-pct)} strokeLinecap=“round”
-style={{ transition:“stroke-dashoffset 0.5s ease” }} />
-</svg>
-);
-};
-
-const SectionHeader = ({ title, action }) => (
-
-  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-    <Text size={13} weight={600} color={C.t2} style={{ letterSpacing:"0.02em" }}>{title}</Text>
-    {action}
-  </div>
-);
-
-// ─────────────────────────────────────────
-//  PROPERTY FORM MODAL
-// ─────────────────────────────────────────
-
-function PropModal({ prop, onSave, onClose }) {
-const [f, setF] = useState(prop || EMPTY_PROP());
-const [tab, setTab] = useState(“info”);
-const set = (k,v) => setF(p=>({…p,[k]:v}));
-const setAS = (k,v) => setF(p=>({…p, ameliaScores:{…p.ameliaScores,[k]:v}}));
-const setJS = (k,v) => setF(p=>({…p, josiahScores:{…p.josiahScores,[k]:v}}));
-const setPhoto = (i,v) => { const arr=[…f.photos]; arr[i]=v; set(“photos”,arr); };
-
-const TABS = [
-{ id:“info”,   label:“Info” },
-{ id:“pet”,    label:“Pet & Lease” },
-{ id:“photos”, label:“Photos” },
-{ id:“scores”, label:“Scores” },
-{ id:“notes”,  label:“Notes” },
-];
-
-const ameliaAvg = Object.values(f.ameliaScores).reduce((a,b)=>a+b,0)/SCORE_CATS.length;
-const josiahAvg = Object.values(f.josiahScores).reduce((a,b)=>a+b,0)/SCORE_CATS.length;
-
-return (
-<div style={{ position:“fixed”, inset:0, background:“rgba(15,23,42,0.5)”, zIndex:1000,
-display:“flex”, alignItems:“center”, justifyContent:“center”, padding:20, backdropFilter:“blur(4px)” }}>
-<div style={{ background:C.surface, borderRadius:16, width:“100%”, maxWidth:620,
-maxHeight:“90vh”, overflowY:“auto”, boxShadow:“0 20px 60px rgba(0,0,0,0.2)” }}>
-
-```
-    {/* Header */}
-    <div style={{ padding:"20px 24px 0", borderBottom:`1px solid ${C.border}`,
-      position:"sticky", top:0, background:C.surface, zIndex:10 }}>
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-        <Text size={17} weight={600}>{prop?"Edit Listing":"Add a Listing"}</Text>
-        <button onClick={onClose} style={{ background:"none", border:"none", fontSize:18, color:C.t3, cursor:"pointer", lineHeight:1 }}>×</button>
-      </div>
-      <div style={{ display:"flex", gap:2 }}>
-        {TABS.map(t => (
-          <button key={t.id} onClick={()=>setTab(t.id)}
-            style={{ background:tab===t.id?C.indigoL:"transparent", color:tab===t.id?C.indigo:C.t3,
-              border:"none", padding:"7px 14px", borderRadius:"8px 8px 0 0", cursor:"pointer",
-              fontSize:12, fontWeight:600, transition:"all 0.15s" }}>
-            {t.label}
-          </button>
-        ))}
-      </div>
-    </div>
-
-    <div style={{ padding:"20px 24px 24px" }}>
-
-      {tab==="info" && (
-        <div className="fade-up">
-          <Grid cols={2} gap={12}>
-            <div style={{ gridColumn:"1/-1" }}>
-              <Label>Nickname *</Label>
-              <Input value={f.name} onChange={v=>set("name",v)} placeholder="e.g. The Harmony Townhouse" />
-            </div>
-            <div>
-              <Label>Status</Label>
-              <Select value={f.status} onChange={v=>set("status",v)} options={STATUSES} />
-            </div>
-            <div>
-              <Label>Type</Label>
-              <Select value={f.type} onChange={v=>set("type",v)} options={["Apartment","Townhouse","Condo","House","Duplex","Studio"]} />
-            </div>
-            <div style={{ gridColumn:"1/-1" }}>
-              <Label>Address</Label>
-              <Input value={f.address} onChange={v=>set("address",v)} placeholder="123 Harmony Rd, Fort Collins, CO 80525" />
-            </div>
-            <div>
-              <Label>Neighborhood</Label>
-              <Select value={f.neighborhood} onChange={v=>set("neighborhood",v)}
-                options={[{v:"",l:"Select…"},{v:"Harmony Corridor",l:"Harmony Corridor"},{v:"SE Fort Collins",l:"SE Fort Collins"},{v:"Midtown / Drake",l:"Midtown / Drake"},{v:"South FC / Fossil Creek",l:"South FC / Fossil Creek"},{v:"East FC / Timberline",l:"East FC / Timberline"},{v:"Other",l:"Other"}]} />
-            </div>
-            <div>
-              <Label>Available Date</Label>
-              <Input value={f.availDate} onChange={v=>set("availDate",v)} type="date" />
-            </div>
-            <div>
-              <Label>Monthly Rent ($)</Label>
-              <Input value={f.rent} onChange={v=>set("rent",v)} placeholder="1750" type="number" />
-            </div>
-            <div>
-              <Label>Security Deposit ($)</Label>
-              <Input value={f.deposit} onChange={v=>set("deposit",v)} placeholder="1750" type="number" />
-            </div>
-            <div>
-              <Label>Beds</Label>
-              <Select value={f.beds} onChange={v=>set("beds",v)} options={["1","2","3","4"]} />
-            </div>
-            <div>
-              <Label>Baths</Label>
-              <Select value={f.baths} onChange={v=>set("baths",v)} options={["1","1.5","2","2.5","3"]} />
-            </div>
-            <div>
-              <Label>Sq Ft</Label>
-              <Input value={f.sqft} onChange={v=>set("sqft",v)} placeholder="950" type="number" />
-            </div>
-            <div>
-              <Label>Parking</Label>
-              <Select value={f.parking} onChange={v=>set("parking",v)}
-                options={[{v:"",l:"Unknown"},{v:"1 spot included",l:"1 spot included"},{v:"2 spots included",l:"2 spots included"},{v:"Garage",l:"Garage"},{v:"Covered spot",l:"Covered spot"},{v:"Street only",l:"Street only"}]} />
-            </div>
-            <div style={{ gridColumn:"1/-1" }}>
-              <Label>Listing URL</Label>
-              <Input value={f.url} onChange={v=>set("url",v)} placeholder="https://www.zillow.com/..." />
-            </div>
-            <div style={{ gridColumn:"1/-1" }}>
-              <Label>Custom Next Action</Label>
-              <Input value={f.nextActionCustom} onChange={v=>set("nextActionCustom",v)}
-                placeholder={`Default: "${NEXT_ACTIONS[f.status]}"`} />
-            </div>
-          </Grid>
-        </div>
-      )}
-
-      {tab==="pet" && (
-        <div className="fade-up">
-          <Text size={13} weight={600} style={{ marginBottom:14 }}>🐱 Cat Details</Text>
-          <Grid cols={2} gap={12}>
-            <div>
-              <Label>Cat Deposit ($)</Label>
-              <Input value={f.catDeposit} onChange={v=>set("catDeposit",v)} placeholder="200" type="number" />
-            </div>
-            <div>
-              <Label>Monthly Cat Rent ($)</Label>
-              <Input value={f.catRent} onChange={v=>set("catRent",v)} placeholder="35" type="number" />
-            </div>
-            <div style={{ gridColumn:"1/-1" }}>
-              <Label>Cat Policy Notes</Label>
-              <Input value={f.catPolicy} onChange={v=>set("catPolicy",v)}
-                placeholder="e.g. 1 cat OK, $200 refundable deposit, no monthly pet rent" multiline rows={2} />
-            </div>
-          </Grid>
-          <Divider />
-          <Text size={13} weight={600} style={{ marginBottom:14 }}>📋 Lease Details</Text>
-          <Grid cols={2} gap={12}>
-            <div>
-              <Label>Lease Length</Label>
-              <Input value={f.leaseLength} onChange={v=>set("leaseLength",v)} placeholder="12 months" />
-            </div>
-            <div>
-              <Label>Laundry</Label>
-              <Select value={f.laundry} onChange={v=>set("laundry",v)}
-                options={[{v:"",l:"Unknown"},{v:"In-unit W/D",l:"In-unit W/D"},{v:"W/D hookups",l:"W/D hookups"},{v:"Shared on-site",l:"Shared on-site"},{v:"None",l:"None"}]} />
-            </div>
-          </Grid>
-        </div>
-      )}
-
-      {tab==="photos" && (
-        <div className="fade-up">
-          <Text size={13} color={C.t2} style={{ marginBottom:16, lineHeight:1.6 }}>
-            Add image URLs from the listing — Zillow, Apartments.com, Google Drive, or any direct image link.
-          </Text>
-          {(f.photos.length < 6 ? [...f.photos, ...Array(6-f.photos.length).fill("")] : f.photos).slice(0,6).map((ph,i) => (
-            <div key={i} style={{ marginBottom:12 }}>
-              <Label>Photo {i+1}</Label>
-              <div style={{ display:"flex", gap:8 }}>
-                <Input value={f.photos[i]||""} onChange={v=>setPhoto(i,v)} placeholder="https://..." style={{ flex:1 }} />
-                {f.photos[i] && (
-                  <img src={f.photos[i]} alt="" onError={e=>e.target.style.display="none"}
-                    style={{ width:48, height:48, objectFit:"cover", borderRadius:6, border:`1px solid ${C.border}`, flexShrink:0 }} />
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {tab==="scores" && (
-        <div className="fade-up">
-          <Text size={13} color={C.t2} style={{ marginBottom:16, lineHeight:1.6 }}>
-            Rate separately — Amelia's scores and Josiah's scores are combined for the ranking.
-          </Text>
-          <Grid cols={2} gap={12}>
-            {/* Amelia */}
-            <div style={{ background:"#FAFAFF", border:`1px solid ${C.border}`, borderRadius:10, padding:16 }}>
-              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
-                <div style={{ width:28, height:28, borderRadius:"50%", background:C.indigoL,
-                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:700, color:C.indigo }}>A</div>
-                <Text size={13} weight={600}>Amelia</Text>
-              </div>
-              {SCORE_CATS.map(c => (
-                <div key={c.key} style={{ marginBottom:12 }}>
-                  <Text size={11} color={C.t3} style={{ marginBottom:4 }}>{c.icon} {c.label}</Text>
-                  <Stars val={f.ameliaScores[c.key]} onChange={v=>setAS(c.key,v)} />
-                </div>
-              ))}
-              <Divider my={10} />
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                <Text size={11} color={C.t3}>Average</Text>
-                <Text size={20} weight={700} color={C.indigo}>{ameliaAvg.toFixed(1)}</Text>
-              </div>
-            </div>
-            {/* Josiah */}
-            <div style={{ background:"#FAFFF8", border:`1px solid ${C.border}`, borderRadius:10, padding:16 }}>
-              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
-                <div style={{ width:28, height:28, borderRadius:"50%", background:"#F0FDF4",
-                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:700, color:"#15803D" }}>J</div>
-                <Text size={13} weight={600}>Josiah</Text>
-              </div>
-              {SCORE_CATS.map(c => (
-                <div key={c.key} style={{ marginBottom:12 }}>
-                  <Text size={11} color={C.t3} style={{ marginBottom:4 }}>{c.icon} {c.label}</Text>
-                  <Stars val={f.josiahScores[c.key]} onChange={v=>setJS(c.key,v)} />
-                </div>
-              ))}
-              <Divider my={10} />
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                <Text size={11} color={C.t3}>Average</Text>
-                <Text size={20} weight={700} color="#15803D">{josiahAvg.toFixed(1)}</Text>
-              </div>
-            </div>
-          </Grid>
-          <div style={{ marginTop:12, background:C.indigoL, borderRadius:9, padding:"12px 16px",
-            display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <Text size={13} weight={600} color={C.indigo}>Combined Score</Text>
-            <Text size={22} weight={700} color={C.indigo}>{((ameliaAvg+josiahAvg)/2).toFixed(1)} / 5</Text>
-          </div>
-        </div>
-      )}
-
-      {tab==="notes" && (
-        <div className="fade-up">
-          <Grid cols={2} gap={12}>
-            <div>
-              <Label>✅ What we like</Label>
-              <Input value={f.pros} onChange={v=>set("pros",v)} placeholder="Great light, quiet street, nice layout…" multiline rows={4} />
-            </div>
-            <div>
-              <Label>⚠️ Concerns</Label>
-              <Input value={f.cons} onChange={v=>set("cons",v)} placeholder="Small bedrooms, no yard, loud street…" multiline rows={4} />
-            </div>
-            <div style={{ gridColumn:"1/-1" }}>
-              <Label>Tour Notes</Label>
-              <Input value={f.tourNotes} onChange={v=>set("tourNotes",v)}
-                placeholder="What did you notice? How did it feel to walk in?" multiline rows={3} />
-            </div>
-            <div style={{ gridColumn:"1/-1" }}>
-              <Label>Other Notes</Label>
-              <Input value={f.notes} onChange={v=>set("notes",v)} placeholder="Anything else…" multiline rows={2} />
-            </div>
-          </Grid>
-        </div>
-      )}
-
-      <Divider my={18} />
-      <div style={{ display:"flex", justifyContent:"flex-end", gap:8 }}>
-        <Btn variant="ghost" onClick={onClose}>Cancel</Btn>
-        <Btn variant="primary" onClick={() => { if(!f.name.trim()){alert("Add a nickname first."); return;} onSave(f); }}>
-          Save Listing
-        </Btn>
-      </div>
-    </div>
-  </div>
-</div>
-```
-
-);
-}
-
-// ─────────────────────────────────────────
-//  LISTING CARD
-// ─────────────────────────────────────────
-
-function ListingCard({ p, rank, onEdit, onDelete, budgetMax }) {
-const ameliaAvg = Object.values(p.ameliaScores||{}).reduce((a,b)=>a+b,0)/SCORE_CATS.length;
-const josiahAvg = Object.values(p.josiahScores||{}).reduce((a,b)=>a+b,0)/SCORE_CATS.length;
-const combined  = (ameliaAvg+josiahAvg)/2;
-const totalMo   = (parseInt(p.rent)||0)+(parseInt(p.catRent)||0);
-const overBudget= budgetMax && totalMo > parseInt(budgetMax);
-const sc        = STATUS_COLOR[p.status]||STATUS_COLOR[“Saved”];
-const nextAction= p.nextActionCustom || NEXT_ACTIONS[p.status] || “”;
-const thumbUrl  = p.photos?.find(ph=>ph?.trim());
-
-return (
-<div className=“hov-card” style={{ background:C.surface, border:`1px solid ${C.border}`,
-borderRadius:12, overflow:“hidden”, transition:“border-color 0.15s, box-shadow 0.15s”,
-display:“flex”, flexDirection:“column” }}>
-
-```
-  {/* Photo strip */}
-  <div style={{ height:120, background:C.bg, position:"relative", overflow:"hidden" }}>
-    {thumbUrl ? (
-      <img src={thumbUrl} alt="" onError={e=>{e.target.style.display="none";}}
-        style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-    ) : (
-      <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center",
-        background:`linear-gradient(135deg, ${C.indigoL}, #F0FDF4)` }}>
-        <Text size={32}>🏠</Text>
-      </div>
-    )}
-    {rank && rank<=3 && (
-      <div style={{ position:"absolute", top:8, left:8, background:"rgba(0,0,0,0.7)",
-        color:"#fff", fontSize:11, fontWeight:700, padding:"3px 8px", borderRadius:6 }}>
-        {rank===1?"🥇 #1":rank===2?"🥈 #2":"🥉 #3"}
-      </div>
-    )}
-    {p.photos?.filter(ph=>ph?.trim()).length > 1 && (
-      <div style={{ position:"absolute", bottom:8, right:8, background:"rgba(0,0,0,0.6)",
-        color:"#fff", fontSize:10, fontWeight:600, padding:"2px 7px", borderRadius:5 }}>
-        +{p.photos.filter(ph=>ph?.trim()).length-1} photos
-      </div>
-    )}
-  </div>
-
-  <div style={{ padding:"14px 16px", flex:1, display:"flex", flexDirection:"column", gap:10 }}>
-    {/* Title row */}
-    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8 }}>
-      <div>
-        <Text size={15} weight={600} style={{ marginBottom:2, lineHeight:1.2 }}>{p.name||"Unnamed"}</Text>
-        <Text size={12} color={C.t3}>{p.type}{p.beds?` · ${p.beds}bd`:""}{p.baths?`/${p.baths}ba`:""}{p.sqft?` · ${p.sqft}sqft`:""}</Text>
-      </div>
-      <Badge color={sc.text} bg={sc.bg}>{p.status}</Badge>
-    </div>
-
-    {/* Key stats — ranked by user's priority: rent, score, status (shown), neighborhood, cat policy */}
-    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
-      <div style={{ background: overBudget?C.redL:C.bg, borderRadius:8, padding:"8px 10px", border:`1px solid ${overBudget?"#FECDD3":C.border}` }}>
-        <Text size={10} color={overBudget?C.red:C.t3} weight={600} style={{ letterSpacing:"0.04em", textTransform:"uppercase", marginBottom:2 }}>Rent{p.catRent?" + cat":""}</Text>
-        <Text size={18} weight={700} color={overBudget?C.red:C.t1}>${totalMo.toLocaleString()}<Text as="span" size={11} color={C.t3} weight={400}>/mo</Text></Text>
-      </div>
-      <div style={{ background: combined>0?C.indigoL:C.bg, borderRadius:8, padding:"8px 10px", border:`1px solid ${combined>0?"#C7D2FE":C.border}` }}>
-        <Text size={10} color={C.t3} weight={600} style={{ letterSpacing:"0.04em", textTransform:"uppercase", marginBottom:2 }}>Combined Score</Text>
-        <Text size={18} weight={700} color={combined>0?C.indigo:C.t3}>{combined>0?combined.toFixed(1):"—"}<Text as="span" size={11} color={C.t3} weight={400}>{combined>0?" / 5":""}</Text></Text>
-      </div>
-    </div>
-
-    {/* Neighborhood & cat policy */}
-    <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
-      {p.neighborhood && <Badge color={C.t2} bg={C.bg}>📍 {p.neighborhood}</Badge>}
-      {p.catPolicy
-        ? <Badge color="#15803D" bg="#F0FDF4">🐱 {p.catPolicy.slice(0,30)}{p.catPolicy.length>30?"…":""}</Badge>
-        : <Badge color={C.t3} bg={C.bg}>🐱 Cat policy unknown</Badge>}
-    </div>
-
-    {/* Dual score comparison */}
-    {(ameliaAvg > 0 || josiahAvg > 0) && (
-      <div style={{ display:"flex", gap:8 }}>
-        <div style={{ flex:1, background:"#FAFAFF", borderRadius:7, padding:"6px 9px" }}>
-          <Text size={10} color={C.indigo} weight={600} style={{ marginBottom:3 }}>Amelia</Text>
-          <Stars val={Math.round(ameliaAvg)} size={12} />
-        </div>
-        <div style={{ flex:1, background:"#FAFFF8", borderRadius:7, padding:"6px 9px" }}>
-          <Text size={10} color="#15803D" weight={600} style={{ marginBottom:3 }}>Josiah</Text>
-          <Stars val={Math.round(josiahAvg)} size={12} />
-        </div>
-        {Math.abs(ameliaAvg-josiahAvg) >= 1.5 && (
-          <div style={{ display:"flex", alignItems:"center", background:C.amberL, borderRadius:7,
-            padding:"6px 8px", border:`1px solid #FDE68A` }}>
-            <Text size={10} color={C.amber} weight={700}>⚡ Talk</Text>
-          </div>
-        )}
-      </div>
-    )}
-
-    {/* Next action */}
-    {nextAction && (
-      <div style={{ background:C.bg, borderRadius:8, padding:"8px 10px", borderLeft:`3px solid ${C.indigo}` }}>
-        <Text size={10} color={C.indigo} weight={600} style={{ marginBottom:2 }}>NEXT ACTION</Text>
-        <Text size={12} color={C.t2}>{nextAction}</Text>
-      </div>
-    )}
-
-    {/* Pros/cons */}
-    {(p.pros||p.cons) && (
-      <Grid cols={p.pros&&p.cons?2:1} gap={6}>
-        {p.pros && <div style={{ background:C.greenL, borderRadius:7, padding:"6px 9px", border:`1px solid #BBF7D0` }}><Text size={11} color="#15803D">✓ {p.pros}</Text></div>}
-        {p.cons && <div style={{ background:C.redL, borderRadius:7, padding:"6px 9px", border:`1px solid #FECDD3` }}><Text size={11} color={C.red}>✗ {p.cons}</Text></div>}
-      </Grid>
-    )}
-  </div>
-
-  {/* Footer */}
-  <div style={{ padding:"10px 16px", borderTop:`1px solid ${C.border}`, display:"flex", gap:8, alignItems:"center" }}>
-    {p.url && <a href={p.url} target="_blank" rel="noreferrer"
-      style={{ fontSize:12, color:C.indigo, fontWeight:600, textDecoration:"none" }}>View listing ↗</a>}
-    <div style={{ marginLeft:"auto", display:"flex", gap:6 }}>
-      <Btn variant="subtle" size="sm" onClick={()=>onEdit(p)}>Edit</Btn>
-      <Btn variant="danger" size="sm" onClick={()=>{ if(confirm("Remove this listing?")) onDelete(p.id); }}>Remove</Btn>
-    </div>
-  </div>
-</div>
-```
-
-);
-}
-
-// ─────────────────────────────────────────
-//  PAGES
-// ─────────────────────────────────────────
-
-// DASHBOARD
-function Dashboard({ props, checked, budget, setTab }) {
-const days = daysLeft();
-const done = Object.values(checked).filter(Boolean).length;
-const urgentPhase = CHECKLIST_PHASES[0];
-const urgentRemaining = urgentPhase.items.filter(i=>!checked[i.id]);
-const recentProps = […props].slice(-3).reverse();
-const tip = FC_TIPS[Math.floor(Date.now()/86400000) % FC_TIPS.length];
-const combinedAvg = p => {
-const a=Object.values(p.ameliaScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;
-const j=Object.values(p.josiahScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;
-return (a+j)/2;
-};
-const topPick = props.length>0 ? […props].sort((a,b)=>combinedAvg(b)-combinedAvg(a))[0] : null;
-
-return (
-<div className="fade-up">
-{/* Welcome */}
-<div style={{ marginBottom:28 }}>
-<Text as=“h1” size={26} weight={700} style={{ marginBottom:4, letterSpacing:”-0.02em” }}>
-Amelia & Josiah’s Search HQ
-</Text>
-<Text size={14} color={C.t2}>Fort Collins, CO · South of Mulberry · East of College · May 10 deadline</Text>
-</div>
-
-```
-  {/* Stat strip */}
-  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:24 }}>
-    {[
-      { label:"Days Left", value:days, color:days<21?C.red:days<35?C.amber:C.indigo, sub:"until May 10" },
-      { label:"Listings", value:props.length, color:C.t1, sub:"tracked" },
-      { label:"Checklist", value:`${done}/${ALL_CHECKLIST.length}`, color:C.green, sub:"tasks done" },
-      { label:"Budget", value:budget?.rent?`$${parseInt(budget.rent).toLocaleString()}`:"Set it →", color:budget?.rent?C.t1:C.amber, sub:"max rent" },
-    ].map(s => (
-      <Card key={s.label} style={{ padding:"16px 18px" }}>
-        <Text size={11} color={C.t3} weight={600} style={{ letterSpacing:"0.05em", textTransform:"uppercase", marginBottom:6 }}>{s.label}</Text>
-        <Text size={24} weight={700} color={s.color} style={{ letterSpacing:"-0.02em", marginBottom:2 }}>{s.value}</Text>
-        <Text size={12} color={C.t3}>{s.sub}</Text>
-      </Card>
-    ))}
-  </div>
-
-  <Grid cols={2} gap={16} style={{ marginBottom:16 }}>
-    {/* Urgent tasks */}
-    <Card>
-      <SectionHeader title="🔴 Do This Right Now"
-        action={<Btn variant="ghost" size="sm" onClick={()=>setTab("checklist")}>See all →</Btn>} />
-      {urgentRemaining.length===0
-        ? <div style={{ textAlign:"center", padding:"16px 0" }}><Text size={13} color={C.green} weight={600}>✓ All urgent tasks done!</Text></div>
-        : urgentRemaining.slice(0,4).map(item => (
-          <div key={item.id} style={{ display:"flex", gap:10, padding:"9px 0", borderBottom:`1px solid ${C.border}` }}>
-            <div style={{ width:6, height:6, borderRadius:"50%", background:C.red, flexShrink:0, marginTop:5 }} />
-            <Text size={13} color={C.t1} weight={500}>{item.task}</Text>
-          </div>
-        ))
-      }
-      {urgentRemaining.length>4 && <Text size={12} color={C.t3} style={{ marginTop:8 }}>+{urgentRemaining.length-4} more in checklist</Text>}
-    </Card>
-
-    {/* Top pick */}
-    <Card>
-      <SectionHeader title="⭐ Top Pick So Far"
-        action={<Btn variant="ghost" size="sm" onClick={()=>setTab("listings")}>All listings →</Btn>} />
-      {!topPick
-        ? <div style={{ textAlign:"center", padding:"20px 0" }}>
-            <Text size={13} color={C.t3}>No listings yet</Text>
-            <div style={{ marginTop:10 }}>
-              <Btn variant="primary" size="sm" onClick={()=>setTab("listings")}>+ Add your first listing</Btn>
-            </div>
-          </div>
-        : <div>
-            <Text size={16} weight={600} style={{ marginBottom:4 }}>{topPick.name}</Text>
-            <Text size={13} color={C.t2} style={{ marginBottom:10 }}>{topPick.neighborhood||topPick.address||"—"}</Text>
-            <div style={{ display:"flex", gap:10 }}>
-              <Badge color={C.indigo} bg={C.indigoL}>
-                ★ {combinedAvg(topPick).toFixed(1)} combined
-              </Badge>
-              {topPick.rent && <Badge>${parseInt(topPick.rent).toLocaleString()}/mo</Badge>}
-              <Badge color={STATUS_COLOR[topPick.status]?.text} bg={STATUS_COLOR[topPick.status]?.bg}>{topPick.status}</Badge>
-            </div>
-            {topPick.nextActionCustom||NEXT_ACTIONS[topPick.status] ? (
-              <div style={{ marginTop:10, background:C.bg, borderRadius:7, padding:"7px 10px", borderLeft:`3px solid ${C.indigo}` }}>
-                <Text size={12} color={C.t2}>{topPick.nextActionCustom||NEXT_ACTIONS[topPick.status]}</Text>
-              </div>
-            ):null}
-          </div>
-      }
-    </Card>
-  </Grid>
-
-  <Grid cols={2} gap={16}>
-    {/* Progress */}
-    <Card>
-      <SectionHeader title="📋 Checklist Progress" />
-      <div style={{ display:"flex", gap:14, alignItems:"center", marginBottom:14 }}>
-        <ProgressRing value={done} max={ALL_CHECKLIST.length} size={64} stroke={5} />
-        <div>
-          <Text size={22} weight={700} color={C.indigo}>{Math.round((done/ALL_CHECKLIST.length)*100)}%</Text>
-          <Text size={12} color={C.t3}>{done} of {ALL_CHECKLIST.length} tasks</Text>
-        </div>
-      </div>
-      {CHECKLIST_PHASES.map(ph => {
-        const pDone = ph.items.filter(i=>checked[i.id]).length;
-        return (
-          <div key={ph.phase} style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
-            <div style={{ width:8, height:8, borderRadius:"50%", background:ph.color, flexShrink:0 }} />
-            <Text size={12} color={C.t2} style={{ flex:1 }}>{ph.phase}</Text>
-            <Text size={12} color={pDone===ph.items.length?C.green:C.t3} weight={600}>{pDone}/{ph.items.length}</Text>
-          </div>
-        );
-      })}
-    </Card>
-
-    {/* FC tip + sublease status */}
-    <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
-      <Card style={{ background:C.indigoL, border:`1px solid #C7D2FE` }}>
-        <Text size={11} color={C.indigo} weight={700} style={{ letterSpacing:"0.05em", textTransform:"uppercase", marginBottom:8 }}>Fort Collins Tip</Text>
-        <Text size={13} color={C.indigoD} style={{ lineHeight:1.6 }}>{tip}</Text>
-      </Card>
-      <Card style={{ background:C.amberL, border:`1px solid #FDE68A` }}>
-        <Text size={11} color={C.amber} weight={700} style={{ letterSpacing:"0.05em", textTransform:"uppercase", marginBottom:8 }}>⚡ Sublease Watchlist</Text>
-        <Text size={13} color="#92400E" style={{ lineHeight:1.6 }}>
-          Josiah's lease runs through July 31. If no sublease by April 20, budget for 2.5 months of double rent. 
-          {budget?.rent ? ` That's ~$${Math.round(parseInt(budget.rent)*2.5).toLocaleString()} extra.` : " Set your budget to calculate the impact."}
-        </Text>
-        <div style={{ marginTop:8 }}><Btn variant="ghost" size="sm" onClick={()=>setTab("budget")} style={{ borderColor:"#FDE68A" }}>Open Budget →</Btn></div>
-      </Card>
-    </div>
-  </Grid>
-</div>
-```
-
-);
-}
-
-// LISTINGS
-function Listings({ props, setProps, budgetMax }) {
-const [showModal, setShowModal] = useState(false);
-const [editing, setEditing] = useState(null);
-const [filter, setFilter] = useState(“All”);
-const [sort, setSort] = useState(“score”);
-
-const combinedAvg = p => {
-const a=Object.values(p.ameliaScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;
-const j=Object.values(p.josiahScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;
-return (a+j)/2;
-};
-
-const save = f => {
-if(editing) setProps(ps=>ps.map(p=>p.id===editing.id?{…f,id:editing.id}:p));
-else setProps(ps=>[…ps,{…f,id:Date.now().toString()}]);
-setShowModal(false); setEditing(null);
-};
-
-const filtered = props
-.filter(p=>filter===“All”||p.status===filter)
-.sort((a,b)=>{
-if(sort===“score”) return combinedAvg(b)-combinedAvg(a);
-if(sort===“price”) return (parseInt(a.rent)||9999)-(parseInt(b.rent)||9999);
-return (a.name||””).localeCompare(b.name||””);
-});
-
-const ranked = […props].sort((a,b)=>combinedAvg(b)-combinedAvg(a)).map(p=>p.id);
-
-return (
-<div className="fade-up">
-{showModal && <PropModal prop={editing} onSave={save} onClose={()=>{setShowModal(false);setEditing(null);}} />}
-<div style={{ display:“flex”, justifyContent:“space-between”, alignItems:“flex-start”, marginBottom:20 }}>
-<div>
-<Text as=“h2” size={22} weight={700} style={{ marginBottom:4, letterSpacing:”-0.02em” }}>Our Listings</Text>
-<Text size={13} color={C.t2}>Fort Collins · South of Mulberry · East of College</Text>
-</div>
-<Btn variant=“primary” onClick={()=>{setEditing(null);setShowModal(true);}}>+ Add Listing</Btn>
-</div>
-
-```
-  {/* Filters */}
-  <div style={{ display:"flex", gap:6, marginBottom:18, flexWrap:"wrap", alignItems:"center" }}>
-    {["All",...STATUSES].map(s=>(
-      <button key={s} onClick={()=>setFilter(s)}
-        style={{ background:filter===s?C.indigo:C.surface, color:filter===s?"#fff":C.t2,
-          border:`1px solid ${filter===s?C.indigo:C.border}`, padding:"5px 12px", borderRadius:20,
-          fontSize:12, fontWeight:600, cursor:"pointer", transition:"all 0.15s" }}>
-        {s}{s!=="All"&&props.filter(p=>p.status===s).length>0?` · ${props.filter(p=>p.status===s).length}`:""}
-      </button>
-    ))}
-    <Select value={sort} onChange={setSort}
-      options={[{v:"score",l:"Best Score"},{v:"price",l:"Lowest Rent"},{v:"name",l:"A–Z"}]}
-      style={{ marginLeft:"auto", width:"auto", padding:"5px 11px", fontSize:12 }} />
-  </div>
-
-  {filtered.length===0 ? (
-    <div style={{ textAlign:"center", padding:"60px 20px", color:C.t3 }}>
-      <Text size={40} style={{ marginBottom:10 }}>🏡</Text>
-      <Text size={17} weight={600} color={C.t2} style={{ marginBottom:6 }}>
-        {filter==="All"?"No listings yet":"No listings with this status"}
-      </Text>
-      <Text size={13} color={C.t3}>
-        {filter==="All"?'Click "+ Add Listing" to start tracking':'Try a different filter'}
-      </Text>
-    </div>
-  ) : (
-    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(340px,1fr))", gap:16 }}>
-      {filtered.map(p=>(
-        <ListingCard key={p.id} p={p} rank={ranked.indexOf(p.id)+1}
-          budgetMax={budgetMax}
-          onEdit={prop=>{setEditing(prop);setShowModal(true);}}
-          onDelete={id=>setProps(ps=>ps.filter(p=>p.id!==id))} />
-      ))}
-    </div>
-  )}
-</div>
-```
-
-);
-}
-
-// BUDGET
-function Budget({ data, setData }) {
-const [d, setD] = useState({
-inc1:””, inc2:””, rent:””, catRent:“35”, catDep:“200”, secDep:””,
-parking:“0”, electric:“80”, gas:“55”, internet:“55”, rentersIns:“15”,
-moving:“600”, overlap:“0”, misc:“100”, …data
-});
-useEffect(()=>setData(d),[d]);
-const s = (k,v) => setD(p=>({…p,[k]:v}));
-const n = k => parseFloat(d[k])||0;
-
-const income = n(“inc1”)+n(“inc2”);
-const monthlyHousing = n(“rent”)+n(“catRent”)+n(“parking”)+n(“rentersIns”);
-const monthlyUtils = n(“electric”)+n(“gas”)+n(“internet”);
-const total = monthlyHousing+monthlyUtils+n(“misc”);
-const upfront = n(“secDep”)+n(“catDep”)+n(“rent”)+n(“moving”)+(parseFloat(d.overlap||0)*n(“rent”));
-const rentPct = income>0?((n(“rent”)/income)*100):0;
-const totalPct = income>0?((total/income)*100):0;
-const safeMax = income>0?Math.floor(income*0.30):0;
-
-const MeterBar = ({ pct, warn=30, danger=40 }) => (
-<div style={{ marginTop:6 }}>
-<div style={{ height:6, background:C.border, borderRadius:10, overflow:“hidden” }}>
-<div style={{ height:“100%”, width:`${Math.min(100,pct)}%`,
-background: pct>danger?C.red:pct>warn?C.amber:C.green, borderRadius:10, transition:“width 0.4s” }} />
-</div>
-<Text size={11} color={pct>danger?C.red:pct>warn?C.amber:C.green} style={{ marginTop:3 }}>
-{pct>danger?“⚠ High — consider a cheaper option”:pct>warn?“ℹ Slightly above ideal — manageable if spending is lean”:“✓ Comfortable range”}
-</Text>
-</div>
-);
-
-const Row = ({ l, v, bold }) => v>0 ? (
-<div style={{ display:“flex”, justifyContent:“space-between”, padding:“7px 0”, borderBottom:`1px solid ${C.border}` }}>
-<Text size={13} color={C.t2} weight={bold?600:400}>{l}</Text>
-<Text size={13} weight={bold?700:500} color={C.t1}>${v.toLocaleString()}</Text>
-</div>
-) : null;
-
-return (
-<div className="fade-up">
-<div style={{ marginBottom:24 }}>
-<Text as=“h2” size={22} weight={700} style={{ marginBottom:4, letterSpacing:”-0.02em” }}>Budget Calculator</Text>
-<Text size={13} color={C.t2}>Fort Collins utilities pre-filled with real averages. Model both sublease scenarios.</Text>
-</div>
-
-```
-  <Grid cols={2} gap={20}>
-    <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
-      <Card>
-        <SectionHeader title="💼 Monthly Take-Home Income" />
-        <Grid cols={2} gap={10}>
-          <div><Label>Amelia's income</Label><Input value={d.inc1} onChange={v=>s("inc1",v)} placeholder="2750" type="number" /></div>
-          <div><Label>Josiah's income</Label><Input value={d.inc2} onChange={v=>s("inc2",v)} placeholder="2750" type="number" /></div>
-        </Grid>
-        {income>0&&<div style={{ marginTop:10, padding:"8px 11px", background:C.indigoL, borderRadius:7, display:"flex", justifyContent:"space-between" }}>
-          <Text size={12} color={C.indigo}>Combined monthly</Text>
-          <Text size={13} weight={700} color={C.indigo}>${income.toLocaleString()}/mo{safeMax>0?` · 30% rule = $${safeMax.toLocaleString()} max rent`:""}</Text>
-        </div>}
-      </Card>
-
-      <Card>
-        <SectionHeader title="🏠 Monthly Housing" />
-        <Grid cols={2} gap={10}>
-          <div><Label>Rent ($)</Label><Input value={d.rent} onChange={v=>s("rent",v)} placeholder="1750" type="number" /></div>
-          <div><Label>Cat rent ($/mo)</Label><Input value={d.catRent} onChange={v=>s("catRent",v)} placeholder="35" type="number" /></div>
-          <div><Label>Parking ($/mo)</Label><Input value={d.parking} onChange={v=>s("parking",v)} placeholder="0" type="number" /></div>
-          <div><Label>Renters insurance</Label><Input value={d.rentersIns} onChange={v=>s("rentersIns",v)} placeholder="15" type="number" /></div>
-        </Grid>
-      </Card>
-
-      <Card>
-        <SectionHeader title="💡 Utilities (FC averages pre-filled)" />
-        <Grid cols={3} gap={10}>
-          <div><Label>Xcel Electric</Label><Input value={d.electric} onChange={v=>s("electric",v)} placeholder="80" type="number" /></div>
-          <div><Label>Xcel Gas</Label><Input value={d.gas} onChange={v=>s("gas",v)} placeholder="55" type="number" /></div>
-          <div><Label>Internet</Label><Input value={d.internet} onChange={v=>s("internet",v)} placeholder="55" type="number" /></div>
-        </Grid>
-        <Text size={11} color={C.t3} style={{ marginTop:8 }}>Gas runs $80–100/mo Oct–Mar. Ting fiber is best in SE FC at ~$45/mo.</Text>
-      </Card>
-
-      <Card>
-        <SectionHeader title="📦 Move-In Costs (One-Time)" />
-        <Grid cols={2} gap={10}>
-          <div><Label>Security deposit ($)</Label><Input value={d.secDep} onChange={v=>s("secDep",v)} placeholder="1750" type="number" /></div>
-          <div><Label>Cat deposit ($)</Label><Input value={d.catDep} onChange={v=>s("catDep",v)} placeholder="200" type="number" /></div>
-          <div><Label>Moving costs ($)</Label><Input value={d.moving} onChange={v=>s("moving",v)} placeholder="600" type="number" /></div>
-          <div>
-            <Label>Overlap months (Josiah's sublease)</Label>
-            <Select value={d.overlap} onChange={v=>s("overlap",v)}
-              options={[{v:"0",l:"None — sublease found"},{v:"1",l:"1 month"},{v:"2",l:"2 months"},{v:"2.5",l:"2.5 months (Jun–Aug 1)"}]} />
-          </div>
-        </Grid>
-      </Card>
-
-      <Card>
-        <SectionHeader title="🎲 Buffer / Misc" />
-        <Label>Monthly misc / subscriptions / buffer ($)</Label>
-        <Input value={d.misc} onChange={v=>s("misc",v)} placeholder="100" type="number" />
-      </Card>
-    </div>
-
-    {/* Summary */}
-    <div style={{ position:"sticky", top:72, alignSelf:"start", display:"flex", flexDirection:"column", gap:14 }}>
-      <div style={{ background:C.t1, borderRadius:12, padding:"20px 22px" }}>
-        <Text size={11} color="#94A3B8" weight={600} style={{ letterSpacing:"0.06em", textTransform:"uppercase", marginBottom:14 }}>Monthly Summary</Text>
-        <Row l="Base Rent" v={n("rent")} />
-        <Row l="Cat Rent" v={n("catRent")} />
-        <Row l="Parking" v={n("parking")} />
-        <Row l="Renters Insurance" v={n("rentersIns")} />
-        <Row l="Utilities (est.)" v={monthlyUtils} />
-        <Row l="Misc / Buffer" v={n("misc")} />
-        <div style={{ display:"flex", justifyContent:"space-between", paddingTop:12, marginTop:2 }}>
-          <Text size={16} weight={700} color="#fff">Total Monthly</Text>
-          <Text size={26} weight={700} color="#fff" style={{ letterSpacing:"-0.02em" }}>${total.toLocaleString()}</Text>
-        </div>
-        {totalPct>0&&<MeterBar pct={Math.round(totalPct)} />}
-      </div>
-
-      <Card>
-        <SectionHeader title="🏦 Move-In Cash Needed" />
-        <Row l="Security Deposit" v={n("secDep")} />
-        <Row l="Cat Deposit" v={n("catDep")} />
-        <Row l="First Month Rent" v={n("rent")} />
-        <Row l="Moving Costs" v={n("moving")} />
-        <Row l="Overlap Rent" v={Math.round(parseFloat(d.overlap||0)*n("rent"))} />
-        <div style={{ display:"flex", justifyContent:"space-between", paddingTop:12 }}>
-          <Text size={14} weight={700}>Total Upfront</Text>
-          <Text size={20} weight={700} color={C.indigo}>${upfront.toLocaleString()}</Text>
-        </div>
-      </Card>
-
-      {total>0&&income>0&&<Card>
-        <SectionHeader title="👫 Split Evenly" />
-        <Grid cols={2} gap={10}>
-          <div style={{ background:C.indigoL, borderRadius:8, padding:"12px", textAlign:"center" }}>
-            <Text size={20} weight={700} color={C.indigo}>${(total/2).toFixed(0)}</Text>
-            <Text size={11} color={C.t3} style={{ marginTop:2 }}>each / month</Text>
-          </div>
-          <div style={{ background:C.greenL, borderRadius:8, padding:"12px", textAlign:"center" }}>
-            <Text size={20} weight={700} color={C.green}>{Math.round(rentPct)}%</Text>
-            <Text size={11} color={C.t3} style={{ marginTop:2 }}>rent / income</Text>
-          </div>
-        </Grid>
-      </Card>}
-
-      <Card style={{ background:C.amberL, border:`1px solid #FDE68A` }}>
-        <Text size={11} color={C.amber} weight={700} style={{ letterSpacing:"0.05em", textTransform:"uppercase", marginBottom:8 }}>⚡ Plan B — No Sublease</Text>
-        <Text size={12} color="#92400E" style={{ lineHeight:1.7 }}>
-          If Josiah's sublease doesn't come through by June 1, you'll pay new rent while he also pays old rent through July 31.
-          {n("rent")>0&&<><br/><br/><strong>Extra cost Jun–Jul: ~${Math.round(n("rent")*2.5).toLocaleString()}</strong> ({`$${n("rent").toLocaleString()}/mo × 2.5 months`})</>}
-        </Text>
-      </Card>
-    </div>
-  </Grid>
-</div>
-```
-
-);
-}
-
-// COMPARE
-function Compare({ props }) {
-const [selA, setSelA] = useState(””);
-const [selB, setSelB] = useState(””);
-
-const combinedAvg = p => {
-const a=Object.values(p.ameliaScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;
-const j=Object.values(p.josiahScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;
-return (a+j)/2;
-};
-
-const propA = props.find(p=>p.id===selA);
-const propB = props.find(p=>p.id===selB);
-
-const ROWS = [
-{ label:“Monthly Rent”,     fn:p=>p.rent?`$${parseInt(p.rent).toLocaleString()}/mo`:”—”, type:“money” },
-{ label:”+ Cat Rent”,       fn:p=>p.catRent?`+$${parseInt(p.catRent).toLocaleString()}/mo`:”—” },
-{ label:“Total Monthly”,    fn:p=>{const t=(parseInt(p.rent)||0)+(parseInt(p.catRent)||0);return t?`$${t.toLocaleString()}/mo`:”—”}, bold:true, type:“money” },
-{ label:“Security Deposit”, fn:p=>p.deposit?`$${parseInt(p.deposit).toLocaleString()}`:”—” },
-{ label:“Cat Deposit”,      fn:p=>p.catDeposit?`$${parseInt(p.catDeposit).toLocaleString()}`:”—” },
-{ label:“Type”,             fn:p=>p.type||”—” },
-{ label:“Beds / Baths”,     fn:p=>p.beds?`${p.beds}bd / ${p.baths}ba`:”—” },
-{ label:“Sq Ft”,            fn:p=>p.sqft?`${p.sqft} sqft`:”—” },
-{ label:“Neighborhood”,     fn:p=>p.neighborhood||”—” },
-{ label:“Available”,        fn:p=>p.availDate?new Date(p.availDate+“T12:00:00”).toLocaleDateString(“en-US”,{month:“short”,day:“numeric”}):”—” },
-{ label:“Parking”,          fn:p=>p.parking||”—” },
-{ label:“Laundry”,          fn:p=>p.laundry||”—” },
-{ label:“Cat Policy”,       fn:p=>p.catPolicy||”—” },
-{ label:“Status”,           fn:p=>p.status },
-{ label:“────────”,         header:true },
-{ label:“Amelia — Location”,fn:p=>p.ameliaScores?.location?“★”.repeat(p.ameliaScores.location):”—”, star:true },
-{ label:“Amelia — Value”,   fn:p=>p.ameliaScores?.value?“★”.repeat(p.ameliaScores.value):”—”, star:true },
-{ label:“Amelia — Space”,   fn:p=>p.ameliaScores?.space?“★”.repeat(p.ameliaScores.space):”—”, star:true },
-{ label:“Amelia — Light”,   fn:p=>p.ameliaScores?.light?“★”.repeat(p.ameliaScores.light):”—”, star:true },
-{ label:“Amelia — Cat”,     fn:p=>p.ameliaScores?.cat?“★”.repeat(p.ameliaScores.cat):”—”, star:true },
-{ label:“Amelia — Vibe”,    fn:p=>p.ameliaScores?.vibe?“★”.repeat(p.ameliaScores.vibe):”—”, star:true },
-{ label:“Amelia Avg”,       fn:p=>{const a=Object.values(p.ameliaScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;return a>0?a.toFixed(1)+” / 5”:”—”}, bold:true },
-{ label:“────────”,         header:true },
-{ label:“Josiah — Location”,fn:p=>p.josiahScores?.location?“★”.repeat(p.josiahScores.location):”—”, star:true },
-{ label:“Josiah — Value”,   fn:p=>p.josiahScores?.value?“★”.repeat(p.josiahScores.value):”—”, star:true },
-{ label:“Josiah — Space”,   fn:p=>p.josiahScores?.space?“★”.repeat(p.josiahScores.space):”—”, star:true },
-{ label:“Josiah — Light”,   fn:p=>p.josiahScores?.light?“★”.repeat(p.josiahScores.light):”—”, star:true },
-{ label:“Josiah — Cat”,     fn:p=>p.josiahScores?.cat?“★”.repeat(p.josiahScores.cat):”—”, star:true },
-{ label:“Josiah — Vibe”,    fn:p=>p.josiahScores?.vibe?“★”.repeat(p.josiahScores.vibe):”—”, star:true },
-{ label:“Josiah Avg”,       fn:p=>{const j=Object.values(p.josiahScores||{}).reduce((x,y)=>x+y,0)/SCORE_CATS.length;return j>0?j.toFixed(1)+” / 5”:”—”}, bold:true },
-{ label:“⭐ Combined Score”, fn:p=>combinedAvg(p)>0?combinedAvg(p).toFixed(1)+” / 5”:”—”, bold:true, highlight:true },
-];
-
-return (
-<div className="fade-up">
-<div style={{ marginBottom:24 }}>
-<Text as=“h2” size={22} weight={700} style={{ marginBottom:4, letterSpacing:”-0.02em” }}>Head-to-Head Compare</Text>
-<Text size={13} color={C.t2}>Pick two listings and compare every detail side by side.</Text>
-</div>
-
-```
-  <Card style={{ marginBottom:20 }}>
-    <Grid cols={2} gap={16}>
-      <div>
-        <Label>Listing A</Label>
-        <Select value={selA} onChange={setSelA}
-          options={[{v:"",l:"Select a listing…"},...props.map(p=>({v:p.id,l:p.name||"Unnamed"}))]} />
-      </div>
-      <div>
-        <Label>Listing B</Label>
-        <Select value={selB} onChange={setSelB}
-          options={[{v:"",l:"Select a listing…"},...props.map(p=>({v:p.id,l:p.name||"Unnamed"}))]} />
-      </div>
-    </Grid>
-  </Card>
-
-  {(!propA||!propB) ? (
-    <div style={{ textAlign:"center", padding:"50px 20px" }}>
-      <Text size={32} style={{ marginBottom:10 }}>⚖️</Text>
-      <Text size={15} weight={600} color={C.t2}>{props.length<2?"Add at least 2 listings first":"Select two listings above to compare"}</Text>
-    </div>
-  ) : (
-    <div>
-      {/* Photo comparison */}
-      <Grid cols={2} gap={16} style={{ marginBottom:16 }}>
-        {[propA, propB].map((p,i) => {
-          const thumb = p.photos?.find(ph=>ph?.trim());
-          const avg = combinedAvg(p);
-          return (
-            <Card key={i}>
-              {thumb&&<img src={thumb} alt="" onError={e=>e.target.style.display="none"}
-                style={{ width:"100%", height:140, objectFit:"cover", borderRadius:8, marginBottom:12 }} />}
-              <Text size={17} weight={700} style={{ marginBottom:4 }}>{p.name}</Text>
-              <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-                {p.rent&&<Badge color={C.indigo} bg={C.indigoL}>${parseInt(p.rent).toLocaleString()}/mo</Badge>}
-                {avg>0&&<Badge color={C.green} bg={C.greenL}>★ {avg.toFixed(1)}</Badge>}
-                <Badge color={STATUS_COLOR[p.status]?.text} bg={STATUS_COLOR[p.status]?.bg}>{p.status}</Badge>
-              </div>
-            </Card>
-          );
-        })}
-      </Grid>
-
-      {/* Table */}
-      <Card style={{ padding:0, overflow:"hidden" }}>
-        <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
-          <thead>
-            <tr style={{ background:C.bg }}>
-              <th style={{ padding:"10px 16px", textAlign:"left", fontSize:11, fontWeight:700, color:C.t3, letterSpacing:"0.05em", textTransform:"uppercase", width:"34%" }}>Field</th>
-              <th style={{ padding:"10px 16px", textAlign:"center", fontSize:13, fontWeight:700, color:C.t1 }}>{propA.name}</th>
-              <th style={{ padding:"10px 16px", textAlign:"center", fontSize:13, fontWeight:700, color:C.t1 }}>{propB.name}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ROWS.map((row,i)=>(
-              <tr key={i} className={row.header?"":"hov-row"} style={{ background:row.header?C.bg:row.highlight?C.indigoL:i%2===0?C.surface:"#FAFBFC" }}>
-                <td style={{ padding:"9px 16px", fontSize:row.header?10:12, fontWeight:row.bold||row.header?700:400,
-                  color:row.header?C.t3:C.t2, letterSpacing:row.header?"0.05em":"0", textTransform:row.header?"uppercase":"none" }}>
-                  {row.label}
-                </td>
-                {[propA,propB].map(p=>(
-                  <td key={p.id} style={{ padding:"9px 16px", textAlign:"center",
-                    color: row.highlight?C.indigo:row.star?"#F59E0B":row.bold?C.t1:C.t1,
-                    fontWeight:row.bold?700:400, fontSize:row.star?14:13, letterSpacing:row.star?1:0 }}>
-                    {row.fn(p)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Card>
-    </div>
-  )}
-</div>
-```
-
-);
-}
-
-// AI ANALYZER
-function AIAnalyzer({ onAdd }) {
-const [input, setInput] = useState(””);
-const [result, setResult] = useState(null);
-const [loading, setLoading] = useState(false);
-const [err, setErr] = useState(””);
-
-const analyze = async () => {
-if(!input.trim()) return;
-setLoading(true); setErr(””); setResult(null);
-try {
-const prompt = `You are an expert apartment advisor. A couple named Amelia and Josiah are searching for a 2BR rental in Fort Collins, CO, specifically south of Mulberry St and east of College Ave. They have 1 cat. Non-negotiables: in-unit W/D, parking, pet-friendly. Top priority: natural light. Move-in deadline: May 10, 2025. Combined income: $5,500–$7,500/mo.
-
-Analyze this listing and return ONLY a JSON object:
-{
-“summary”: “2-3 sentence plain English summary”,
-“passesNonNeg”: { “petFriendly”:“yes|no|unclear”, “inUnitLaundry”:“yes|no|unclear”, “parking”:“yes|no|unclear” },
-“inZone”: “yes|no|unclear — is it south of Mulberry and east of College?”,
-“catVerdict”: “specific cat assessment”,
-“lightNote”: “natural light assessment from any available clues”,
-“estimatedMonthly”: “best estimate of total monthly cost including utilities”,
-“redFlags”: [“array, max 5”],
-“greenFlags”: [“array, max 5”],
-“questionsToAsk”: [“4-5 specific questions for THIS listing”],
-“negotiationTip”: “one specific negotiation tip”,
-“scores”: { “location”:0, “value”:0, “space”:0, “light”:0, “cat”:0, “vibe”:0 },
-“verdict”: “one punchy sentence — worth touring / skip / apply immediately”
-}
-Listing text: ${input.substring(0,4000)}`;
-
-```
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1400,
-      messages:[{role:"user",content:prompt}] })
-  });
-  const data = await res.json();
-  const raw = data.content?.map(b=>b.text||"").join("")||"";
-  setResult(JSON.parse(raw.replace(/```json|```/g,"").trim()));
-} catch(e) { setErr("Couldn't analyze — try pasting more text from the listing."); }
-setLoading(false);
-```
-
-};
-
-const passColor = v => v===“yes”?C.green:v===“no”?C.red:C.amber;
-const passBg    = v => v===“yes”?C.greenL:v===“no”?C.redL:C.amberL;
-
-return (
-<div className="fade-up">
-<div style={{ marginBottom:24 }}>
-<Text as=“h2” size={22} weight={700} style={{ marginBottom:4, letterSpacing:”-0.02em” }}>AI Listing Analyzer</Text>
-<Text size={13} color={C.t2}>Paste any listing text — Zillow, Apartments.com, Facebook Marketplace, Craigslist — and get an instant analysis built for your exact search.</Text>
-</div>
-
-```
-  <Card style={{ marginBottom:20 }}>
-    <Label>Paste listing text</Label>
-    <textarea value={input} onChange={e=>setInput(e.target.value)} rows={9}
-      placeholder={"Paste the full listing here. More detail = better analysis.\n\nWorks with:\n• Zillow / Apartments.com descriptions\n• Facebook Marketplace posts\n• Craigslist ads\n• Your own notes from a showing\n• Emails from a landlord"}
-      style={{ width:"100%", padding:"10px 12px", fontSize:13, color:C.t1, background:C.bg,
-        border:`1px solid ${C.border}`, borderRadius:8, resize:"vertical", lineHeight:1.6 }} />
-    <div style={{ display:"flex", gap:10, marginTop:12, alignItems:"center" }}>
-      <Btn variant="primary" size="lg" onClick={analyze}>
-        {loading ? <><span className="spin">⟳</span> Analyzing…</> : "✦ Analyze This Listing"}
-      </Btn>
-      {err&&<Text size={12} color={C.red}>{err}</Text>}
-    </div>
-  </Card>
-
-  {result&&(
-    <div className="fade-up">
-      {/* Verdict banner */}
-      <div style={{ background:C.t1, borderRadius:12, padding:"18px 22px", marginBottom:16,
-        display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-        <div>
-          <Text size={10} color="#94A3B8" weight={700} style={{ letterSpacing:"0.06em", textTransform:"uppercase", marginBottom:6 }}>Verdict</Text>
-          <Text size={17} color="#fff" weight={500} style={{ fontStyle:"italic" }}>"{result.verdict}"</Text>
-        </div>
-        <div style={{ textAlign:"center", minWidth:80 }}>
-          <Text size={32} weight={700} color="#fff" style={{ letterSpacing:"-0.02em" }}>
-            {(Object.values(result.scores||{}).reduce((a,b)=>a+b,0)/SCORE_CATS.length).toFixed(1)}
-          </Text>
-          <Text size={11} color="#64748B">/ 5.0</Text>
-        </div>
-      </div>
-
-      <Grid cols={2} gap={14}>
-        {/* Summary + estimated cost */}
-        <Card style={{ gridColumn:"1/-1" }}>
-          <SectionHeader title="Summary" />
-          <Text size={13} color={C.t2} style={{ lineHeight:1.7, marginBottom:result.estimatedMonthly?12:0 }}>{result.summary}</Text>
-          {result.estimatedMonthly&&(
-            <div style={{ display:"inline-flex", gap:8, alignItems:"center", background:C.indigoL, padding:"6px 12px", borderRadius:7 }}>
-              <Text size={11} color={C.indigo} weight={600}>EST. TOTAL MONTHLY:</Text>
-              <Text size={14} weight={700} color={C.indigoD}>{result.estimatedMonthly}</Text>
-            </div>
-          )}
-        </Card>
-
-        {/* Non-negotiables check */}
-        <Card>
-          <SectionHeader title="✅ Non-Negotiables Check" />
-          {[["petFriendly","Pet Friendly for 1 Cat"],["inUnitLaundry","In-Unit Washer/Dryer"],["parking","Parking Included"]].map(([k,l])=>(
-            <div key={k} style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
-              padding:"8px 11px", borderRadius:8, marginBottom:7, background:passBg(result.passesNonNeg?.[k]||"unclear") }}>
-              <Text size={13}>{l}</Text>
-              <Badge color={passColor(result.passesNonNeg?.[k]||"unclear")} bg={passBg(result.passesNonNeg?.[k]||"unclear")}>
-                {(result.passesNonNeg?.[k]||"unclear").toUpperCase()}
-              </Badge>
-            </div>
-          ))}
-          <Divider my={10} />
-          <div style={{ padding:"8px 11px", background:C.bg, borderRadius:8 }}>
-            <Text size={11} color={C.t3} weight={600} style={{ marginBottom:3 }}>ZONE CHECK</Text>
-            <Text size={12} color={C.t2}>{result.inZone==="yes"?"✓ In your target zone (south of Mulberry, east of College)":result.inZone==="no"?"✗ Outside your search zone":result.inZone}</Text>
-          </div>
-        </Card>
-
-        {/* Cat & light */}
-        <Card>
-          <SectionHeader title="🐱 Cat & ☀️ Light" />
-          <div style={{ padding:"10px 12px", background:"#F0FDF4", borderRadius:8, marginBottom:10, border:`1px solid #BBF7D0` }}>
-            <Text size={11} color={C.green} weight={700} style={{ marginBottom:4 }}>CAT VERDICT</Text>
-            <Text size={13} color={C.t2} style={{ lineHeight:1.5 }}>{result.catVerdict}</Text>
-          </div>
-          <div style={{ padding:"10px 12px", background:C.amberL, borderRadius:8, border:`1px solid #FDE68A` }}>
-            <Text size={11} color={C.amber} weight={700} style={{ marginBottom:4 }}>NATURAL LIGHT</Text>
-            <Text size={13} color={C.t2} style={{ lineHeight:1.5 }}>{result.lightNote}</Text>
-          </div>
-        </Card>
-
-        {result.greenFlags?.length>0&&<Card>
-          <SectionHeader title="✅ Green Flags" />
-          {result.greenFlags.map((f,i)=>(
-            <div key={i} style={{ display:"flex", gap:8, marginBottom:7 }}>
-              <Text size={13} color={C.green} weight={700}>✓</Text>
-              <Text size={13} color={C.t2} style={{ lineHeight:1.5 }}>{f}</Text>
-            </div>
-          ))}
-        </Card>}
-
-        {result.redFlags?.length>0&&<Card>
-          <SectionHeader title="⚠️ Red Flags" />
-          {result.redFlags.map((f,i)=>(
-            <div key={i} style={{ display:"flex", gap:8, marginBottom:7 }}>
-              <Text size={13} color={C.red} weight={700}>!</Text>
-              <Text size={13} color={C.t2} style={{ lineHeight:1.5 }}>{f}</Text>
-            </div>
-          ))}
-        </Card>}
-
-        {result.questionsToAsk?.length>0&&<Card>
-          <SectionHeader title="❓ Questions to Ask" />
-          {result.questionsToAsk.map((q,i)=>(
-            <div key={i} style={{ padding:"7px 11px", background:C.bg, borderRadius:7, marginBottom:6,
-              fontSize:13, color:C.t2, lineHeight:1.5, borderLeft:`2px solid ${C.indigo}` }}>
-              {q}
-            </div>
-          ))}
-        </Card>}
-
-        {result.negotiationTip&&<Card>
-          <SectionHeader title="🤝 Negotiation Tip" />
-          <div style={{ padding:"10px 12px", background:C.greenL, borderRadius:8, border:`1px solid #BBF7D0` }}>
-            <Text size={13} color="#15803D" style={{ lineHeight:1.6 }}>{result.negotiationTip}</Text>
-          </div>
-        </Card>}
-      </Grid>
-
-      <div style={{ display:"flex", gap:10, marginTop:16 }}>
-        <Btn variant="primary" onClick={()=>{
-          const name = prompt("Give this listing a nickname:");
-          if(!name) return;
-          onAdd({ ...EMPTY_PROP(), name,
-            ameliaScores:{...result.scores},
-            josiahScores:{...result.scores},
-            pros: result.greenFlags?.slice(0,2).join("; ")||"",
-            cons: result.redFlags?.slice(0,2).join("; ")||"",
-            notes: `AI: ${result.summary}\n\nVerdict: ${result.verdict}` });
-        }}>+ Add to Listings</Btn>
-        <Btn variant="ghost" onClick={()=>{setResult(null);setInput("");}}>Analyze Another</Btn>
-      </div>
-    </div>
-  )}
-</div>
-```
-
-);
-}
-
-// CHECKLIST
-function Checklist({ checked, setChecked }) {
-const toggle = id => setChecked(c=>({…c,[id]:!c[id]}));
-const done = Object.values(checked).filter(Boolean).length;
-const [openPhase, setOpenPhase] = useState(null);
-
-// Auto-open first phase with unchecked items
-useEffect(() => {
-if(openPhase===null) {
-const first = CHECKLIST_PHASES.find(ph=>ph.items.some(i=>!checked[i.id]));
-if(first) setOpenPhase(first.phase);
-}
-},[]);
-
-return (
-<div className="fade-up">
-<div style={{ display:“flex”, justifyContent:“space-between”, alignItems:“flex-start”, marginBottom:24 }}>
-<div>
-<Text as=“h2” size={22} weight={700} style={{ marginBottom:4, letterSpacing:”-0.02em” }}>Moving Checklist</Text>
-<Text size={13} color={C.t2}>Every step, in order, built around your May 10 deadline.</Text>
-</div>
-<div style={{ textAlign:“right” }}>
-<Text size={26} weight={700} color={C.indigo} style={{ letterSpacing:”-0.02em” }}>{done}<Text as="span" size={16} color={C.t3} weight={400}>/{ALL_CHECKLIST.length}</Text></Text>
-<Text size={11} color={C.t3} style={{ marginTop:2 }}>tasks complete</Text>
-<div style={{ marginTop:6, height:4, width:100, background:C.border, borderRadius:10, overflow:“hidden”, marginLeft:“auto” }}>
-<div style={{ height:“100%”, width:`${(done/ALL_CHECKLIST.length)*100}%`, background:C.indigo, borderRadius:10, transition:“width 0.4s” }} />
-</div>
-</div>
-</div>
-
-```
-  {CHECKLIST_PHASES.map(ph=>{
-    const pDone = ph.items.filter(i=>checked[i.id]).length;
-    const allDone = pDone===ph.items.length;
-    const isOpen = openPhase===ph.phase;
-    return (
-      <Card key={ph.phase} style={{ marginBottom:10, padding:0, overflow:"hidden" }}>
-        <button onClick={()=>setOpenPhase(isOpen?null:ph.phase)}
-          style={{ width:"100%", padding:"14px 18px", background:allDone?C.greenL:C.surface,
-            border:"none", cursor:"pointer", display:"flex", alignItems:"center", gap:12, textAlign:"left" }}>
-          <div style={{ width:10, height:10, borderRadius:"50%", background:allDone?C.green:ph.color, flexShrink:0 }} />
-          <Text size={14} weight={600} color={allDone?C.green:C.t1} style={{ flex:1 }}>
-            {allDone&&"✓ "}{ph.phase}
-          </Text>
-          <Text size={12} color={C.t3} weight={600}>{pDone}/{ph.items.length}</Text>
-          <Text size={14} color={C.t3}>{isOpen?"▲":"▼"}</Text>
-        </button>
-        {isOpen&&(
-          <div style={{ borderTop:`1px solid ${C.border}`, padding:"8px 18px 14px" }}>
-            {ph.items.map(item=>{
-              const isDone = !!checked[item.id];
-              return (
-                <div key={item.id} onClick={()=>toggle(item.id)} className="hov-row check-row"
-                  style={{ display:"flex", gap:12, padding:"10px 8px", borderRadius:8, cursor:"pointer",
-                    marginBottom:2, transition:"background 0.12s",
-                    background:isDone?"#F0FDF4":"transparent",
-                    opacity:isDone?0.7:1 }}>
-                  <div style={{ width:20, height:20, borderRadius:5, flexShrink:0, marginTop:1,
-                    border:`2px solid ${isDone?C.green:C.border}`,
-                    background:isDone?C.green:"transparent",
-                    display:"flex", alignItems:"center", justifyContent:"center",
-                    color:"#fff", fontSize:11, fontWeight:700, transition:"all 0.15s" }}>
-                    {isDone&&"✓"}
-                  </div>
-                  <div style={{ flex:1 }}>
-                    <Text size={13} weight={500} color={isDone?C.green:C.t1}
-                      style={{ textDecoration:isDone?"line-through":"none", marginBottom:3 }}>
-                      {item.task}
-                    </Text>
-                    <Text size={12} color={C.t3} style={{ lineHeight:1.5 }}>{item.tip}</Text>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </Card>
-    );
-  })}
-</div>
-```
-
-);
-}
-
-// ─────────────────────────────────────────
-//  ROOT APP
-// ─────────────────────────────────────────
-
-function App() {
-const [tab, setTab] = useState(“dashboard”);
-const [props, setProps] = useState([]);
-const [checked, setChecked] = useState({});
-const [budget, setBudget] = useState({});
-const [loaded, setLoaded] = useState(false);
-
-useEffect(()=>{
-const load = async () => {
-try { const r=await storageGet(“aj-props”);   if(r) setProps(JSON.parse(r.value));   }catch{}
-try { const r=await storageGet(“aj-checked”); if(r) setChecked(JSON.parse(r.value)); }catch{}
-try { const r=await storageGet(“aj-budget”);  if(r) setBudget(JSON.parse(r.value));  }catch{}
-setLoaded(true);
-};
-load();
-},[]);
-
-useEffect(()=>{ if(!loaded)return; storageSet(“aj-props”,JSON.stringify(props)); },[props,loaded]);
-useEffect(()=>{ if(!loaded)return; storageSet(“aj-checked”,JSON.stringify(checked)); },[checked,loaded]);
-useEffect(()=>{ if(!loaded)return; storageSet(“aj-budget”,JSON.stringify(budget)); },[budget,loaded]);
-
-const days = daysLeft();
-const done = Object.values(checked).filter(Boolean).length;
 
 const NAV = [
-{ id:“dashboard”, label:“Dashboard”,  icon:“⌂” },
-{ id:“listings”,  label:“Listings”,   icon:“🏠” },
-{ id:“ai”,        label:“AI Analyzer”,icon:“✦” },
-{ id:“compare”,   label:“Compare”,    icon:“⚖” },
-{ id:“budget”,    label:“Budget”,     icon:”$” },
-{ id:“checklist”, label:“Checklist”,  icon:“✓” },
+  {id:'dashboard',label:'Dashboard',  icon:'⌂'},
+  {id:'listings', label:'Listings',   icon:'🏠'},
+  {id:'ai',       label:'AI Analyzer',icon:'✦'},
+  {id:'compare',  label:'Compare',    icon:'⚖'},
+  {id:'budget',   label:'Budget',     icon:'$'},
+  {id:'checklist',label:'Checklist',  icon:'✓'},
 ];
 
-return (
-<div style={{ minHeight:“100vh”, background:C.bg, fontFamily:”‘DM Sans’,sans-serif”,
-display:“flex” }}>
-<GS />
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+const S = {
+  listings: [],
+  checked: {},
+  budget: {},
+  tab: 'dashboard',
+  filter: 'All',
+  sort: 'score',
+  compareA: '',
+  compareB: '',
+  openPhase: null,
+};
 
-```
-  {/* SIDEBAR */}
-  <div style={{ width:210, background:C.surface, borderRight:`1px solid ${C.border}`,
-    minHeight:"100vh", position:"fixed", top:0, left:0, display:"flex", flexDirection:"column",
-    zIndex:100, flexShrink:0 }}>
+// Persist
+const load = () => {
+  try { const d = localStorage.getItem('aj2-l'); if(d) S.listings = JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem('aj2-c'); if(d) S.checked  = JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem('aj2-b'); if(d) S.budget   = JSON.parse(d); } catch(e){}
+};
+const saveL = () => { try { localStorage.setItem('aj2-l', JSON.stringify(S.listings)); } catch(e){} };
+const saveC = () => { try { localStorage.setItem('aj2-c', JSON.stringify(S.checked));  } catch(e){} };
+const saveB = () => { try { localStorage.setItem('aj2-b', JSON.stringify(S.budget));   } catch(e){} };
 
-    {/* Logo */}
-    <div style={{ padding:"22px 20px 16px", borderBottom:`1px solid ${C.border}` }}>
-      <Text size={15} weight={700} color={C.t1} style={{ letterSpacing:"-0.01em", marginBottom:2 }}>
-        Amelia & Josiah
-      </Text>
-      <Text size={11} color={C.t3} weight={500}>Fort Collins · May 10 🏠</Text>
+// ═══════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════
+const esc = s => s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : '';
+const fmt = n => n ? '$' + parseInt(n).toLocaleString() : '—';
+const fmtDate = d => { if(!d) return '—'; return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}); };
+const avgSc = sc => { if(!sc) return 0; const v = Object.values(sc); return v.reduce((a,b)=>a+b,0)/SCORE_CATS.length; };
+const combined = p => (avgSc(p.ameliaScores) + avgSc(p.josiahScores)) / 2;
+const el = id => document.getElementById(id);
+const badge = (txt,tx,bg) => `<span class="badge" style="color:${tx};background:${bg}">${esc(txt)}</span>`;
+const starsHTML = (val,id,who,cat) => [1,2,3,4,5].map(n =>
+  `<span class="star ${n<=val?'on':''}" onclick="setScore('${who}','${cat}',${n},'${id}')"  data-n="${n}">★</span>`
+).join('');
+
+const mkListing = () => ({
+  id: Date.now().toString(),
+  name:'',address:'',neighborhood:'',type:'Apartment',status:'Saved',
+  rent:'',deposit:'',sqft:'',beds:'2',baths:'1',
+  catDeposit:'',catRent:'',catPolicy:'',
+  parking:'',laundry:'',availDate:'',leaseLength:'',
+  url:'',photo:'',pros:'',cons:'',tourNotes:'',notes:'',nextActionCustom:'',
+  ameliaScores:{location:0,value:0,space:0,light:0,cat:0,vibe:0},
+  josiahScores:{location:0,value:0,space:0,light:0,cat:0,vibe:0},
+});
+
+// ═══════════════════════════════════════════
+//  NAV / CHROME
+// ═══════════════════════════════════════════
+function buildChrome() {
+  const days = daysLeft();
+  const done = Object.values(S.checked).filter(Boolean).length;
+
+  // Countdown
+  const cls = days<21?'danger':days<35?'warn':'safe';
+  const clr = days<21?'var(--red)':days<35?'var(--amber)':'var(--indigo)';
+  el('cd-box').className = 'sb-countdown ' + cls;
+  el('cd-days').textContent = days; el('cd-days').style.color = clr;
+  el('cd-lbl').style.color = clr; el('cd-sub').style.color = clr;
+  el('cd-sub').textContent = days<21?'🔴 Move fast!':days<35?'🟡 Getting close':'days until May 10';
+
+  // Desktop nav
+  el('desk-nav').innerHTML = NAV.map(n => {
+    let badge = '';
+    if(n.id==='listings' && S.listings.length>0)
+      badge = `<span class="nb-badge" style="background:var(--indigo-l);color:var(--indigo)">${S.listings.length}</span>`;
+    if(n.id==='checklist' && done>0)
+      badge = `<span class="nb-badge" style="background:var(--green-l);color:var(--green)">${done}</span>`;
+    return `<button class="nb ${S.tab===n.id?'on':''}" onclick="goTab('${n.id}')">
+      <span class="ico">${n.icon}</span>${n.label}${badge}</button>`;
+  }).join('');
+
+  // Mobile nav
+  el('mobile-nav').innerHTML = NAV.map(n =>
+    `<button class="mob ${S.tab===n.id?'on':''}" onclick="goTab('${n.id}')">
+      <span class="mico">${n.icon}</span>${n.label}</button>`
+  ).join('');
+
+  // Topbar
+  el('tb-title').textContent = NAV.find(n=>n.id===S.tab)?.label || '';
+  el('meta-l').textContent = S.listings.length + ' listing' + (S.listings.length!==1?'s':'');
+  el('meta-t').textContent = done + '/' + ALL_ITEMS.length + ' tasks';
+  const md = el('meta-d'); md.textContent = days+'d left';
+  md.className = days<21?'tb-urgent':'';
+}
+
+function goTab(id) {
+  S.tab = id;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el('page-'+id).classList.add('active');
+  buildChrome();
+  renderPage(id);
+}
+
+function renderPage(id) {
+  if(id==='dashboard') renderDash();
+  else if(id==='listings') renderListings();
+  else if(id==='ai') renderAI();
+  else if(id==='compare') renderCompare();
+  else if(id==='budget') renderBudget();
+  else if(id==='checklist') renderChecklist();
+}
+
+// ═══════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════
+function renderDash() {
+  const days = daysLeft();
+  const done = Object.values(S.checked).filter(Boolean).length;
+  const pct  = Math.round((done/ALL_ITEMS.length)*100);
+  const tip  = FC_TIPS[Math.floor(Date.now()/86400000) % FC_TIPS.length];
+  const urgLeft = PHASES[0].items.filter(i=>!S.checked[i.id]);
+  const top  = S.listings.length ? [...S.listings].sort((a,b)=>combined(b)-combined(a))[0] : null;
+
+  const topHTML = top
+    ? `<div style="font-size:16px;font-weight:600;margin-bottom:4px">${esc(top.name)}</div>
+       <div style="font-size:13px;color:var(--t2);margin-bottom:10px">${esc(top.neighborhood||top.address||'—')}</div>
+       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:${NEXT[top.status]?10:0}px">
+         ${badge('★ '+combined(top).toFixed(1)+' combined','var(--indigo)','var(--indigo-l)')}
+         ${top.rent?badge(fmt(top.rent)+'/mo','var(--t2)','var(--bg)'):''}
+         ${badge(top.status,SC[top.status]?.tx||'#64748B',SC[top.status]?.bg||'#F1F5F9')}
+       </div>
+       ${NEXT[top.status]?`<div class="next-strip"><div style="font-size:10px;color:var(--indigo);font-weight:700;margin-bottom:2px">NEXT ACTION</div><div style="font-size:12px;color:var(--t2)">${esc(top.nextActionCustom||NEXT[top.status])}</div></div>`:''}`
+    : `<div style="text-align:center;padding:24px 0">
+         <div style="font-size:13px;color:var(--t3);margin-bottom:10px">No listings yet</div>
+         <button class="btn btn-primary btn-sm" onclick="goTab('listings')">+ Add your first listing</button>
+       </div>`;
+
+  const phRows = PHASES.map(ph=>{
+    const pd = ph.items.filter(i=>S.checked[i.id]).length;
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="width:8px;height:8px;border-radius:50%;background:${ph.color};flex-shrink:0"></div>
+      <span style="flex:1;font-size:12px;color:var(--t2)">${ph.phase}</span>
+      <span style="font-size:12px;font-weight:600;color:${pd===ph.items.length?'var(--green)':'var(--t3)'}">${pd}/${ph.items.length}</span>
+    </div>`;
+  }).join('');
+
+  // stat card helper
+  const stat = (l,v,c,sub) =>
+    `<div class="card card-sm">
+       <div class="lbl">${l}</div>
+       <div style="font-size:22px;font-weight:700;color:${c};letter-spacing:-.02em;margin:3px 0">${v}</div>
+       <div style="font-size:12px;color:var(--t3)">${sub}</div>
+     </div>`;
+
+  el('page-dashboard').innerHTML = `
+    <div style="margin-bottom:26px">
+      <div class="pg-title">Amelia &amp; Josiah's Search HQ</div>
+      <div class="pg-sub" style="margin-bottom:0">Fort Collins, CO · South of Mulberry · East of College · May 10 deadline</div>
     </div>
 
-    {/* Countdown */}
-    <div style={{ margin:"14px 14px 0", padding:"12px 14px", borderRadius:10,
-      background: days<21?C.redL:days<35?C.amberL:C.indigoL,
-      border:`1px solid ${days<21?"#FECDD3":days<35?"#FDE68A":"#C7D2FE"}` }}>
-      <Text size={10} color={days<21?C.red:days<35?C.amber:C.indigo} weight={700}
-        style={{ letterSpacing:"0.05em", textTransform:"uppercase", marginBottom:4 }}>
-        Deadline
-      </Text>
-      <Text size={28} weight={700} color={days<21?C.red:days<35?C.amber:C.indigo}
-        style={{ letterSpacing:"-0.03em", lineHeight:1 }}>{days}</Text>
-      <Text size={11} color={days<21?C.red:days<35?C.amber:C.indigo} style={{ marginTop:3 }}>
-        {days<21?"🔴 Move fast!":days<35?"🟡 Getting close":"days until May 10"}
-      </Text>
+    <div class="g4" style="margin-bottom:20px">
+      ${stat('Days Left', days, days<21?'var(--red)':days<35?'var(--amber)':'var(--indigo)', 'until May 10')}
+      ${stat('Listings', S.listings.length, 'var(--t1)', 'tracked')}
+      ${stat('Checklist', done+'/'+ALL_ITEMS.length, 'var(--green)', 'tasks done')}
+      ${stat('Budget', S.budget.rent?fmt(S.budget.rent):'Set it →', S.budget.rent?'var(--t1)':'var(--amber)', 'max rent')}
     </div>
 
-    {/* Nav */}
-    <nav style={{ flex:1, padding:"10px 10px" }}>
-      {NAV.map(n=>(
-        <button key={n.id} onClick={()=>setTab(n.id)} className="hov-nav"
-          style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"9px 12px",
-            borderRadius:8, border:"none", marginBottom:2, cursor:"pointer", textAlign:"left",
-            background: tab===n.id?C.indigoL:"transparent",
-            color: tab===n.id?C.indigo:C.t2,
-            fontWeight: tab===n.id?600:500, fontSize:13, transition:"all 0.12s" }}>
-          <span style={{ fontSize:14, width:18, textAlign:"center" }}>{n.icon}</span>
-          {n.label}
-          {n.id==="listings"&&props.length>0&&(
-            <span style={{ marginLeft:"auto", background:C.indigoL, color:C.indigo,
-              fontSize:11, padding:"1px 7px", borderRadius:10, fontWeight:700 }}>{props.length}</span>
-          )}
-          {n.id==="checklist"&&done>0&&(
-            <span style={{ marginLeft:"auto", background:C.greenL, color:C.green,
-              fontSize:11, padding:"1px 7px", borderRadius:10, fontWeight:700 }}>{done}</span>
-          )}
-        </button>
-      ))}
-    </nav>
-
-    {/* Bottom context */}
-    <div style={{ padding:"14px 16px", borderTop:`1px solid ${C.border}` }}>
-      <Text size={11} color={C.t3} style={{ lineHeight:1.8 }}>
-        1 cat · 2BR · In-unit W/D<br/>
-        Both on Harmony corridor<br/>
-        S of Mulberry · E of College
-      </Text>
-    </div>
-  </div>
-
-  {/* MAIN */}
-  <div style={{ marginLeft:210, flex:1, minWidth:0 }}>
-    {/* Top bar */}
-    <div style={{ background:C.surface, borderBottom:`1px solid ${C.border}`,
-      padding:"12px 32px", display:"flex", alignItems:"center", justifyContent:"space-between",
-      position:"sticky", top:0, zIndex:50 }}>
-      <Text size={14} weight={600} color={C.t1}>
-        {NAV.find(n=>n.id===tab)?.label}
-      </Text>
-      <div style={{ display:"flex", gap:20, alignItems:"center" }}>
-        <Text size={12} color={C.t3}>{props.length} listing{props.length!==1?"s":""}</Text>
-        <Text size={12} color={C.t3}>{done}/{ALL_CHECKLIST.length} tasks</Text>
-        <div style={{ width:1, height:16, background:C.border }} />
-        <Text size={12} color={days<21?C.red:C.t3} weight={days<21?700:400}>
-          {days}d left
-        </Text>
+    <div class="g2" style="margin-bottom:16px">
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-hdr-label">🔴 Do This Right Now</span>
+          <button class="btn btn-ghost btn-sm" onclick="goTab('checklist')">See all →</button>
+        </div>
+        ${urgLeft.length===0
+          ? `<div style="text-align:center;padding:14px;font-size:13px;font-weight:600;color:var(--green)">✓ All urgent tasks done!</div>`
+          : urgLeft.slice(0,4).map(i=>`
+              <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+                <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px"></div>
+                <span style="font-size:13px;font-weight:500;line-height:1.4">${esc(i.task)}</span>
+              </div>`).join('')
+        }
+        ${urgLeft.length>4?`<div style="font-size:12px;color:var(--t3);margin-top:8px">+${urgLeft.length-4} more in Checklist</div>`:''}
+      </div>
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-hdr-label">⭐ Top Pick So Far</span>
+          <button class="btn btn-ghost btn-sm" onclick="goTab('listings')">All listings →</button>
+        </div>
+        ${topHTML}
       </div>
     </div>
 
-    {/* Page */}
-    <div style={{ padding:"28px 32px", maxWidth:1100, margin:"0 auto" }}>
-      {tab==="dashboard" && <Dashboard props={props} checked={checked} budget={budget} setTab={setTab} />}
-      {tab==="listings"  && <Listings props={props} setProps={setProps} budgetMax={budget?.rent} />}
-      {tab==="ai"        && <AIAnalyzer onAdd={p=>{ setProps(ps=>[...ps,{...p,id:Date.now().toString()}]); setTab("listings"); }} />}
-      {tab==="compare"   && <Compare props={props} />}
-      {tab==="budget"    && <Budget data={budget} setData={setBudget} />}
-      {tab==="checklist" && <Checklist checked={checked} setChecked={setChecked} />}
+    <div class="g2">
+      <div class="card">
+        <div class="sec-hdr"><span class="sec-hdr-label">📋 Checklist Progress</span></div>
+        <div style="display:flex;gap:16px;align-items:center;margin-bottom:18px">
+          <svg width="62" height="62" style="transform:rotate(-90deg);flex-shrink:0">
+            <circle cx="31" cy="31" r="25" fill="none" stroke="var(--border)" stroke-width="5"/>
+            <circle cx="31" cy="31" r="25" fill="none" stroke="var(--indigo)" stroke-width="5"
+              stroke-dasharray="${2*Math.PI*25}" stroke-dashoffset="${2*Math.PI*25*(1-pct/100)}"
+              stroke-linecap="round" style="transition:stroke-dashoffset .4s"/>
+          </svg>
+          <div>
+            <div style="font-size:24px;font-weight:700;color:var(--indigo)">${pct}%</div>
+            <div style="font-size:12px;color:var(--t3)">${done} of ${ALL_ITEMS.length} tasks</div>
+          </div>
+        </div>
+        ${phRows}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="background:var(--indigo-l);border-color:#C5C8F8">
+          <div class="lbl" style="color:var(--indigo);margin-bottom:8px">Fort Collins Tip</div>
+          <div style="font-size:13px;color:var(--indigo-d);line-height:1.65">${tip}</div>
+        </div>
+        <div class="card" style="background:var(--amber-l);border-color:#FADFA0">
+          <div class="lbl" style="color:var(--amber);margin-bottom:8px">⚡ Sublease Watchlist</div>
+          <div style="font-size:13px;color:#92400E;line-height:1.65">
+            Josiah's lease runs through July 31. If no sublease by April 20, budget for 2.5 months of double rent.
+            ${S.budget.rent?` That's ~$${Math.round(parseInt(S.budget.rent)*2.5).toLocaleString()} extra.`:' Use the Budget tab to model this.'}
+          </div>
+          <div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="goTab('budget')" style="border-color:#FADFA0">Open Budget →</button></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-```
-
-);
+  `;
 }
 
-```
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(React.createElement(App));
-```
+// ═══════════════════════════════════════════
+//  LISTINGS
+// ═══════════════════════════════════════════
+function renderListings() {
+  const ranked = [...S.listings].sort((a,b)=>combined(b)-combined(a)).map(p=>p.id);
+  const shown  = [...S.listings]
+    .filter(p=>S.filter==='All'||p.status===S.filter)
+    .sort((a,b)=>{
+      if(S.sort==='score') return combined(b)-combined(a);
+      if(S.sort==='price') return (parseInt(a.rent)||9999)-(parseInt(b.rent)||9999);
+      return (a.name||'').localeCompare(b.name||'');
+    });
+  const budgetMax = parseInt(S.budget.rent)||0;
 
-  </script>
+  const pills = ['All',...STATUSES].map(s=>{
+    const cnt = s!=='All' ? S.listings.filter(p=>p.status===s).length : 0;
+    return `<button class="pill ${S.filter===s?'on':''}" onclick="setFilter('${s}')">${s}${cnt>0&&s!=='All'?' · '+cnt:''}</button>`;
+  }).join('');
+
+  const cards = shown.length===0
+    ? `<div class="empty"><div class="em">🏡</div>
+         <div style="font-size:17px;font-weight:600;color:var(--t2);margin-bottom:6px">${S.filter==='All'?'No listings yet':'No listings with this status'}</div>
+         <div style="font-size:13px;color:var(--t3)">${S.filter==='All'?'Click "+ Add Listing" to get started':'Try a different filter'}</div>
+       </div>`
+    : `<div class="listings-grid">${shown.map(p=>listingCard(p,ranked.indexOf(p.id)+1,budgetMax)).join('')}</div>`;
+
+  el('page-listings').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+      <div>
+        <div class="pg-title">Our Listings</div>
+        <div class="pg-sub" style="margin-bottom:0">Fort Collins · South of Mulberry · East of College</div>
+      </div>
+      <button class="btn btn-primary" onclick="openModal(null)">+ Add Listing</button>
+    </div>
+    <div class="filters">
+      ${pills}
+      <select onchange="setSort(this.value)" style="margin-left:auto;width:auto;padding:5px 30px 5px 11px;font-size:12px">
+        <option value="score"  ${S.sort==='score'?'selected':''}>Best Score</option>
+        <option value="price"  ${S.sort==='price'?'selected':''}>Lowest Rent</option>
+        <option value="name"   ${S.sort==='name'?'selected':''}>A–Z</option>
+      </select>
+    </div>
+    ${cards}
+  `;
+}
+
+function listingCard(p, rank, budgetMax) {
+  const totalMo = (parseInt(p.rent)||0)+(parseInt(p.catRent)||0);
+  const over    = budgetMax && totalMo > budgetMax;
+  const sc      = SC[p.status]||SC['Saved'];
+  const comb    = combined(p);
+  const aA      = avgSc(p.ameliaScores);
+  const jA      = avgSc(p.josiahScores);
+  const na      = p.nextActionCustom || NEXT[p.status] || '';
+  const photoEl = p.photo ? `<img src="${esc(p.photo)}" onerror="this.style.display='none'">` : '';
+  const disagree = Math.abs(aA-jA)>=1.5;
+
+  return `
+  <div class="lcard">
+    <div class="lcard-photo">${photoEl}🏠
+      ${rank<=3?`<div class="rank-pip">${rank===1?'🥇 #1':rank===2?'🥈 #2':'🥉 #3'}</div>`:''}
+    </div>
+    <div class="lcard-body">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:2px;line-height:1.2">${esc(p.name)||'Unnamed'}</div>
+          <div style="font-size:12px;color:var(--t3)">${p.type}${p.beds?' · '+p.beds+'bd':''}${p.baths?'/'+p.baths+'ba':''}${p.sqft?' · '+p.sqft+' sqft':''}</div>
+        </div>
+        ${badge(p.status,sc.tx,sc.bg)}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="stat-tile" style="${over?'background:var(--red-l);border-color:#FBCACC':''}">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:${over?'var(--red)':'var(--t3)'};margin-bottom:2px">Rent${p.catRent?' + cat':''}</div>
+          <div style="font-size:18px;font-weight:700;color:${over?'var(--red)':'var(--t1)'}">$${totalMo.toLocaleString()}<span style="font-size:11px;color:var(--t3);font-weight:400">/mo</span></div>
+        </div>
+        <div class="stat-tile" style="${comb>0?'background:var(--indigo-l);border-color:#C5C8F8':''}">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--t3);margin-bottom:2px">Score</div>
+          <div style="font-size:18px;font-weight:700;color:${comb>0?'var(--indigo)':'var(--t3)'}">${comb>0?comb.toFixed(1)+'<span style="font-size:11px;color:var(--t3);font-weight:400"> / 5</span>':'—'}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${p.neighborhood?badge('📍 '+p.neighborhood,'var(--t2)','var(--bg)'):''}
+        ${p.catPolicy?badge('🐱 '+p.catPolicy.slice(0,28)+(p.catPolicy.length>28?'…':''),'#15803D','var(--green-l)'):badge('🐱 Cat policy unknown','var(--t3)','var(--bg)')}
+      </div>
+      ${(aA>0||jA>0)?`
+      <div style="display:flex;gap:8px">
+        <div class="score-mini" style="flex:1;background:#FAFAFF">
+          <div style="font-size:10px;color:var(--indigo);font-weight:700;margin-bottom:4px">Amelia</div>
+          <div style="display:flex;gap:2px">${[1,2,3,4,5].map(n=>`<span style="font-size:12px;color:${n<=Math.round(aA)?'#F59E0B':'#DDE3EE'}">★</span>`).join('')}</div>
+        </div>
+        <div class="score-mini" style="flex:1;background:#F5FFF9">
+          <div style="font-size:10px;color:#15803D;font-weight:700;margin-bottom:4px">Josiah</div>
+          <div style="display:flex;gap:2px">${[1,2,3,4,5].map(n=>`<span style="font-size:12px;color:${n<=Math.round(jA)?'#F59E0B':'#DDE3EE'}">★</span>`).join('')}</div>
+        </div>
+        ${disagree?`<div style="display:flex;align-items:center;background:var(--amber-l);border-radius:7px;padding:6px 9px;border:1px solid #FADFA0"><span style="font-size:10px;color:var(--amber);font-weight:700">⚡ Talk</span></div>`:''}
+      </div>`:''}
+      ${na?`<div class="next-strip"><div style="font-size:10px;color:var(--indigo);font-weight:700;margin-bottom:2px">NEXT ACTION</div><div style="font-size:12px;color:var(--t2)">${esc(na)}</div></div>`:''}
+      ${(p.pros||p.cons)?`<div style="display:grid;grid-template-columns:${p.pros&&p.cons?'1fr 1fr':'1fr'};gap:6px">
+        ${p.pros?`<div style="background:var(--green-l);border:1px solid #A7F3D0;border-radius:7px;padding:7px 10px;font-size:11px;color:#15803D;line-height:1.5">✓ ${esc(p.pros)}</div>`:''}
+        ${p.cons?`<div style="background:var(--red-l);border:1px solid #FBCACC;border-radius:7px;padding:7px 10px;font-size:11px;color:var(--red);line-height:1.5">✗ ${esc(p.cons)}</div>`:''}
+      </div>`:''}
+    </div>
+    <div class="lcard-foot">
+      ${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noreferrer" style="font-size:12px;color:var(--indigo);font-weight:600;text-decoration:none">View listing ↗</a>`:''}
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn btn-subtle" onclick="openModal('${p.id}')">Edit</button>
+        <button class="btn btn-danger" onclick="delListing('${p.id}')">Remove</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+const setFilter = f => { S.filter=f; renderListings(); };
+const setSort   = s => { S.sort=s;   renderListings(); };
+function delListing(id) {
+  if(!confirm('Remove this listing?')) return;
+  S.listings = S.listings.filter(p=>p.id!==id);
+  saveL(); renderListings(); buildChrome();
+  if(S.tab==='dashboard') renderDash();
+}
+
+// ═══════════════════════════════════════════
+//  MODAL — built once, fields kept alive, never re-rendered while typing
+// ═══════════════════════════════════════════
+let _mid = null; // editing id
+let _mTab = 'info';
+
+const MTABS = ['info','pet & lease','photo','scores','notes'];
+
+function openModal(id) {
+  _mid  = id;
+  _mTab = 'info';
+  const src = id ? S.listings.find(p=>p.id===id) : mkListing();
+  if(!src) return;
+  window._md = JSON.parse(JSON.stringify(src));
+  el('modal-title').textContent = id ? 'Edit Listing' : 'Add a Listing';
+  buildModalTabs();
+  buildModalBody();
+  el('modal').classList.add('open');
+}
+function closeModal() { el('modal').classList.remove('open'); window._md=null; }
+
+function buildModalTabs() {
+  el('modal-tabs-row').innerHTML = MTABS.map(t =>
+    `<button class="mtab ${_mTab===t?'on':''}" onclick="switchMTab('${t}')">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`
+  ).join('');
+}
+
+function switchMTab(t) {
+  collectFields(); // save current values before switching
+  _mTab = t;
+  buildModalTabs();
+  buildModalBody();
+}
+
+// Collect form values into _md — called on tab switch and on save
+function collectFields() {
+  const d = window._md; if(!d) return;
+  const gv = id => { const e=el('mf-'+id); return e?e.value:undefined; };
+  ['name','address','neighborhood','type','status','rent','deposit','sqft','beds','baths',
+   'parking','laundry','availDate','leaseLength','url','photo',
+   'catDeposit','catRent','catPolicy','pros','cons','tourNotes','notes','nextActionCustom']
+    .forEach(f => { const v=gv(f); if(v!==undefined) d[f]=v; });
+}
+
+function buildModalBody() {
+  const d = window._md;
+  const t = _mTab;
+  let h = '';
+
+  const field = (lbl, inner, span) =>
+    `<div class="field" ${span?'style="grid-column:1/-1"':''}><label class="lbl">${lbl}</label>${inner}</div>`;
+  const inp = (id,val,ph,type='text') =>
+    `<input id="mf-${id}" value="${esc(val||'')}" placeholder="${esc(ph||'')}" type="${type}" autocomplete="off" autocorrect="off" spellcheck="false">`;
+  const sel = (id,val,opts) =>
+    `<select id="mf-${id}">${opts.map(o=>typeof o==='string'?
+      `<option ${val===o?'selected':''}>${o}</option>`:
+      `<option value="${o.v}" ${val===o.v?'selected':''}>${o.l}</option>`).join('')}</select>`;
+
+  if(t==='info') {
+    h = `<div class="g2">
+      ${field('Nickname *', inp('name',d.name,'e.g. The Harmony Townhouse'), true)}
+      ${field('Status',     sel('status',d.status, STATUSES))}
+      ${field('Type',       sel('type',d.type, ['Apartment','Townhouse','Condo','House','Duplex','Studio']))}
+      ${field('Address',    inp('address',d.address,'123 Harmony Rd, Fort Collins, CO'), true)}
+      ${field('Neighborhood', sel('neighborhood',d.neighborhood,[
+        {v:'',l:'Select…'},{v:'Harmony Corridor',l:'Harmony Corridor'},
+        {v:'SE Fort Collins',l:'SE Fort Collins'},{v:'Midtown / Drake',l:'Midtown / Drake'},
+        {v:'South FC / Fossil Creek',l:'South FC / Fossil Creek'},
+        {v:'East FC / Timberline',l:'East FC / Timberline'},{v:'Other',l:'Other'}]))}
+      ${field('Available Date', inp('availDate',d.availDate,'','date'))}
+      ${field('Monthly Rent ($)', inp('rent',d.rent,'1750','number'))}
+      ${field('Security Deposit ($)', inp('deposit',d.deposit,'1750','number'))}
+      ${field('Beds', sel('beds',d.beds,['1','2','3','4']))}
+      ${field('Baths', sel('baths',d.baths,['1','1.5','2','2.5','3']))}
+      ${field('Sq Ft', inp('sqft',d.sqft,'950','number'))}
+      ${field('Parking', sel('parking',d.parking,[
+        {v:'',l:'Unknown'},{v:'1 spot included',l:'1 spot included'},
+        {v:'2 spots included',l:'2 spots included'},{v:'Garage',l:'Garage'},
+        {v:'Covered spot',l:'Covered spot'},{v:'Street only',l:'Street only'}]))}
+      ${field('Listing URL', inp('url',d.url,'https://www.zillow.com/...'), true)}
+      ${field('Custom Next Action', inp('nextActionCustom',d.nextActionCustom,NEXT[d.status]||''), true)}
+    </div>`;
+  } else if(t==='pet & lease') {
+    h = `<div style="font-size:13px;font-weight:600;margin-bottom:12px">🐱 Cat Details</div>
+    <div class="g2">
+      ${field('Cat Deposit ($)', inp('catDeposit',d.catDeposit,'200','number'))}
+      ${field('Monthly Cat Rent ($)', inp('catRent',d.catRent,'35','number'))}
+      ${field('Cat Policy Notes', inp('catPolicy',d.catPolicy,'e.g. 1 cat OK, $200 refundable deposit'), true)}
+    </div>
+    <hr class="div">
+    <div style="font-size:13px;font-weight:600;margin-bottom:12px">📋 Lease Details</div>
+    <div class="g2">
+      ${field('Lease Length', inp('leaseLength',d.leaseLength,'12 months'))}
+      ${field('Laundry', sel('laundry',d.laundry,[
+        {v:'',l:'Unknown'},{v:'In-unit W/D',l:'In-unit W/D'},{v:'W/D hookups',l:'W/D hookups'},
+        {v:'Shared on-site',l:'Shared on-site'},{v:'None',l:'None'}]))}
+    </div>`;
+  } else if(t==='photo') {
+    h = `<div style="font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:14px">
+      Paste one image URL — from the Zillow listing, Google Photos, or any direct image link. It shows as the card thumbnail.
+    </div>
+    ${field('Photo URL', inp('photo',d.photo,'https://photos.zillowstatic.com/...'))}
+    ${d.photo?`<img src="${esc(d.photo)}" onerror="this.style.display='none'" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-sm);margin-top:4px;border:1px solid var(--border)">` : ''}`;
+  } else if(t==='scores') {
+    // Scores tab is a pure click interface (no text input) — safe to re-render
+    const aA = avgSc(d.ameliaScores), jA = avgSc(d.josiahScores);
+    h = `<div style="font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.6">
+      Rate separately — scores combine for overall ranking. Click a star again to remove it.
+    </div>
+    <div class="g2" style="gap:12px">
+      <div style="background:#FAFAFF;border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--indigo-l);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--indigo)">A</div>
+          <span style="font-size:13px;font-weight:600">Amelia</span>
+        </div>
+        ${SCORE_CATS.map(c=>`<div style="margin-bottom:12px">
+          <div style="font-size:11px;color:var(--t3);margin-bottom:5px">${c.i} ${c.l}</div>
+          <div class="stars" id="as-${c.k}">${starsHTML(d.ameliaScores[c.k], _mid||'new', 'amelia', c.k)}</div>
+        </div>`).join('')}
+        <hr class="div">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;color:var(--t3)">Average</span>
+          <span style="font-size:20px;font-weight:700;color:var(--indigo)" id="a-avg">${aA.toFixed(1)}</span>
+        </div>
+      </div>
+      <div style="background:#F5FFF9;border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#15803D">J</div>
+          <span style="font-size:13px;font-weight:600">Josiah</span>
+        </div>
+        ${SCORE_CATS.map(c=>`<div style="margin-bottom:12px">
+          <div style="font-size:11px;color:var(--t3);margin-bottom:5px">${c.i} ${c.l}</div>
+          <div class="stars" id="js-${c.k}">${starsHTML(d.josiahScores[c.k], _mid||'new', 'josiah', c.k)}</div>
+        </div>`).join('')}
+        <hr class="div">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;color:var(--t3)">Average</span>
+          <span style="font-size:20px;font-weight:700;color:#15803D" id="j-avg">${jA.toFixed(1)}</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px;background:var(--indigo-l);border-radius:var(--radius-sm);padding:13px 16px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:13px;font-weight:600;color:var(--indigo)">Combined Score</span>
+      <span style="font-size:22px;font-weight:700;color:var(--indigo)" id="comb-avg">${((aA+jA)/2).toFixed(1)} / 5</span>
+    </div>`;
+  } else if(t==='notes') {
+    // Notes tab uses textareas — NOT re-rendered on input, stable DOM
+    h = `<div class="g2">
+      <div class="field"><label class="lbl">✅ What we like</label>
+        <textarea id="mf-pros" placeholder="Great light, quiet street…" rows="4">${esc(d.pros)}</textarea></div>
+      <div class="field"><label class="lbl">⚠️ Concerns</label>
+        <textarea id="mf-cons" placeholder="Small bedrooms, loud street…" rows="4">${esc(d.cons)}</textarea></div>
+      <div class="field" style="grid-column:1/-1"><label class="lbl">Tour Notes</label>
+        <textarea id="mf-tourNotes" placeholder="What did you notice? How did it feel walking in?" rows="3">${esc(d.tourNotes)}</textarea></div>
+      <div class="field" style="grid-column:1/-1"><label class="lbl">Other Notes</label>
+        <textarea id="mf-notes" placeholder="Anything else…" rows="2">${esc(d.notes)}</textarea></div>
+    </div>`;
+  }
+
+  el('modal-body').innerHTML = h + `
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveListing()">Save Listing</button>
+    </div>`;
+}
+
+function setScore(who, cat, val, _id) {
+  const d = window._md; if(!d) return;
+  const key = who==='amelia'?'ameliaScores':'josiahScores';
+  d[key][cat] = d[key][cat]===val ? 0 : val;
+  // Update only the stars and averages — don't re-render the whole modal
+  const prefix = who==='amelia' ? 'as' : 'js';
+  const container = el(prefix+'-'+cat);
+  if(container) container.innerHTML = starsHTML(d[key][cat], _mid||'new', who, cat);
+  const aA = avgSc(d.ameliaScores), jA = avgSc(d.josiahScores);
+  if(el('a-avg'))    el('a-avg').textContent    = aA.toFixed(1);
+  if(el('j-avg'))    el('j-avg').textContent    = jA.toFixed(1);
+  if(el('comb-avg')) el('comb-avg').textContent = ((aA+jA)/2).toFixed(1) + ' / 5';
+}
+
+function saveListing() {
+  collectFields();
+  const d = window._md;
+  if(!d.name.trim()) { alert('Please add a nickname first.'); return; }
+  if(_mid) {
+    S.listings = S.listings.map(p => p.id===_mid ? {...d, id:_mid} : p);
+  } else {
+    d.id = Date.now().toString();
+    S.listings.push(d);
+  }
+  saveL(); closeModal();
+  renderListings(); buildChrome();
+  if(S.tab==='dashboard') renderDash();
+}
+
+// ═══════════════════════════════════════════
+//  BUDGET — stable DOM, event-driven
+// ═══════════════════════════════════════════
+let _budgetRendered = false;
+
+function renderBudget() {
+  const b = S.budget;
+  const dv = (k,fb) => b[k]!==undefined ? b[k] : fb;
+
+  // Only build the skeleton once — then just wire events and update summary
+  if(!_budgetRendered) {
+    el('page-budget').innerHTML = `
+      <div class="pg-title">Budget Calculator</div>
+      <div class="pg-sub">Fort Collins utilities pre-filled. Model both sublease scenarios.</div>
+      <div class="g2" style="gap:22px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div class="sec-hdr"><span class="sec-hdr-label">💼 Monthly Take-Home Income</span></div>
+            <div class="g2">
+              <div class="field"><label class="lbl">Amelia's income ($)</label><input id="b-inc1" type="number" placeholder="2750" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Josiah's income ($)</label><input id="b-inc2" type="number" placeholder="2750" oninput="calcBudget()"></div>
+            </div>
+            <div id="b-income-bar" style="display:none;padding:9px 12px;background:var(--indigo-l);border-radius:var(--radius-sm);font-size:12px;display:flex;justify-content:space-between">
+              <span style="color:var(--indigo)">Combined monthly</span>
+              <span id="b-income-val" style="color:var(--indigo);font-weight:700"></span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="sec-hdr"><span class="sec-hdr-label">🏠 Monthly Housing</span></div>
+            <div class="g2">
+              <div class="field"><label class="lbl">Rent ($)</label><input id="b-rent" type="number" placeholder="1750" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Cat rent ($/mo)</label><input id="b-catRent" type="number" placeholder="35" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Parking ($/mo)</label><input id="b-parking" type="number" placeholder="0" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Renters insurance</label><input id="b-rentersIns" type="number" placeholder="15" oninput="calcBudget()"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="sec-hdr"><span class="sec-hdr-label">💡 Utilities (FC averages pre-filled)</span></div>
+            <div class="g3">
+              <div class="field"><label class="lbl">Xcel Electric</label><input id="b-electric" type="number" placeholder="80" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Xcel Gas</label><input id="b-gas" type="number" placeholder="55" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Internet</label><input id="b-internet" type="number" placeholder="55" oninput="calcBudget()"></div>
+            </div>
+            <div style="font-size:11px;color:var(--t3)">Gas spikes $80–100/mo Oct–Mar. Ting fiber in SE FC is ~$45/mo.</div>
+          </div>
+          <div class="card">
+            <div class="sec-hdr"><span class="sec-hdr-label">📦 One-Time Move-In Costs</span></div>
+            <div class="g2">
+              <div class="field"><label class="lbl">Security deposit ($)</label><input id="b-secDep" type="number" placeholder="1750" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Cat deposit ($)</label><input id="b-catDep" type="number" placeholder="200" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Moving costs ($)</label><input id="b-moving" type="number" placeholder="600" oninput="calcBudget()"></div>
+              <div class="field"><label class="lbl">Overlap months (sublease)</label>
+                <select id="b-overlap" onchange="calcBudget()">
+                  <option value="0">None — sublease found</option>
+                  <option value="1">1 month</option>
+                  <option value="2">2 months</option>
+                  <option value="2.5">2.5 months (Jun–Aug 1)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="sec-hdr"><span class="sec-hdr-label">🎲 Buffer / Misc</span></div>
+            <div class="field"><label class="lbl">Monthly misc / subscriptions / buffer ($)</label><input id="b-misc" type="number" placeholder="100" oninput="calcBudget()"></div>
+          </div>
+        </div>
+
+        <!-- SUMMARY (right column) — updated in place, no re-render -->
+        <div style="position:sticky;top:16px;display:flex;flex-direction:column;gap:14px">
+          <div style="background:var(--t1);border-radius:var(--radius);padding:20px 22px">
+            <div style="font-size:11px;font-weight:700;color:#5E6E82;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px">Monthly Summary</div>
+            <div id="b-rows"></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)">
+              <span style="font-size:15px;font-weight:700;color:#fff">Total Monthly</span>
+              <span id="b-total" style="font-size:26px;font-weight:700;color:#fff;letter-spacing:-.02em">$0</span>
+            </div>
+            <div id="b-meter" class="meter" style="margin-top:8px;display:none"><div id="b-meter-fill" class="meter-fill"></div></div>
+            <div id="b-meter-msg" style="font-size:11px;margin-top:5px;display:none"></div>
+          </div>
+          <div class="card">
+            <div class="sec-hdr"><span class="sec-hdr-label">🏦 Move-In Cash Needed</span></div>
+            <div id="b-upfront-rows"></div>
+            <div style="display:flex;justify-content:space-between;padding-top:12px">
+              <span style="font-size:14px;font-weight:700">Total Upfront</span>
+              <span id="b-upfront-total" style="font-size:20px;font-weight:700;color:var(--indigo)">$0</span>
+            </div>
+          </div>
+          <div id="b-split" class="card" style="display:none">
+            <div class="sec-hdr"><span class="sec-hdr-label">👫 Split Evenly</span></div>
+            <div class="g2">
+              <div style="background:var(--indigo-l);border-radius:var(--radius-sm);padding:13px;text-align:center">
+                <div id="b-each" style="font-size:20px;font-weight:700;color:var(--indigo)">$0</div>
+                <div style="font-size:11px;color:var(--t3);margin-top:2px">each / month</div>
+              </div>
+              <div style="background:var(--green-l);border-radius:var(--radius-sm);padding:13px;text-align:center">
+                <div id="b-pct" style="font-size:20px;font-weight:700;color:var(--green)">0%</div>
+                <div style="font-size:11px;color:var(--t3);margin-top:2px">rent / income</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="background:var(--amber-l);border-color:#FADFA0">
+            <div style="font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px">⚡ Plan B — No Sublease</div>
+            <div style="font-size:12px;color:#92400E;line-height:1.7" id="b-planb">
+              If Josiah's sublease doesn't come through, you'll pay new rent while he also pays old rent through July 31.
+            </div>
+          </div>
+        </div>
+      </div>`;
+    _budgetRendered = true;
+  }
+
+  // Restore saved values into fields
+  const bFields = {
+    'b-inc1':b.inc1||'','b-inc2':b.inc2||'',
+    'b-rent':b.rent||'','b-catRent':b.catRent||'35','b-parking':b.parking||'0','b-rentersIns':b.rentersIns||'15',
+    'b-electric':b.electric||'80','b-gas':b.gas||'55','b-internet':b.internet||'55',
+    'b-secDep':b.secDep||'','b-catDep':b.catDep||'200','b-moving':b.moving||'600','b-overlap':b.overlap||'0',
+    'b-misc':b.misc||'100',
+  };
+  Object.entries(bFields).forEach(([id,val])=>{ const e=el(id); if(e&&!document.activeElement.id!==id) e.value=val; });
+  calcBudget();
+}
+
+function calcBudget() {
+  // Read all fields
+  const nv = id => parseFloat(el('b-'+id)?.value||0)||0;
+  const sv = id => el('b-'+id)?.value||'';
+
+  // Save to state
+  ['inc1','inc2','rent','catRent','parking','rentersIns','electric','gas','internet','secDep','catDep','moving','overlap','misc']
+    .forEach(k => { const e=el('b-'+k); if(e) S.budget[k]=e.value; });
+  saveB();
+
+  const income = nv('inc1')+nv('inc2');
+  const utils  = nv('electric')+nv('gas')+nv('internet');
+  const total  = nv('rent')+nv('catRent')+nv('parking')+nv('rentersIns')+utils+nv('misc');
+  const upfront= nv('secDep')+nv('catDep')+nv('rent')+nv('moving')+(parseFloat(sv('overlap')||0)*nv('rent'));
+  const rentPct= income>0?Math.round((nv('rent')/income)*100):0;
+  const totPct = income>0?Math.round((total/income)*100):0;
+  const safeMax= income>0?Math.floor(income*0.3):0;
+
+  // Update income bar
+  if(income>0) {
+    el('b-income-bar').style.display='flex';
+    el('b-income-val').textContent='$'+income.toLocaleString()+'/mo'+(safeMax?' · 30% rule = $'+safeMax.toLocaleString()+' max rent':'');
+  } else { el('b-income-bar').style.display='none'; }
+
+  // Monthly rows
+  const rw = (l,v) => v>0?`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span style="font-size:13px;color:#8A9BB0">${l}</span><span style="font-size:13px;font-weight:600;color:#E2E8F0">$${v.toLocaleString()}</span></div>`:'';
+  el('b-rows').innerHTML = rw('Base Rent',nv('rent'))+rw('Cat Rent',nv('catRent'))+rw('Parking',nv('parking'))+rw('Renters Insurance',nv('rentersIns'))+rw('Utilities (est.)',utils)+rw('Misc / Buffer',nv('misc'));
+  el('b-total').textContent = '$'+total.toLocaleString();
+
+  // Meter
+  if(totPct>0) {
+    const mc = totPct>40?'var(--red)':totPct>30?'var(--amber)':'var(--green)';
+    el('b-meter').style.display='block'; el('b-meter-fill').style.width=Math.min(100,totPct)+'%'; el('b-meter-fill').style.background=mc;
+    el('b-meter-msg').style.display='block'; el('b-meter-msg').style.color=mc;
+    el('b-meter-msg').textContent=totPct>40?'⚠ High — consider a cheaper option':totPct>30?'ℹ Slightly above ideal — manageable':'✓ Comfortable range';
+  } else { el('b-meter').style.display='none'; el('b-meter-msg').style.display='none'; }
+
+  // Upfront rows
+  const ur = (l,v) => v>0?`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--t2)">${l}</span><span style="font-size:13px;font-weight:600">$${v.toLocaleString()}</span></div>`:'';
+  el('b-upfront-rows').innerHTML = ur('Security Deposit',nv('secDep'))+ur('Cat Deposit',nv('catDep'))+ur('First Month Rent',nv('rent'))+ur('Moving Costs',nv('moving'))+ur('Overlap Rent',Math.round(parseFloat(sv('overlap')||0)*nv('rent')));
+  el('b-upfront-total').textContent='$'+upfront.toLocaleString();
+
+  // Split
+  if(total>0&&income>0) {
+    el('b-split').style.display='block';
+    el('b-each').textContent='$'+Math.round(total/2).toLocaleString();
+    el('b-pct').textContent=rentPct+'%';
+  } else { el('b-split').style.display='none'; }
+
+  // Plan B
+  el('b-planb').innerHTML = `If Josiah's sublease doesn't come through, you'll pay new rent while he also pays old rent through July 31.`
+    +(nv('rent')>0?`<br><br><strong>Extra cost Jun–Jul: ~$${Math.round(nv('rent')*2.5).toLocaleString()}</strong> ($${nv('rent').toLocaleString()}/mo × 2.5 months)`:'');
+}
+
+// ═══════════════════════════════════════════
+//  COMPARE
+// ═══════════════════════════════════════════
+function renderCompare() {
+  const opts = (sel) => ['<option value="">Select a listing…</option>',
+    ...S.listings.map(p=>`<option value="${p.id}" ${sel===p.id?'selected':''}>${esc(p.name||'Unnamed')}</option>`)].join('');
+  const pA = S.listings.find(p=>p.id===S.compareA);
+  const pB = S.listings.find(p=>p.id===S.compareB);
+
+  const CMP_ROWS = [
+    {l:'Monthly Rent',    fn:p=>p.rent?fmt(p.rent)+'/mo':'—'},
+    {l:'+ Cat Rent',      fn:p=>p.catRent?'+'+fmt(p.catRent)+'/mo':'—'},
+    {l:'Total Monthly',   fn:p=>{const t=(parseInt(p.rent)||0)+(parseInt(p.catRent)||0);return t?'$'+t.toLocaleString()+'/mo':'—'},b:true},
+    {l:'Security Deposit',fn:p=>p.deposit?fmt(p.deposit):'—'},
+    {l:'Cat Deposit',     fn:p=>p.catDeposit?fmt(p.catDeposit):'—'},
+    {l:'Type',            fn:p=>p.type||'—'},
+    {l:'Beds / Baths',    fn:p=>p.beds?p.beds+'bd / '+p.baths+'ba':'—'},
+    {l:'Sq Ft',           fn:p=>p.sqft?p.sqft+' sqft':'—'},
+    {l:'Neighborhood',    fn:p=>p.neighborhood||'—'},
+    {l:'Available',       fn:p=>fmtDate(p.availDate)},
+    {l:'Parking',         fn:p=>p.parking||'—'},
+    {l:'Laundry',         fn:p=>p.laundry||'—'},
+    {l:'Cat Policy',      fn:p=>p.catPolicy||'—'},
+    {l:'Status',          fn:p=>p.status},
+    {hdr:true},
+    ...SCORE_CATS.map(c=>({l:'Amelia — '+c.l,fn:p=>p.ameliaScores?.[c.k]?'★'.repeat(p.ameliaScores[c.k]):'—',star:true})),
+    {l:'Amelia Average',  fn:p=>{const a=avgSc(p.ameliaScores);return a>0?a.toFixed(1)+' / 5':'—'},b:true},
+    ...SCORE_CATS.map(c=>({l:'Josiah — '+c.l,fn:p=>p.josiahScores?.[c.k]?'★'.repeat(p.josiahScores[c.k]):'—',star:true})),
+    {l:'Josiah Average',  fn:p=>{const j=avgSc(p.josiahScores);return j>0?j.toFixed(1)+' / 5':'—'},b:true},
+    {l:'⭐ Combined Score',fn:p=>combined(p)>0?combined(p).toFixed(1)+' / 5':'—',b:true,hi:true},
+  ];
+
+  let tableHTML = '';
+  if(pA && pB) {
+    const thumbCard = p => {
+      const avg = combined(p);
+      return `<div class="card">
+        ${p.photo?`<img src="${esc(p.photo)}" onerror="this.style.display='none'" style="width:100%;height:130px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:12px">`:''}
+        <div style="font-size:17px;font-weight:700;margin-bottom:7px">${esc(p.name)}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${p.rent?badge(fmt(p.rent)+'/mo','var(--indigo)','var(--indigo-l)'):''}
+          ${avg>0?badge('★ '+avg.toFixed(1),'var(--green)','var(--green-l)'):''}
+          ${badge(p.status,SC[p.status]?.tx||'#64748B',SC[p.status]?.bg||'#F1F5F9')}
+        </div>
+      </div>`;
+    };
+    tableHTML = `
+      <div class="g2" style="margin-bottom:16px">${thumbCard(pA)}${thumbCard(pB)}</div>
+      <div class="card" style="padding:0;overflow:hidden;box-shadow:var(--shadow)">
+        <table class="cmp-table">
+          <thead><tr style="background:var(--bg)">
+            <th style="text-align:left;width:34%">Field</th>
+            <th>${esc(pA.name)}</th><th>${esc(pB.name)}</th>
+          </tr></thead>
+          <tbody>
+            ${CMP_ROWS.map((row,i)=>{
+              if(row.hdr) return `<tr class="cmp-hdr"><td colspan="3" style="padding:9px 16px;background:var(--bg)">SCORES</td></tr>`;
+              return `<tr class="${row.hi?'cmp-hi':''}">
+                <td style="padding:9px 16px;font-size:${row.b?12:12}px;font-weight:${row.b?700:400};color:var(--t2);border-bottom:1px solid var(--border)">${row.l}</td>
+                ${[pA,pB].map(p=>`<td style="padding:9px 16px;text-align:center;border-bottom:1px solid var(--border);font-size:${row.star?14:13}px;font-weight:${row.b?700:400};color:${row.hi?'var(--indigo)':row.star?'#F59E0B':'var(--t1)'}">${row.fn(p)}</td>`).join('')}
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  }
+
+  el('page-compare').innerHTML = `
+    <div class="pg-title">Head-to-Head Compare</div>
+    <div class="pg-sub">Pick two listings and see every detail side by side.</div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="g2">
+        <div class="field"><label class="lbl">Listing A</label>
+          <select onchange="S.compareA=this.value;renderCompare()">${opts(S.compareA)}</select></div>
+        <div class="field"><label class="lbl">Listing B</label>
+          <select onchange="S.compareB=this.value;renderCompare()">${opts(S.compareB)}</select></div>
+      </div>
+    </div>
+    ${(!pA||!pB)
+      ? `<div class="empty"><div class="em">⚖️</div>
+           <div style="font-size:15px;font-weight:600;color:var(--t2)">${S.listings.length<2?'Add at least 2 listings first':'Select two listings above to compare'}</div>
+         </div>`
+      : tableHTML}
+  `;
+}
+
+// ═══════════════════════════════════════════
+//  CHECKLIST
+// ═══════════════════════════════════════════
+function renderChecklist() {
+  const done = Object.values(S.checked).filter(Boolean).length;
+  const pct  = Math.round((done/ALL_ITEMS.length)*100);
+  if(S.openPhase===null) {
+    const first = PHASES.find(ph=>ph.items.some(i=>!S.checked[i.id]));
+    if(first) S.openPhase = first.phase;
+  }
+
+  const phases = PHASES.map(ph => {
+    const pd   = ph.items.filter(i=>S.checked[i.id]).length;
+    const done = pd===ph.items.length;
+    const open = S.openPhase===ph.phase;
+    const rows = open ? ph.items.map(item => {
+      const ck = !!S.checked[item.id];
+      return `<div class="check-row ${ck?'done':''}" onclick="toggleCheck('${item.id}')">
+        <div class="chkbox ${ck?'on':''}">${ck?'✓':''}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:500;color:${ck?'var(--green)':'var(--t1)'};text-decoration:${ck?'line-through':'none'};margin-bottom:3px">${esc(item.task)}</div>
+          <div style="font-size:12px;color:var(--t3);line-height:1.5">${esc(item.tip)}</div>
+        </div>
+      </div>`;
+    }).join('') : '';
+
+    return `<div style="margin-bottom:9px">
+      <button class="phase-btn ${done?'':''}}" onclick="togglePhase('${ph.phase}')" style="${done?'background:var(--green-l)':''}">
+        <div class="phase-dot" style="background:${done?'var(--green)':ph.color}"></div>
+        <span style="flex:1;font-size:14px;font-weight:600;color:${done?'var(--green)':'var(--t1)'}">${done?'✓ ':''}${ph.phase}</span>
+        <span style="font-size:12px;font-weight:600;color:${pd===ph.items.length?'var(--green)':'var(--t3)'}">${pd}/${ph.items.length}</span>
+        <span style="font-size:12px;color:var(--t3);margin-left:8px">${open?'▲':'▼'}</span>
+      </button>
+      ${open?`<div style="border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:6px 16px 12px;background:var(--surface)">${rows}</div>`:''}
+    </div>`;
+  }).join('');
+
+  el('page-checklist').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
+      <div>
+        <div class="pg-title">Moving Checklist</div>
+        <div class="pg-sub" style="margin-bottom:0">Every step, in order, built around your May 10 deadline.</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:26px;font-weight:700;color:var(--indigo);letter-spacing:-.02em">${done}<span style="font-size:15px;color:var(--t3);font-weight:400">/${ALL_ITEMS.length}</span></div>
+        <div style="font-size:11px;color:var(--t3)">tasks complete</div>
+        <div class="pbar" style="margin-top:5px;width:90px;margin-left:auto"><div class="pbar-fill" style="width:${pct}%;background:var(--indigo)"></div></div>
+      </div>
+    </div>
+    ${phases}
+  `;
+}
+
+function toggleCheck(id) {
+  S.checked[id] = !S.checked[id]; saveC();
+  renderChecklist(); buildChrome();
+  if(S.tab==='dashboard') renderDash();
+}
+function togglePhase(p) { S.openPhase = S.openPhase===p ? null : p; renderChecklist(); }
+
+// ═══════════════════════════════════════════
+//  AI ANALYZER
+// ═══════════════════════════════════════════
+function renderAI() {
+  el('page-ai').innerHTML = `
+    <div class="pg-title">AI Listing Analyzer</div>
+    <div class="pg-sub">Paste any listing — Zillow, Apartments.com, Facebook Marketplace, Craigslist — and get instant analysis tuned to your exact search.</div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="field"><label class="lbl">Paste listing text</label>
+        <textarea id="ai-in" rows="10" placeholder="Paste the full listing here. More text = better analysis.&#10;&#10;Works with:&#10;• Zillow / Apartments.com descriptions&#10;• Facebook Marketplace posts&#10;• Craigslist ads&#10;• Your notes from a showing&#10;• Emails from a landlord"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn btn-primary" onclick="runAI()" id="ai-btn" style="font-size:14px;padding:10px 22px">✦ Analyze This Listing</button>
+        <span id="ai-err" style="font-size:12px;color:var(--red)"></span>
+      </div>
+    </div>
+    <div id="ai-out"></div>
+  `;
+}
+
+async function runAI() {
+  const txt = el('ai-in').value.trim(); if(!txt) return;
+  const btn = el('ai-btn'); btn.innerHTML='<span class="spin">⟳</span> Analyzing…'; btn.disabled=true;
+  el('ai-err').textContent=''; el('ai-out').innerHTML='';
+  try {
+    const prompt = `You are an expert apartment advisor. Amelia and Josiah are looking for a 2BR rental in Fort Collins, CO — south of Mulberry St and east of College Ave. They have 1 cat. Non-negotiables: in-unit W/D, parking, pet-friendly. Top priority: natural light. Deadline: May 10, 2025. Income: $5,500–$7,500/mo combined.
+
+Analyze this listing. Return ONLY a valid JSON object with no markdown:
+{"summary":"2-3 sentence summary","passesNonNeg":{"petFriendly":"yes|no|unclear","inUnitLaundry":"yes|no|unclear","parking":"yes|no|unclear"},"inZone":"yes|no|unclear","catVerdict":"cat assessment","lightNote":"light assessment","estimatedMonthly":"total monthly estimate","redFlags":["max 5"],"greenFlags":["max 5"],"questionsToAsk":["4-5 specific"],"negotiationTip":"one tip","scores":{"location":0,"value":0,"space":0,"light":0,"cat":0,"vibe":0},"verdict":"one punchy sentence"}
+Listing: ${txt.substring(0,4000)}`;
+    const res  = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1400,messages:[{role:'user',content:prompt}]})});
+    const data = await res.json();
+    const raw  = data.content?.map(b=>b.text||'').join('')||'';
+    showAIResult(JSON.parse(raw.replace(/```json|```/g,'').trim()));
+  } catch(e) { el('ai-err').textContent="Couldn't analyze — try pasting more text from the listing."; }
+  btn.innerHTML='✦ Analyze This Listing'; btn.disabled=false;
+}
+
+function showAIResult(r) {
+  const avgSco = Object.values(r.scores||{}).reduce((a,b)=>a+b,0)/SCORE_CATS.length;
+  const pc = v => v==='yes'?'var(--green)':v==='no'?'var(--red)':'var(--amber)';
+  const pb = v => v==='yes'?'var(--green-l)':v==='no'?'var(--red-l)':'var(--amber-l)';
+
+  el('ai-out').innerHTML = `
+    <div class="verdict-bar">
+      <div>
+        <div style="font-size:10px;color:#5E6E82;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Verdict</div>
+        <div style="font-size:16px;color:#fff;font-style:italic;line-height:1.4">"${esc(r.verdict)}"</div>
+      </div>
+      <div style="text-align:center;min-width:70px;flex-shrink:0">
+        <div style="font-size:30px;font-weight:700;color:#fff;letter-spacing:-.02em">${avgSco.toFixed(1)}</div>
+        <div style="font-size:11px;color:#5E6E82">/ 5.0</div>
+      </div>
+    </div>
+    <div class="g2" style="gap:14px">
+      <div class="card" style="grid-column:1/-1">
+        <div class="sec-hdr"><span class="sec-hdr-label">Summary</span></div>
+        <p style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:${r.estimatedMonthly?12:0}px">${esc(r.summary)}</p>
+        ${r.estimatedMonthly?`<div style="display:inline-flex;gap:8px;align-items:center;background:var(--indigo-l);padding:7px 13px;border-radius:var(--radius-sm)"><span style="font-size:11px;color:var(--indigo);font-weight:700">EST. TOTAL MONTHLY:</span><span style="font-size:14px;font-weight:700;color:var(--indigo-d)">${esc(r.estimatedMonthly)}</span></div>`:''}
+      </div>
+      <div class="card">
+        <div class="sec-hdr"><span class="sec-hdr-label">✅ Non-Negotiables</span></div>
+        ${[['petFriendly','Pet Friendly for 1 Cat'],['inUnitLaundry','In-Unit W/D'],['parking','Parking Included']].map(([k,l])=>`
+          <div class="nonneg-row" style="background:${pb(r.passesNonNeg?.[k]||'unclear')}">
+            <span style="font-size:13px">${l}</span>
+            ${badge((r.passesNonNeg?.[k]||'unclear').toUpperCase(),pc(r.passesNonNeg?.[k]||'unclear'),pb(r.passesNonNeg?.[k]||'unclear'))}
+          </div>`).join('')}
+        <hr class="div">
+        <div style="padding:7px 11px;background:var(--bg);border-radius:var(--radius-sm)">
+          <div style="font-size:10px;color:var(--t3);font-weight:700;margin-bottom:2px">ZONE CHECK</div>
+          <div style="font-size:12px;color:var(--t2)">${r.inZone==='yes'?'✓ In your target zone (S of Mulberry, E of College)':r.inZone==='no'?'✗ Outside your search zone':esc(r.inZone||'Unclear from listing')}</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sec-hdr"><span class="sec-hdr-label">🐱 Cat &amp; ☀️ Light</span></div>
+        <div style="padding:10px 12px;background:var(--green-l);border-radius:var(--radius-sm);margin-bottom:10px;border:1px solid #A7F3D0">
+          <div style="font-size:10px;color:var(--green);font-weight:700;margin-bottom:3px">CAT VERDICT</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.catVerdict)}</div>
+        </div>
+        <div style="padding:10px 12px;background:var(--amber-l);border-radius:var(--radius-sm);border:1px solid #FADFA0">
+          <div style="font-size:10px;color:var(--amber);font-weight:700;margin-bottom:3px">NATURAL LIGHT</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.lightNote)}</div>
+        </div>
+      </div>
+      ${r.greenFlags?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">✅ Green Flags</span></div>${r.greenFlags.map(f=>`<div class="flag-row"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span>${esc(f)}</div>`).join('')}</div>`:''}
+      ${r.redFlags?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">⚠️ Red Flags</span></div>${r.redFlags.map(f=>`<div class="flag-row"><span style="color:var(--red);font-weight:700;flex-shrink:0">!</span>${esc(f)}</div>`).join('')}</div>`:''}
+      ${r.questionsToAsk?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">❓ Questions to Ask</span></div>${r.questionsToAsk.map(q=>`<div class="q-row">${esc(q)}</div>`).join('')}</div>`:''}
+      ${r.negotiationTip?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">🤝 Negotiation Tip</span></div><div style="padding:10px 12px;background:var(--green-l);border-radius:var(--radius-sm);border:1px solid #A7F3D0;font-size:13px;color:#15803D;line-height:1.6">${esc(r.negotiationTip)}</div></div>`:''}
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn btn-primary" onclick='addFromAI(${JSON.stringify(r)})'>+ Add to Listings</button>
+      <button class="btn btn-ghost" onclick="renderAI()">Analyze Another</button>
+    </div>
+  `;
+}
+
+function addFromAI(r) {
+  const name = prompt('Give this listing a nickname:'); if(!name) return;
+  const p = mkListing(); p.name=name;
+  p.ameliaScores={...r.scores}; p.josiahScores={...r.scores};
+  p.pros=(r.greenFlags||[]).slice(0,2).join('; ');
+  p.cons=(r.redFlags||[]).slice(0,2).join('; ');
+  p.notes='AI: '+r.summary+'\n\nVerdict: '+r.verdict;
+  S.listings.push(p); saveL(); goTab('listings'); buildChrome();
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+load();
+buildChrome();
+renderDash();
+
+// Close modal on overlay click
+el('modal').addEventListener('click', e => { if(e.target===el('modal')) closeModal(); });
+</script>
 </body>
-</html>
+</html
