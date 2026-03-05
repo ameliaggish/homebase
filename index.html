@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -11,19 +12,20 @@
 <style>
 /* ── TOKENS ── */
 :root {
-  --bg:       #F7F8FC;
+  --bg:       #F7F7F5;
   --surface:  #FFFFFF;
-  --border:   #E4E8F0;
-  --t1: #0D1117; --t2: #4A5568; --t3: #9BAAB8;
-  --indigo: #5B5FD6; --indigo-l: #EEEEFF; --indigo-d: #4649C0;
-  --green: #18B76B; --green-l: #EDFAF4;
-  --red: #E8434B; --red-l: #FEF1F2;
-  --amber: #E8960A; --amber-l: #FFF8E6;
-  --radius: 12px; --radius-sm: 8px;
-  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+  --border:   #E9E9E7;
+  --border-l: #F0F0EE;
+  --t1: #1A1A1A; --t2: #6B6B6B; --t3: #AFAFAC;
+  --indigo: #5B5BD6; --indigo-l: #F0F0FE; --indigo-d: #4646C0;
+  --green: #2D9A5E; --green-l: #F0FAF5;
+  --red: #D44949; --red-l: #FEF2F2;
+  --amber: #C8820A; --amber-l: #FFFBEB;
+  --radius: 10px; --radius-sm: 7px;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 2px 8px rgba(0,0,0,.04);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,.12);
   --font: 'DM Sans', system-ui, sans-serif;
-  --sidebar-w: 210px; --topbar-h: 52px;
+  --sidebar-w: 220px; --topbar-h: 52px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--bg);font-family:var(--font);color:var(--t1);-webkit-text-size-adjust:100%}
@@ -31,179 +33,195 @@ html,body{height:100%;background:var(--bg);font-family:var(--font);color:var(--t
 
 /* ── LAYOUT ── */
 #app{display:flex;height:100vh;overflow:hidden}
-#sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;z-index:100}
+#sidebar{width:var(–sidebar-w);background:var(–surface);border-right:1px solid var(–border);display:flex;flex-direction:column;flex-shrink:0;z-index:100}
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-#topbar{height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
+#topbar{height:var(–topbar-h);background:var(–surface);border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
 #content{flex:1;overflow-y:auto;padding:28px}
 .page{display:none}.page.active{display:block;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── SIDEBAR ── */
-.sb-brand{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
-.sb-brand h1{font-size:14px;font-weight:700;letter-spacing:-.01em;margin-bottom:2px}
-.sb-brand p{font-size:11px;color:var(--t3)}
-.sb-countdown{margin:14px 12px 0;padding:12px 14px;border-radius:var(--radius-sm)}
-.sb-countdown.c-safe{background:var(--indigo-l);border:1px solid #C5C8F8}
-.sb-countdown.c-warn{background:var(--amber-l);border:1px solid #FADFA0}
-.sb-countdown.c-danger{background:var(--red-l);border:1px solid #FBCACC}
-.sb-countdown .lbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
-.sb-countdown .days{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.sb-countdown .sub{font-size:11px;margin-top:3px}
-.sb-nav{flex:1;padding:10px 8px;overflow-y:auto}
-.nb{display:flex;align-items:center;gap:9px;width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--t2);font-size:13px;font-weight:500;cursor:pointer;text-align:left;margin-bottom:2px;font-family:var(--font);transition:all .12s}
-.nb:hover{background:var(--bg);color:var(--t1)}
-.nb.on{background:var(--indigo-l);color:var(--indigo);font-weight:600}
-.nb .ico{width:20px;text-align:center;font-size:15px;flex-shrink:0}
-.nb-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
-.sb-foot{padding:14px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--t3);line-height:1.9}
+.sb-brand{padding:18px 16px 14px;border-bottom:1px solid var(–border)}
+.sb-brand h1{font-size:13px;font-weight:700;letter-spacing:-.01em;margin-bottom:1px;color:var(–t1)}
+.sb-brand p{font-size:11px;color:var(–t3)}
+.sb-countdown{margin:12px 10px 0;padding:11px 13px;border-radius:var(–radius-sm);border:1px solid var(–border)}
+.sb-countdown.c-safe{background:var(–indigo-l);border-color:#D4D4FC}
+.sb-countdown.c-warn{background:var(–amber-l);border-color:#FDE68A}
+.sb-countdown.c-danger{background:var(–red-l);border-color:#FCA5A5}
+.sb-countdown .lbl{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px;opacity:.7}
+.sb-countdown .days{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.sb-countdown .sub{font-size:11px;margin-top:2px;opacity:.75}
+.sb-nav{flex:1;padding:8px 6px;overflow-y:auto}
+.nb{display:flex;align-items:center;gap:8px;width:100%;padding:7px 10px;border-radius:var(–radius-sm);border:none;background:transparent;color:var(–t2);font-size:13px;font-weight:500;cursor:pointer;text-align:left;margin-bottom:1px;font-family:var(–font);transition:background .1s,color .1s}
+.nb:hover{background:var(–bg);color:var(–t1)}
+.nb.on{background:var(–indigo-l);color:var(–indigo);font-weight:600}
+.nb .ico{width:18px;text-align:center;font-size:14px;flex-shrink:0;opacity:.7}
+.nb.on .ico{opacity:1}
+.nb-badge{margin-left:auto;font-size:10px;font-weight:700;padding:1px 6px;border-radius:8px}
+.sb-foot{padding:12px 14px;border-top:1px solid var(–border);font-size:11px;color:var(–t3);line-height:1.8}
 
 /* ── TOPBAR ── */
-.tb-title{font-size:14px;font-weight:600}
-.tb-meta{display:flex;gap:18px;align-items:center;font-size:12px;color:var(--t3)}
-.tb-div{width:1px;height:16px;background:var(--border)}
-.tb-urgent{color:var(--red);font-weight:700}
+.tb-title{font-size:13px;font-weight:600;color:var(–t1)}
+.tb-meta{display:flex;gap:14px;align-items:center;font-size:12px;color:var(–t3)}
+.tb-div{width:1px;height:14px;background:var(–border)}
+.tb-urgent{color:var(–red);font-weight:600}
 
 /* ── CARDS ── */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
-.card-sm{padding:14px 16px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-hr.div{border:none;border-top:1px solid var(--border);margin:14px 0}
+.card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);padding:20px;box-shadow:var(–shadow)}
+.card-sm{padding:13px 16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+hr.div{border:none;border-top:1px solid var(–border);margin:14px 0}
 
 /* ── TYPE ── */
-.pg-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
-.pg-sub{font-size:13px;color:var(--t2);margin-bottom:22px}
-.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.sec-hdr-label{font-size:13px;font-weight:600;color:var(--t2)}
-.lbl{display:block;font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.pg-title{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:3px;color:var(–t1)}
+.pg-sub{font-size:13px;color:var(–t2);margin-bottom:20px;line-height:1.5}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sec-hdr-label{font-size:12px;font-weight:600;color:var(–t2);letter-spacing:.01em}
+.lbl{display:block;font-size:11px;font-weight:600;color:var(–t3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
 
 /* ── BADGES ── */
-.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font);font-weight:600;cursor:pointer;border:none;transition:all .15s}
-.btn:hover{opacity:.85}
+.btn{display:inline-flex;align-items:center;gap:5px;font-family:var(–font);font-weight:500;cursor:pointer;border:none;transition:all .12s;letter-spacing:-.01em}
+.btn:hover{opacity:.82}
 .btn:active{transform:scale(.97)}
-.btn-primary{background:var(--indigo);color:#fff;padding:9px 18px;font-size:13px;border-radius:var(--radius-sm)}
-.btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--border);padding:8px 15px;font-size:13px;border-radius:var(--radius-sm)}
-.btn-danger{background:var(--red-l);color:var(--red);border:1px solid #FBCACC;padding:6px 12px;font-size:12px;border-radius:6px}
-.btn-subtle{background:var(--bg);color:var(--t2);border:1px solid var(--border);padding:6px 12px;font-size:12px;border-radius:6px}
-.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
+.btn-primary{background:var(–indigo);color:#fff;padding:8px 16px;font-size:13px;border-radius:var(–radius-sm);font-weight:600}
+.btn-ghost{background:transparent;color:var(–t2);border:1px solid var(–border);padding:7px 13px;font-size:13px;border-radius:var(–radius-sm)}
+.btn-ghost:hover{background:var(–bg);opacity:1;color:var(–t1)}
+.btn-danger{background:var(–red-l);color:var(–red);border:1px solid #FCA5A5;padding:5px 11px;font-size:12px;border-radius:5px}
+.btn-subtle{background:var(–bg);color:var(–t2);border:1px solid var(–border);padding:5px 11px;font-size:12px;border-radius:5px}
+.btn-sm{padding:4px 10px;font-size:12px;border-radius:5px}
 
-/* ── FORMS — stable, never re-rendered while focused ── */
-.field{margin-bottom:14px}
-input,textarea,select{width:100%;padding:9px 12px;font-size:14px;color:var(--t1);background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);transition:border-color .15s;-webkit-appearance:none;appearance:none}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(91,95,214,.12)}
-textarea{resize:vertical;line-height:1.6;min-height:80px}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BAAB8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+/* ── FORMS ── */
+.field{margin-bottom:13px}
+input,textarea,select{width:100%;padding:8px 11px;font-size:13px;color:var(–t1);background:var(–surface);border:1px solid var(–border);border-radius:var(–radius-sm);font-family:var(–font);transition:border-color .12s,box-shadow .12s;-webkit-appearance:none;appearance:none}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(–indigo);box-shadow:0 0 0 2px rgba(91,91,214,.12)}
+textarea{resize:vertical;line-height:1.55;min-height:80px}
+select{background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘10’ height=‘6’ viewBox=‘0 0 10 6’%3E%3Cpath d=‘M1 1l4 4 4-4’ stroke=’%23AFAFAC’ stroke-width=‘1.5’ fill=‘none’ stroke-linecap=‘round’/%3E%3C/svg%3E”);background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
 
 /* ── STARS ── */
-.stars{display:flex;gap:3px}
-.star{font-size:18px;cursor:pointer;color:#DDE3EE;transition:color .1s;user-select:none;-webkit-user-select:none}
+.stars{display:flex;gap:2px}
+.star{font-size:17px;cursor:pointer;color:#E2E2DF;transition:color .1s;user-select:none;-webkit-user-select:none}
 .star.on{color:#F59E0B}
-.star:hover~.star{color:#DDE3EE!important}
+.star:hover~.star{color:#E2E2DF!important}
 
 /* ── MODAL ── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(13,17,23,.5);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .overlay.open{display:flex}
-.modal-box{background:var(--surface);border-radius:16px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg);display:flex;flex-direction:column}
-.modal-head{padding:20px 22px 0;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:10;flex-shrink:0}
-.modal-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.modal-tabs-row{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:1px}
-.mtab{background:transparent;color:var(--t3);border:none;padding:8px 14px;border-radius:8px 8px 0 0;cursor:pointer;font-size:12px;font-weight:600;font-family:var(--font);transition:all .15s;white-space:nowrap}
-.mtab.on{background:var(--indigo-l);color:var(--indigo)}
-.modal-body{padding:20px 22px 24px;flex:1}
-.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
-.x-btn{background:none;border:none;font-size:22px;color:var(--t3);cursor:pointer;line-height:1;padding:2px 6px;border-radius:6px;transition:color .12s}
-.x-btn:hover{color:var(--t1)}
+.modal-box{background:var(–surface);border-radius:12px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:var(–shadow-lg);display:flex;flex-direction:column;border:1px solid var(–border)}
+.modal-head{padding:18px 20px 0;border-bottom:1px solid var(–border);position:sticky;top:0;background:var(–surface);z-index:10;flex-shrink:0}
+.modal-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.modal-tabs-row{display:flex;gap:1px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:0}
+.mtab{background:transparent;color:var(–t3);border:none;padding:7px 13px;border-radius:0;cursor:pointer;font-size:12px;font-weight:600;font-family:var(–font);transition:all .12s;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.mtab.on{color:var(–indigo);border-bottom-color:var(–indigo)}
+.modal-body{padding:18px 20px 22px;flex:1}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(–border)}
+.x-btn{background:none;border:none;font-size:20px;color:var(–t3);cursor:pointer;line-height:1;padding:2px 5px;border-radius:5px;transition:color .1s}
+.x-btn:hover{color:var(–t1)}
 
 /* ── LISTING CARDS ── */
-.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
-.lcard{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s}
-.lcard:hover{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(91,95,214,.08),var(--shadow)}
-.lcard-photo{height:116px;background:linear-gradient(135deg,var(--indigo-l),var(--green-l));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:32px}
+.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.lcard{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);overflow:hidden;display:flex;flex-direction:column;transition:border-color .12s,box-shadow .12s}
+.lcard:hover{border-color:#C4C4FC;box-shadow:0 0 0 2px rgba(91,91,214,.06)}
+.lcard-photo{height:110px;background:var(–bg);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;border-bottom:1px solid var(–border)}
 .lcard-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.rank-pip{position:absolute;top:9px;left:9px;background:rgba(13,17,23,.75);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px}
-.lcard-body{padding:14px 15px;flex:1;display:flex;flex-direction:column;gap:10px}
-.lcard-foot{padding:10px 15px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
-.stat-tile{border-radius:var(--radius-sm);padding:8px 10px;border:1px solid var(--border);background:var(--bg)}
-.next-strip{background:var(--bg);border-radius:var(--radius-sm);padding:8px 11px;border-left:3px solid var(--indigo)}
-.score-mini{border-radius:7px;padding:7px 10px}
+.rank-pip{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.02em}
+.lcard-body{padding:13px 14px;flex:1;display:flex;flex-direction:column;gap:9px}
+.lcard-foot{padding:9px 14px;border-top:1px solid var(–border);display:flex;gap:7px;align-items:center}
+.stat-tile{border-radius:var(–radius-sm);padding:8px 10px;border:1px solid var(–border);background:var(–bg)}
+.next-strip{background:var(–indigo-l);border-radius:var(–radius-sm);padding:7px 10px;border-left:2px solid var(–indigo)}
+.score-mini{border-radius:6px;padding:6px 9px;border:1px solid var(–border);background:var(–bg)}
 
 /* ── FILTERS ── */
-.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.pill{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap}
-.pill.on{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+.filters{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pill{padding:4px 11px;border-radius:5px;border:1px solid var(–border);background:var(–surface);color:var(–t2);font-size:12px;font-weight:500;cursor:pointer;font-family:var(–font);transition:all .12s;white-space:nowrap}
+.pill:hover{background:var(–bg);color:var(–t1)}
+.pill.on{background:var(–indigo);color:#fff;border-color:var(–indigo)}
 
 /* ── PROGRESS ── */
-.pbar{height:5px;background:var(--border);border-radius:10px;overflow:hidden}
-.pbar-fill{height:100%;border-radius:10px;transition:width .4s}
-.meter{height:6px;background:var(--border);border-radius:10px;overflow:hidden;margin-top:7px}
-.meter-fill{height:100%;border-radius:10px;transition:width .4s}
+.pbar{height:4px;background:var(–border);border-radius:8px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:8px;transition:width .4s}
+.meter{height:5px;background:var(–border);border-radius:8px;overflow:hidden;margin-top:6px}
+.meter-fill{height:100%;border-radius:8px;transition:width .4s}
 
 /* ── CHECKLIST ── */
-.phase-btn{display:flex;align-items:center;gap:11px;width:100%;padding:14px 17px;background:var(--surface);border:none;cursor:pointer;border-radius:var(--radius);font-family:var(--font);transition:background .12s;text-align:left}
-.phase-btn:hover{background:var(--bg)}
-.phase-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.check-row{display:flex;gap:12px;padding:11px 10px;border-radius:var(--radius-sm);cursor:pointer;transition:background .12s;margin-bottom:2px}
-.check-row:hover{background:#F5F7FF}
-.check-row.done{opacity:.6;background:var(--green-l)}
-.chkbox{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;transition:all .15s;margin-top:1px}
-.chkbox.on{background:var(--green);border-color:var(--green)}
+.phase-btn{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;background:var(–surface);border:none;cursor:pointer;border-radius:var(–radius);font-family:var(–font);transition:background .1s;text-align:left;border:1px solid var(–border)}
+.phase-btn:hover{background:var(–bg)}
+.phase-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.check-row{display:flex;gap:11px;padding:10px 10px;border-radius:var(–radius-sm);cursor:pointer;transition:background .1s;margin-bottom:2px}
+.check-row:hover{background:var(–bg)}
+.check-row.done{opacity:.55}
+.chkbox{width:18px;height:18px;border-radius:4px;border:1.5px solid var(–border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;transition:all .12s;margin-top:1px}
+.chkbox.on{background:var(–green);border-color:var(–green)}
 
 /* ── COMPARE TABLE ── */
 .cmp-table{width:100%;border-collapse:collapse;font-size:13px}
-.cmp-table th{padding:10px 16px;font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;text-align:center;background:var(--bg)}
+.cmp-table th{padding:9px 14px;font-size:10px;font-weight:600;color:var(–t3);letter-spacing:.05em;text-transform:uppercase;text-align:center;background:var(–bg)}
 .cmp-table th:first-child{text-align:left}
-.cmp-table td{padding:9px 16px;border-bottom:1px solid var(--border)}
-.cmp-table tr:hover td{background:#F8FAFF}
-.cmp-hdr td{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;background:var(--bg)}
-.cmp-hi{background:var(--indigo-l)!important}
+.cmp-table td{padding:8px 14px;border-bottom:1px solid var(–border)}
+.cmp-table tr:hover td{background:var(–bg)}
+.cmp-hdr td{font-size:10px;font-weight:600;color:var(–t3);letter-spacing:.05em;text-transform:uppercase;background:var(–bg);padding:7px 14px}
+.cmp-hi{background:var(–indigo-l)!important}
 
 /* ── AI ── */
-.verdict-bar{background:var(--t1);border-radius:var(--radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.flag-row{display:flex;gap:9px;margin-bottom:8px;font-size:13px;line-height:1.6;color:var(--t2)}
-.q-row{padding:8px 12px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:7px;font-size:13px;color:var(--t2);line-height:1.55;border-left:2px solid var(--indigo)}
-.nonneg-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:var(--radius-sm);margin-bottom:7px}
+.verdict-bar{background:var(–t1);border-radius:var(–radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.flag-row{display:flex;gap:8px;margin-bottom:7px;font-size:13px;line-height:1.55;color:var(–t2);padding:7px 0;border-bottom:1px solid var(–border-l)}
+.flag-row:last-child{border-bottom:none;margin-bottom:0}
+.q-row{padding:9px 12px;background:var(–bg);border-radius:var(–radius-sm);margin-bottom:6px;font-size:13px;color:var(–t2);line-height:1.5;border-left:2px solid var(–indigo)}
+.nonneg-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:var(–radius-sm);margin-bottom:6px}
+.ai-mode-tabs{display:flex;border-bottom:1px solid var(–border);margin-bottom:20px;gap:0}
+.ai-tab{background:none;border:none;padding:9px 16px;font-family:var(–font);font-size:13px;font-weight:500;color:var(–t3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;white-space:nowrap}
+.ai-tab:hover{color:var(–t2)}
+.ai-tab.on{color:var(–indigo);font-weight:600;border-bottom-color:var(–indigo)}
+.ai-copy-card{border:1px solid var(–border);border-radius:var(–radius);padding:20px;background:var(–surface);margin-bottom:12px}
+.ai-paste-card{border:1px solid var(–border);border-radius:var(–radius);padding:20px;background:var(–surface)}
+.ai-paste-card.ready{border-color:var(–indigo)}
+.step-num{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(–indigo);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px}
 
 /* ── SPINNER ── */
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{display:inline-block;animation:spin .7s linear infinite}
 
 /* ── EMPTY ── */
-.empty{text-align:center;padding:70px 20px}
-.empty .em{font-size:44px;margin-bottom:14px}
+.empty{text-align:center;padding:60px 20px}
+.empty .em{font-size:40px;margin-bottom:12px}
 
 /* ── MOBILE ── */
 @media(max-width:640px){
-  #sidebar{display:none}
-  #app{flex-direction:column}
-  #main{height:100vh}
-  #content{padding:16px;padding-bottom:76px}
-  #topbar{padding:0 16px}
-  .tb-meta{display:none}
-  .listings-grid{grid-template-columns:1fr}
-  .g2{grid-template-columns:1fr}
-  .g4{grid-template-columns:1fr 1fr}
-  .modal-box{border-radius:20px 20px 0 0;max-height:92vh;position:fixed;bottom:0;left:0;right:0;max-width:100%}
-  .overlay{align-items:flex-end;padding:0}
-  #mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:200;padding-bottom:env(safe-area-inset-bottom,0px)}
-  .mob{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border:none;background:transparent;font-family:var(--font);font-size:10px;font-weight:500;color:var(--t3);cursor:pointer}
-  .mob.on{color:var(--indigo)}
-  .mob .mico{font-size:20px;line-height:1}
+#sidebar{display:none}
+#app{flex-direction:column}
+#main{height:100vh}
+#content{padding:14px;padding-bottom:72px}
+#topbar{padding:0 14px}
+.tb-meta{display:none}
+.listings-grid{grid-template-columns:1fr}
+.g2{grid-template-columns:1fr}
+.g4{grid-template-columns:1fr 1fr}
+.modal-box{border-radius:12px 12px 0 0;max-height:92vh;position:fixed;bottom:0;left:0;right:0;max-width:100%}
+.overlay{align-items:flex-end;padding:0}
+#mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(–surface);border-top:1px solid var(–border);z-index:200;padding-bottom:env(safe-area-inset-bottom,0px)}
+.mob{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border:none;background:transparent;font-family:var(–font);font-size:10px;font-weight:500;color:var(–t3);cursor:pointer}
+.mob.on{color:var(–indigo)}
+.mob .mico{font-size:19px;line-height:1}
+.ai-mode-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ai-tab{padding:8px 12px;font-size:12px}
 }
 @media(min-width:641px){#mobile-nav{display:none}}
 </style>
+
 </head>
 <body>
 <div id="app">
 
   <!-- SIDEBAR -->
+
   <aside id="sidebar">
     <div class="sb-brand">
-      <h1>Amelia &amp; Josiah</h1>
-      <p>Fort Collins · May 10 🏠</p>
+      <h1>Amelia &amp; Josiah 🏡</h1>
+      <p>Fort Collins · Precious approved</p>
     </div>
     <div class="sb-countdown safe" id="cd-box">
       <div class="lbl" id="cd-lbl" style="color:var(--indigo)">Deadline</div>
@@ -211,10 +229,11 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="sub" id="cd-sub" style="color:var(--indigo)">days until May 10</div>
     </div>
     <nav class="sb-nav" id="desk-nav"></nav>
-    <div class="sb-foot">1 cat · 2BR · In-unit W/D<br>Both on Harmony corridor<br>S of Mulberry · E of College</div>
+    <div class="sb-foot">1 cat (Precious 🐱) · 2BR<br>In-unit W/D · Parking<br>Target: S of Mulberry · E of College</div>
   </aside>
 
   <!-- MAIN -->
+
   <div id="main">
     <header id="topbar">
       <span class="tb-title" id="tb-title">Dashboard</span>
@@ -224,6 +243,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <span id="meta-t">0/34 tasks</span>
         <div class="tb-div"></div>
         <span id="meta-d">— days left</span>
+        <div class="tb-div"></div>
+        <button class="btn btn-ghost btn-sm" onclick="shareSnapshot()" style="font-size:12px;padding:5px 11px">📤 Share with Josiah</button>
       </div>
     </header>
     <main id="content">
@@ -237,10 +258,12 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 
   <!-- MOBILE NAV -->
+
   <nav id="mobile-nav"></nav>
 </div>
 
 <!-- LISTING MODAL — built once, never destroyed -->
+
 <div class="overlay" id="modal">
   <div class="modal-box">
     <div class="modal-head">
@@ -303,7 +326,7 @@ const PHASES = [
   {phase:'Week 1–2',color:'#F97316',items:[
     {id:'c7', task:'Add 8–12 listings to the tracker',       tip:'Don\'t filter too hard yet. Volume matters before you narrow down.'},
     {id:'c8', task:'Drive your search zone on a weeknight',  tip:'South of Mulberry, east of College. Night vibes are real data.'},
-    {id:'c9', task:'Call about cat policy before every tour',tip:'Ask: deposit, monthly pet rent, any breed/weight restrictions.'},
+    {id:'c9', task:'Call about Precious before every tour',tip:'Ask specifically: deposit, monthly pet rent, any breed/weight restrictions. Don\'t assume "pets ok" means cats ok.'},
     {id:'c10',task:'Both rate listings as you find them',    tip:'Even a quick first impression score helps prioritize.'},
     {id:'c11',task:'Build a rental résumé (one page each)',  tip:'Name, job, income, credit score range, references. Landlords love it.'},
   ]},
@@ -344,14 +367,16 @@ const PHASES = [
 const ALL_ITEMS = PHASES.flatMap(p => p.items);
 
 const FC_TIPS = [
-  'SE Fort Collins 2BR typically runs $1,500–$2,100/mo right now.',
-  'Always ask the landlord what the previous tenant paid for electric + gas — a real number, not an estimate.',
-  'Ting fiber internet is excellent in SE Fort Collins and often faster than Xfinity.',
-  'May is CSU move-out season — book movers the day you sign your lease.',
-  'Private landlords in Fort Collins are usually much more flexible on cats than large complexes.',
-  'Colorado law requires 24-hour notice before landlord entry. Any lease overriding this is a red flag.',
-  'Ask about rent increase policy at renewal — some FC landlords raise 10–15%.',
+  'SE Fort Collins 2BR typically runs $1,500–$2,100/mo right now. Anything under $1,700 is a great deal — move fast.',
+  'Always ask what the previous tenant paid for electric + gas — a real number. Xcel bills swing wildly by unit age and insulation.',
+  'Ting fiber internet is excellent in SE Fort Collins and often faster than Xfinity. Ask if it\'s available before you sign.',
+  'May is CSU graduation month — movers book up fast. Reserve a truck the day you sign the lease.',
+  'Private landlords in Fort Collins are much more flexible on cats than big complexes. "No pets" can sometimes be negotiated with a bigger deposit.',
+  'Colorado law requires 24-hour notice before landlord entry. Any lease trying to waive this is a red flag.',
+  'Ask about rent increase policy at renewal upfront — some FC landlords raise 10–15% annually.',
   'Xcel Energy gas bills spike Oct–March. Budget $80–100/mo in winter, not $40.',
+  'For Precious: a refundable deposit beats monthly pet rent long-term. A $400 deposit is better than $50/mo after 8 months.',
+  'South-facing windows = afternoon light year-round. West-facing = golden hour every evening. North-facing = very little direct sun.',
 ];
 
 const NAV = [
@@ -407,8 +432,9 @@ const mkListing = () => ({
   name:'',address:'',neighborhood:'',type:'Apartment',status:'Saved',
   rent:'',deposit:'',sqft:'',beds:'2',baths:'1',
   catDeposit:'',catRent:'',catPolicy:'',
-  parking:'',laundry:'',availDate:'',leaseLength:'',
+  parking:'',laundry:'',utilities:'',availDate:'',leaseLength:'',
   url:'',photo:'',pros:'',cons:'',tourNotes:'',notes:'',nextActionCustom:'',
+  archived: false,
   ameliaScores:{location:0,value:0,space:0,light:0,cat:0,vibe:0},
   josiahScores:{location:0,value:0,space:0,light:0,cat:0,vibe:0},
 });
@@ -513,16 +539,16 @@ function renderDash() {
      </div>`;
 
   el('page-dashboard').innerHTML = `
-    <div style="margin-bottom:26px">
-      <div class="pg-title">Amelia &amp; Josiah's Search HQ</div>
-      <div class="pg-sub" style="margin-bottom:0">Fort Collins, CO · South of Mulberry · East of College · May 10 deadline</div>
+    <div style="margin-bottom:24px">
+      <div class="pg-title">Home Base 🏡</div>
+      <div class="pg-sub" style="margin-bottom:0">Amelia &amp; Josiah · Fort Collins · SE of Mulberry &amp; College · Precious-approved</div>
     </div>
 
-    <div class="g4" style="margin-bottom:20px">
-      ${stat('Days Left', days, days<21?'var(--red)':days<35?'var(--amber)':'var(--indigo)', 'until May 10')}
-      ${stat('Listings', S.listings.length, 'var(--t1)', 'tracked')}
-      ${stat('Checklist', done+'/'+ALL_ITEMS.length, 'var(--green)', 'tasks done')}
-      ${stat('Budget', S.budget.rent?fmt(S.budget.rent):'Set it →', S.budget.rent?'var(--t1)':'var(--amber)', 'max rent')}
+    <div class="g4" style="margin-bottom:16px">
+      ${stat('Days left', days, days<21?'var(--red)':days<35?'var(--amber)':'var(--indigo)', 'until May 10')}
+      ${stat('Listings', S.listings.filter(p=>!p.archived).length, 'var(--t1)', 'tracked')}
+      ${stat('Tasks', done+'/'+ALL_ITEMS.length, 'var(--green)', 'complete')}
+      ${stat('Budget', S.budget.rent?fmt(S.budget.rent):'Set it', S.budget.rent?'var(--t1)':'var(--amber)', 'max rent')}
     </div>
 
     <div class="g2" style="margin-bottom:16px">
@@ -572,13 +598,13 @@ function renderDash() {
           <div class="lbl" style="color:var(--indigo);margin-bottom:8px">Fort Collins Tip</div>
           <div style="font-size:13px;color:var(--indigo-d);line-height:1.65">${tip}</div>
         </div>
-        <div class="card" style="background:var(--amber-l);border-color:#FADFA0">
+        <div class="card" style="background:var(--amber-l);border-color:#FDE68A">
           <div class="lbl" style="color:var(--amber);margin-bottom:8px">⚡ Sublease Watchlist</div>
           <div style="font-size:13px;color:#92400E;line-height:1.65">
-            Josiah's lease runs through July 31. If no sublease by April 20, budget for 2.5 months of double rent.
-            ${S.budget.rent?` That's ~$${Math.round(parseInt(S.budget.rent)*2.5).toLocaleString()} extra.`:' Use the Budget tab to model this.'}
+            Josiah's lease runs through July 31. If no sublease by April 20, budget for 2.5 months of double rent — that's your Plan B.
+            ${S.budget.rent?` Extra cost: ~$${Math.round(parseInt(S.budget.rent)*2.5).toLocaleString()}.`:' Model it in the Budget tab.'}
           </div>
-          <div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="goTab('budget')" style="border-color:#FADFA0">Open Budget →</button></div>
+          <div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="goTab('budget')" style="border-color:#FDE68A">Budget scenarios →</button></div>
         </div>
       </div>
     </div>
@@ -589,38 +615,41 @@ function renderDash() {
 //  LISTINGS
 // ═══════════════════════════════════════════
 function renderListings() {
-  const ranked = [...S.listings].sort((a,b)=>combined(b)-combined(a)).map(p=>p.id);
+  const ranked = [...S.listings].filter(p=>!p.archived).sort((a,b)=>combined(b)-combined(a)).map(p=>p.id);
+  const showArchived = S.filter === '__archived__';
   const shown  = [...S.listings]
-    .filter(p=>S.filter==='All'||p.status===S.filter)
+    .filter(p => showArchived ? p.archived : (!p.archived && (S.filter==='All'||p.status===S.filter)))
     .sort((a,b)=>{
       if(S.sort==='score') return combined(b)-combined(a);
       if(S.sort==='price') return (parseInt(a.rent)||9999)-(parseInt(b.rent)||9999);
       return (a.name||'').localeCompare(b.name||'');
     });
   const budgetMax = parseInt(S.budget.rent)||0;
+  const archivedCount = S.listings.filter(p=>p.archived).length;
 
   const pills = ['All',...STATUSES].map(s=>{
-    const cnt = s!=='All' ? S.listings.filter(p=>p.status===s).length : 0;
-    return `<button class="pill ${S.filter===s?'on':''}" onclick="setFilter('${s}')">${s}${cnt>0&&s!=='All'?' · '+cnt:''}</button>`;
+    const cnt = s!=='All' ? S.listings.filter(p=>!p.archived&&p.status===s).length : 0;
+    return `<button class="pill ${S.filter===s&&!showArchived?'on':''}" onclick="setFilter('${s}')">${s}${cnt>0&&s!=='All'?' · '+cnt:''}</button>`;
   }).join('');
 
   const cards = shown.length===0
-    ? `<div class="empty"><div class="em">🏡</div>
-         <div style="font-size:17px;font-weight:600;color:var(--t2);margin-bottom:6px">${S.filter==='All'?'No listings yet':'No listings with this status'}</div>
-         <div style="font-size:13px;color:var(--t3)">${S.filter==='All'?'Click "+ Add Listing" to get started':'Try a different filter'}</div>
+    ? `<div class="empty"><div class="em">${showArchived?'📦':'🏡'}</div>
+         <div style="font-size:17px;font-weight:600;color:var(--t2);margin-bottom:6px">${showArchived?'No archived listings':S.filter==='All'?'No listings yet':'No listings with this status'}</div>
+         <div style="font-size:13px;color:var(--t3)">${showArchived?'Rejected listings appear here':'Click "+ Add Listing" to get started'}</div>
        </div>`
-    : `<div class="listings-grid">${shown.map(p=>listingCard(p,ranked.indexOf(p.id)+1,budgetMax)).join('')}</div>`;
+    : `<div class="listings-grid">${shown.map(p=>listingCard(p,ranked.indexOf(p.id)+1,budgetMax,showArchived)).join('')}</div>`;
 
   el('page-listings').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
       <div>
         <div class="pg-title">Our Listings</div>
-        <div class="pg-sub" style="margin-bottom:0">Fort Collins · South of Mulberry · East of College</div>
+        <div class="pg-sub" style="margin-bottom:0">Fort Collins · S of Mulberry · E of College · Precious 🐱</div>
       </div>
       <button class="btn btn-primary" onclick="openModal(null)">+ Add Listing</button>
     </div>
     <div class="filters">
       ${pills}
+      ${archivedCount>0?`<button class="pill ${showArchived?'on':''}" onclick="setFilter('__archived__')" style="${showArchived?'':'background:var(--bg);color:var(--t3);border-style:dashed'}">📦 Archived · ${archivedCount}</button>`:''}
       <select onchange="setSort(this.value)" style="margin-left:auto;width:auto;padding:5px 30px 5px 11px;font-size:12px">
         <option value="score"  ${S.sort==='score'?'selected':''}>Best Score</option>
         <option value="price"  ${S.sort==='price'?'selected':''}>Lowest Rent</option>
@@ -631,7 +660,7 @@ function renderListings() {
   `;
 }
 
-function listingCard(p, rank, budgetMax) {
+function listingCard(p, rank, budgetMax, isArchived) {
   const totalMo = (parseInt(p.rent)||0)+(parseInt(p.catRent)||0);
   const over    = budgetMax && totalMo > budgetMax;
   const sc      = SC[p.status]||SC['Saved'];
@@ -688,10 +717,14 @@ function listingCard(p, rank, budgetMax) {
       </div>`:''}
     </div>
     <div class="lcard-foot">
-      ${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noreferrer" style="font-size:12px;color:var(--indigo);font-weight:600;text-decoration:none">View listing ↗</a>`:''}
+      ${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noreferrer" style="font-size:12px;color:var(--indigo);font-weight:600;text-decoration:none">View ↗</a>`:''}
       <div style="margin-left:auto;display:flex;gap:6px">
-        <button class="btn btn-subtle" onclick="openModal('${p.id}')">Edit</button>
-        <button class="btn btn-danger" onclick="delListing('${p.id}')">Remove</button>
+        ${!isArchived?`<button class="btn btn-subtle" onclick="openModal('${p.id}')">Edit</button>`:''}
+        ${isArchived
+          ? `<button class="btn btn-subtle" onclick="unarchiveListing('${p.id}')">↩ Restore</button>
+             <button class="btn btn-danger" onclick="delListing('${p.id}')">Delete</button>`
+          : `<button class="btn btn-danger" onclick="${p.status==='Rejected'?'archiveListing':'delListing'}('${p.id}')">${p.status==='Rejected'?'Archive':'Remove'}</button>`
+        }
       </div>
     </div>
   </div>`;
@@ -699,8 +732,17 @@ function listingCard(p, rank, budgetMax) {
 
 const setFilter = f => { S.filter=f; renderListings(); };
 const setSort   = s => { S.sort=s;   renderListings(); };
+function archiveListing(id) {
+  S.listings = S.listings.map(p => p.id===id ? {...p, archived:true} : p);
+  saveL(); renderListings(); buildChrome();
+  if(S.tab==='dashboard') renderDash();
+}
+function unarchiveListing(id) {
+  S.listings = S.listings.map(p => p.id===id ? {...p, archived:false, status:'Saved'} : p);
+  saveL(); renderListings(); buildChrome();
+}
 function delListing(id) {
-  if(!confirm('Remove this listing?')) return;
+  if(!confirm('Permanently delete this listing? This cannot be undone.')) return;
   S.listings = S.listings.filter(p=>p.id!==id);
   saveL(); renderListings(); buildChrome();
   if(S.tab==='dashboard') renderDash();
@@ -745,7 +787,7 @@ function collectFields() {
   const d = window._md; if(!d) return;
   const gv = id => { const e=el('mf-'+id); return e?e.value:undefined; };
   ['name','address','neighborhood','type','status','rent','deposit','sqft','beds','baths',
-   'parking','laundry','availDate','leaseLength','url','photo',
+   'parking','laundry','utilities','availDate','leaseLength','url','photo',
    'catDeposit','catRent','catPolicy','pros','cons','tourNotes','notes','nextActionCustom']
     .forEach(f => { const v=gv(f); if(v!==undefined) d[f]=v; });
 }
@@ -786,6 +828,11 @@ function buildModalBody() {
         {v:'2 spots included',l:'2 spots included'},{v:'Garage',l:'Garage'},
         {v:'Covered spot',l:'Covered spot'},{v:'Street only',l:'Street only'}]))}
       ${field('Listing URL', inp('url',d.url,'https://www.zillow.com/...'), true)}
+      ${field('Utilities Included', sel('utilities',d.utilities,[
+        {v:'',l:'Unknown'},{v:'None — tenant pays all',l:'None — tenant pays all'},
+        {v:'Water only',l:'Water only'},{v:'Water + trash',l:'Water + trash'},
+        {v:'All except electric',l:'All except electric'},
+        {v:'All utilities included',l:'All utilities included'}]))}
       ${field('Custom Next Action', inp('nextActionCustom',d.nextActionCustom,NEXT[d.status]||''), true)}
     </div>`;
   } else if(t==='pet & lease') {
@@ -856,49 +903,49 @@ function buildModalBody() {
     h = `<div class="g2">
       <div class="field"><label class="lbl">✅ What we like</label>
         <textarea id="mf-pros" placeholder="Great light, quiet street…" rows="4">${esc(d.pros)}</textarea></div>
-      <div class="field"><label class="lbl">⚠️ Concerns</label>
-        <textarea id="mf-cons" placeholder="Small bedrooms, loud street…" rows="4">${esc(d.cons)}</textarea></div>
-      <div class="field" style="grid-column:1/-1"><label class="lbl">Tour Notes</label>
-        <textarea id="mf-tourNotes" placeholder="What did you notice? How did it feel walking in?" rows="3">${esc(d.tourNotes)}</textarea></div>
-      <div class="field" style="grid-column:1/-1"><label class="lbl">Other Notes</label>
-        <textarea id="mf-notes" placeholder="Anything else…" rows="2">${esc(d.notes)}</textarea></div>
-    </div>`;
-  }
 
-  el('modal-body').innerHTML = h + `
-    <div class="modal-foot">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveListing()">Save Listing</button>
-    </div>`;
+```
+  <div class="field"><label class="lbl">⚠️ Concerns</label>
+    <textarea id="mf-cons" placeholder="Small bedrooms, loud street…" rows="4">${esc(d.cons)}</textarea></div>
+  <div class="field" style="grid-column:1/-1"><label class="lbl">Tour Notes</label>
+    <textarea id="mf-tourNotes" placeholder="What did you notice? How did it feel walking in?" rows="3">${esc(d.tourNotes)}</textarea></div>
+  <div class="field" style="grid-column:1/-1"><label class="lbl">Other Notes</label>
+    <textarea id="mf-notes" placeholder="Anything else…" rows="2">${esc(d.notes)}</textarea></div>
+</div>`;
+```
+
+}
+
+el(‘modal-body’).innerHTML = h + ` <div class="modal-foot"> <button class="btn btn-ghost" onclick="closeModal()">Cancel</button> <button class="btn btn-primary" onclick="saveListing()">Save Listing</button> </div>`;
 }
 
 function setScore(who, cat, val, _id) {
-  const d = window._md; if(!d) return;
-  const key = who==='amelia'?'ameliaScores':'josiahScores';
-  d[key][cat] = d[key][cat]===val ? 0 : val;
-  // Update only the stars and averages — don't re-render the whole modal
-  const prefix = who==='amelia' ? 'as' : 'js';
-  const container = el(prefix+'-'+cat);
-  if(container) container.innerHTML = starsHTML(d[key][cat], _mid||'new', who, cat);
-  const aA = avgSc(d.ameliaScores), jA = avgSc(d.josiahScores);
-  if(el('a-avg'))    el('a-avg').textContent    = aA.toFixed(1);
-  if(el('j-avg'))    el('j-avg').textContent    = jA.toFixed(1);
-  if(el('comb-avg')) el('comb-avg').textContent = ((aA+jA)/2).toFixed(1) + ' / 5';
+const d = window._md; if(!d) return;
+const key = who===‘amelia’?‘ameliaScores’:‘josiahScores’;
+d[key][cat] = d[key][cat]===val ? 0 : val;
+// Update only the stars and averages — don’t re-render the whole modal
+const prefix = who===‘amelia’ ? ‘as’ : ‘js’;
+const container = el(prefix+’-’+cat);
+if(container) container.innerHTML = starsHTML(d[key][cat], _mid||‘new’, who, cat);
+const aA = avgSc(d.ameliaScores), jA = avgSc(d.josiahScores);
+if(el(‘a-avg’))    el(‘a-avg’).textContent    = aA.toFixed(1);
+if(el(‘j-avg’))    el(‘j-avg’).textContent    = jA.toFixed(1);
+if(el(‘comb-avg’)) el(‘comb-avg’).textContent = ((aA+jA)/2).toFixed(1) + ’ / 5’;
 }
 
 function saveListing() {
-  collectFields();
-  const d = window._md;
-  if(!d.name.trim()) { alert('Please add a nickname first.'); return; }
-  if(_mid) {
-    S.listings = S.listings.map(p => p.id===_mid ? {...d, id:_mid} : p);
-  } else {
-    d.id = Date.now().toString();
-    S.listings.push(d);
-  }
-  saveL(); closeModal();
-  renderListings(); buildChrome();
-  if(S.tab==='dashboard') renderDash();
+collectFields();
+const d = window._md;
+if(!d.name.trim()) { alert(‘Please add a nickname first.’); return; }
+if(_mid) {
+S.listings = S.listings.map(p => p.id===_mid ? {…d, id:_mid} : p);
+} else {
+d.id = Date.now().toString();
+S.listings.push(d);
+}
+saveL(); closeModal();
+renderListings(); buildChrome();
+if(S.tab===‘dashboard’) renderDash();
 }
 
 // ═══════════════════════════════════════════
@@ -907,438 +954,797 @@ function saveListing() {
 let _budgetRendered = false;
 
 function renderBudget() {
-  const b = S.budget;
-  const dv = (k,fb) => b[k]!==undefined ? b[k] : fb;
+const b = S.budget;
+const dv = (k,fb) => b[k]!==undefined ? b[k] : fb;
 
-  // Only build the skeleton once — then just wire events and update summary
-  if(!_budgetRendered) {
-    el('page-budget').innerHTML = `
-      <div class="pg-title">Budget Calculator</div>
-      <div class="pg-sub">Fort Collins utilities pre-filled. Model both sublease scenarios.</div>
-      <div class="g2" style="gap:22px;align-items:start">
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div class="card">
-            <div class="sec-hdr"><span class="sec-hdr-label">💼 Monthly Take-Home Income</span></div>
-            <div class="g2">
-              <div class="field"><label class="lbl">Amelia's income ($)</label><input id="b-inc1" type="number" placeholder="2750" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Josiah's income ($)</label><input id="b-inc2" type="number" placeholder="2750" oninput="calcBudget()"></div>
-            </div>
-            <div id="b-income-bar" style="display:none;padding:9px 12px;background:var(--indigo-l);border-radius:var(--radius-sm);font-size:12px;display:flex;justify-content:space-between">
-              <span style="color:var(--indigo)">Combined monthly</span>
-              <span id="b-income-val" style="color:var(--indigo);font-weight:700"></span>
-            </div>
+// Only build the skeleton once — then just wire events and update summary
+if(!_budgetRendered) {
+el(‘page-budget’).innerHTML = `
+<div class="pg-title">Budget Calculator</div>
+<div class="pg-sub">Fort Collins utilities pre-filled. Model the real numbers before you sign anything.</div>
+<div class="g2" style="gap:22px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:14px">
+<div class="card">
+<div class="sec-hdr"><span class="sec-hdr-label">💼 Monthly Take-Home Income</span></div>
+<div class="g2">
+<div class="field"><label class="lbl">Amelia’s income ($)</label><input id="b-inc1" type="number" placeholder="2750" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Josiah’s income ($)</label><input id="b-inc2" type="number" placeholder="2750" oninput="calcBudget()"></div>
+</div>
+<div id="b-income-bar" style="display:none;padding:9px 12px;background:var(--indigo-l);border-radius:var(--radius-sm);font-size:12px;display:flex;justify-content:space-between">
+<span style="color:var(--indigo)">Combined monthly</span>
+<span id="b-income-val" style="color:var(--indigo);font-weight:700"></span>
+</div>
+</div>
+<div class="card">
+<div class="sec-hdr"><span class="sec-hdr-label">🏠 Monthly Housing</span></div>
+<div class="g2">
+<div class="field"><label class="lbl">Rent ($)</label><input id="b-rent" type="number" placeholder="1750" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Cat rent ($/mo)</label><input id="b-catRent" type="number" placeholder="35" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Parking ($/mo)</label><input id="b-parking" type="number" placeholder="0" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Renters insurance</label><input id="b-rentersIns" type="number" placeholder="15" oninput="calcBudget()"></div>
+</div>
+</div>
+<div class="card">
+<div class="sec-hdr"><span class="sec-hdr-label">💡 Utilities (FC averages pre-filled)</span></div>
+<div class="g3">
+<div class="field"><label class="lbl">Xcel Electric</label><input id="b-electric" type="number" placeholder="80" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Xcel Gas</label><input id="b-gas" type="number" placeholder="55" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Internet</label><input id="b-internet" type="number" placeholder="55" oninput="calcBudget()"></div>
+</div>
+<div style="font-size:11px;color:var(--t3)">Gas spikes $80–100/mo Oct–Mar. Ting fiber in SE FC is ~$45/mo.</div>
+</div>
+<div class="card">
+<div class="sec-hdr"><span class="sec-hdr-label">📦 One-Time Move-In Costs</span></div>
+<div class="g2">
+<div class="field"><label class="lbl">Security deposit ($)</label><input id="b-secDep" type="number" placeholder="1750" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Cat deposit ($)</label><input id="b-catDep" type="number" placeholder="200" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Moving costs ($)</label><input id="b-moving" type="number" placeholder="600" oninput="calcBudget()"></div>
+<div class="field"><label class="lbl">Overlap months (sublease)</label>
+<select id="b-overlap" onchange="calcBudget()">
+<option value="0">None — sublease found</option>
+<option value="1">1 month</option>
+<option value="2">2 months</option>
+<option value="2.5">2.5 months (Jun–Aug 1)</option>
+</select>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="sec-hdr"><span class="sec-hdr-label">🎲 Buffer / Misc</span></div>
+<div class="field"><label class="lbl">Monthly misc / subscriptions / buffer ($)</label><input id="b-misc" type="number" placeholder="100" oninput="calcBudget()"></div>
+</div>
+</div>
+
+```
+    <!-- SUMMARY (right column) — updated in place, no re-render -->
+    <div style="position:sticky;top:16px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--t1);border-radius:var(--radius);padding:20px 22px">
+        <div style="font-size:11px;font-weight:700;color:#5E6E82;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px">Monthly Summary</div>
+        <div id="b-rows"></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)">
+          <span style="font-size:15px;font-weight:700;color:#fff">Total Monthly</span>
+          <span id="b-total" style="font-size:26px;font-weight:700;color:#fff;letter-spacing:-.02em">$0</span>
+        </div>
+        <div id="b-meter" class="meter" style="margin-top:8px;display:none"><div id="b-meter-fill" class="meter-fill"></div></div>
+        <div id="b-meter-msg" style="font-size:11px;margin-top:5px;display:none"></div>
+      </div>
+      <div class="card">
+        <div class="sec-hdr"><span class="sec-hdr-label">🏦 Move-In Cash Needed</span></div>
+        <div id="b-upfront-rows"></div>
+        <div style="display:flex;justify-content:space-between;padding-top:12px">
+          <span style="font-size:14px;font-weight:700">Total Upfront</span>
+          <span id="b-upfront-total" style="font-size:20px;font-weight:700;color:var(--indigo)">$0</span>
+        </div>
+      </div>
+      <div id="b-split" class="card" style="display:none">
+        <div class="sec-hdr"><span class="sec-hdr-label">👫 Split Evenly</span></div>
+        <div class="g2">
+          <div style="background:var(--indigo-l);border-radius:var(--radius-sm);padding:13px;text-align:center">
+            <div id="b-each" style="font-size:20px;font-weight:700;color:var(--indigo)">$0</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px">each / month</div>
           </div>
-          <div class="card">
-            <div class="sec-hdr"><span class="sec-hdr-label">🏠 Monthly Housing</span></div>
-            <div class="g2">
-              <div class="field"><label class="lbl">Rent ($)</label><input id="b-rent" type="number" placeholder="1750" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Cat rent ($/mo)</label><input id="b-catRent" type="number" placeholder="35" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Parking ($/mo)</label><input id="b-parking" type="number" placeholder="0" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Renters insurance</label><input id="b-rentersIns" type="number" placeholder="15" oninput="calcBudget()"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="sec-hdr"><span class="sec-hdr-label">💡 Utilities (FC averages pre-filled)</span></div>
-            <div class="g3">
-              <div class="field"><label class="lbl">Xcel Electric</label><input id="b-electric" type="number" placeholder="80" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Xcel Gas</label><input id="b-gas" type="number" placeholder="55" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Internet</label><input id="b-internet" type="number" placeholder="55" oninput="calcBudget()"></div>
-            </div>
-            <div style="font-size:11px;color:var(--t3)">Gas spikes $80–100/mo Oct–Mar. Ting fiber in SE FC is ~$45/mo.</div>
-          </div>
-          <div class="card">
-            <div class="sec-hdr"><span class="sec-hdr-label">📦 One-Time Move-In Costs</span></div>
-            <div class="g2">
-              <div class="field"><label class="lbl">Security deposit ($)</label><input id="b-secDep" type="number" placeholder="1750" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Cat deposit ($)</label><input id="b-catDep" type="number" placeholder="200" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Moving costs ($)</label><input id="b-moving" type="number" placeholder="600" oninput="calcBudget()"></div>
-              <div class="field"><label class="lbl">Overlap months (sublease)</label>
-                <select id="b-overlap" onchange="calcBudget()">
-                  <option value="0">None — sublease found</option>
-                  <option value="1">1 month</option>
-                  <option value="2">2 months</option>
-                  <option value="2.5">2.5 months (Jun–Aug 1)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="sec-hdr"><span class="sec-hdr-label">🎲 Buffer / Misc</span></div>
-            <div class="field"><label class="lbl">Monthly misc / subscriptions / buffer ($)</label><input id="b-misc" type="number" placeholder="100" oninput="calcBudget()"></div>
+          <div style="background:var(--green-l);border-radius:var(--radius-sm);padding:13px;text-align:center">
+            <div id="b-pct" style="font-size:20px;font-weight:700;color:var(--green)">0%</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px">rent / income</div>
           </div>
         </div>
-
-        <!-- SUMMARY (right column) — updated in place, no re-render -->
-        <div style="position:sticky;top:16px;display:flex;flex-direction:column;gap:14px">
-          <div style="background:var(--t1);border-radius:var(--radius);padding:20px 22px">
-            <div style="font-size:11px;font-weight:700;color:#5E6E82;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px">Monthly Summary</div>
-            <div id="b-rows"></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)">
-              <span style="font-size:15px;font-weight:700;color:#fff">Total Monthly</span>
-              <span id="b-total" style="font-size:26px;font-weight:700;color:#fff;letter-spacing:-.02em">$0</span>
-            </div>
-            <div id="b-meter" class="meter" style="margin-top:8px;display:none"><div id="b-meter-fill" class="meter-fill"></div></div>
-            <div id="b-meter-msg" style="font-size:11px;margin-top:5px;display:none"></div>
-          </div>
-          <div class="card">
-            <div class="sec-hdr"><span class="sec-hdr-label">🏦 Move-In Cash Needed</span></div>
-            <div id="b-upfront-rows"></div>
-            <div style="display:flex;justify-content:space-between;padding-top:12px">
-              <span style="font-size:14px;font-weight:700">Total Upfront</span>
-              <span id="b-upfront-total" style="font-size:20px;font-weight:700;color:var(--indigo)">$0</span>
-            </div>
-          </div>
-          <div id="b-split" class="card" style="display:none">
-            <div class="sec-hdr"><span class="sec-hdr-label">👫 Split Evenly</span></div>
-            <div class="g2">
-              <div style="background:var(--indigo-l);border-radius:var(--radius-sm);padding:13px;text-align:center">
-                <div id="b-each" style="font-size:20px;font-weight:700;color:var(--indigo)">$0</div>
-                <div style="font-size:11px;color:var(--t3);margin-top:2px">each / month</div>
-              </div>
-              <div style="background:var(--green-l);border-radius:var(--radius-sm);padding:13px;text-align:center">
-                <div id="b-pct" style="font-size:20px;font-weight:700;color:var(--green)">0%</div>
-                <div style="font-size:11px;color:var(--t3);margin-top:2px">rent / income</div>
-              </div>
-            </div>
-          </div>
-          <div class="card" style="background:var(--amber-l);border-color:#FADFA0">
-            <div style="font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px">⚡ Plan B — No Sublease</div>
-            <div style="font-size:12px;color:#92400E;line-height:1.7" id="b-planb">
-              If Josiah's sublease doesn't come through, you'll pay new rent while he also pays old rent through July 31.
-            </div>
-          </div>
+      </div>
+      <div class="card" style="background:var(--amber-l);border-color:#FDE68A">
+        <div style="font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px">⚡ Plan B — No Sublease</div>
+        <div style="font-size:12px;color:#92400E;line-height:1.7" id="b-planb">
+          If Josiah's sublease doesn't come through, you'll pay new rent while he also pays old rent through July 31.
         </div>
-      </div>`;
-    _budgetRendered = true;
-  }
+      </div>
+      <div class="card">
+        <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:14px">📊 What-If Scenarios</div>
+        <div id="b-scenarios" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+    </div>
+  </div>`;
+_budgetRendered = true;
+```
 
-  // Restore saved values into fields
-  const bFields = {
-    'b-inc1':b.inc1||'','b-inc2':b.inc2||'',
-    'b-rent':b.rent||'','b-catRent':b.catRent||'35','b-parking':b.parking||'0','b-rentersIns':b.rentersIns||'15',
-    'b-electric':b.electric||'80','b-gas':b.gas||'55','b-internet':b.internet||'55',
-    'b-secDep':b.secDep||'','b-catDep':b.catDep||'200','b-moving':b.moving||'600','b-overlap':b.overlap||'0',
-    'b-misc':b.misc||'100',
-  };
-  Object.entries(bFields).forEach(([id,val])=>{ const e=el(id); if(e&&!document.activeElement.id!==id) e.value=val; });
-  calcBudget();
+}
+
+// Restore saved values into fields
+const bFields = {
+‘b-inc1’:b.inc1||’’,‘b-inc2’:b.inc2||’’,
+‘b-rent’:b.rent||’’,‘b-catRent’:b.catRent||‘35’,‘b-parking’:b.parking||‘0’,‘b-rentersIns’:b.rentersIns||‘15’,
+‘b-electric’:b.electric||‘80’,‘b-gas’:b.gas||‘55’,‘b-internet’:b.internet||‘55’,
+‘b-secDep’:b.secDep||’’,‘b-catDep’:b.catDep||‘200’,‘b-moving’:b.moving||‘600’,‘b-overlap’:b.overlap||‘0’,
+‘b-misc’:b.misc||‘100’,
+};
+Object.entries(bFields).forEach(([id,val])=>{ const e=el(id); if(e&&!document.activeElement.id!==id) e.value=val; });
+calcBudget();
 }
 
 function calcBudget() {
-  // Read all fields
-  const nv = id => parseFloat(el('b-'+id)?.value||0)||0;
-  const sv = id => el('b-'+id)?.value||'';
+// Read all fields
+const nv = id => parseFloat(el(‘b-’+id)?.value||0)||0;
+const sv = id => el(‘b-’+id)?.value||’’;
 
-  // Save to state
-  ['inc1','inc2','rent','catRent','parking','rentersIns','electric','gas','internet','secDep','catDep','moving','overlap','misc']
-    .forEach(k => { const e=el('b-'+k); if(e) S.budget[k]=e.value; });
-  saveB();
+// Save to state
+[‘inc1’,‘inc2’,‘rent’,‘catRent’,‘parking’,‘rentersIns’,‘electric’,‘gas’,‘internet’,‘secDep’,‘catDep’,‘moving’,‘overlap’,‘misc’]
+.forEach(k => { const e=el(‘b-’+k); if(e) S.budget[k]=e.value; });
+saveB();
 
-  const income = nv('inc1')+nv('inc2');
-  const utils  = nv('electric')+nv('gas')+nv('internet');
-  const total  = nv('rent')+nv('catRent')+nv('parking')+nv('rentersIns')+utils+nv('misc');
-  const upfront= nv('secDep')+nv('catDep')+nv('rent')+nv('moving')+(parseFloat(sv('overlap')||0)*nv('rent'));
-  const rentPct= income>0?Math.round((nv('rent')/income)*100):0;
-  const totPct = income>0?Math.round((total/income)*100):0;
-  const safeMax= income>0?Math.floor(income*0.3):0;
+const income = nv(‘inc1’)+nv(‘inc2’);
+const utils  = nv(‘electric’)+nv(‘gas’)+nv(‘internet’);
+const total  = nv(‘rent’)+nv(‘catRent’)+nv(‘parking’)+nv(‘rentersIns’)+utils+nv(‘misc’);
+const upfront= nv(‘secDep’)+nv(‘catDep’)+nv(‘rent’)+nv(‘moving’)+(parseFloat(sv(‘overlap’)||0)*nv(‘rent’));
+const rentPct= income>0?Math.round((nv(‘rent’)/income)*100):0;
+const totPct = income>0?Math.round((total/income)*100):0;
+const safeMax= income>0?Math.floor(income*0.3):0;
 
-  // Update income bar
-  if(income>0) {
-    el('b-income-bar').style.display='flex';
-    el('b-income-val').textContent='$'+income.toLocaleString()+'/mo'+(safeMax?' · 30% rule = $'+safeMax.toLocaleString()+' max rent':'');
-  } else { el('b-income-bar').style.display='none'; }
+// Update income bar
+if(income>0) {
+el(‘b-income-bar’).style.display=‘flex’;
+el(‘b-income-val’).textContent=’$’+income.toLocaleString()+’/mo’+(safeMax?’ · 30% rule = $’+safeMax.toLocaleString()+’ max rent’:’’);
+} else { el(‘b-income-bar’).style.display=‘none’; }
 
-  // Monthly rows
-  const rw = (l,v) => v>0?`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span style="font-size:13px;color:#8A9BB0">${l}</span><span style="font-size:13px;font-weight:600;color:#E2E8F0">$${v.toLocaleString()}</span></div>`:'';
-  el('b-rows').innerHTML = rw('Base Rent',nv('rent'))+rw('Cat Rent',nv('catRent'))+rw('Parking',nv('parking'))+rw('Renters Insurance',nv('rentersIns'))+rw('Utilities (est.)',utils)+rw('Misc / Buffer',nv('misc'));
-  el('b-total').textContent = '$'+total.toLocaleString();
+// Monthly rows
+const rw = (l,v) => v>0?`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span style="font-size:13px;color:#8A9BB0">${l}</span><span style="font-size:13px;font-weight:600;color:#E2E8F0">$${v.toLocaleString()}</span></div>`:’’;
+el(‘b-rows’).innerHTML = rw(‘Base Rent’,nv(‘rent’))+rw(‘Cat Rent’,nv(‘catRent’))+rw(‘Parking’,nv(‘parking’))+rw(‘Renters Insurance’,nv(‘rentersIns’))+rw(‘Utilities (est.)’,utils)+rw(‘Misc / Buffer’,nv(‘misc’));
+el(‘b-total’).textContent = ‘$’+total.toLocaleString();
 
-  // Meter
-  if(totPct>0) {
-    const mc = totPct>40?'var(--red)':totPct>30?'var(--amber)':'var(--green)';
-    el('b-meter').style.display='block'; el('b-meter-fill').style.width=Math.min(100,totPct)+'%'; el('b-meter-fill').style.background=mc;
-    el('b-meter-msg').style.display='block'; el('b-meter-msg').style.color=mc;
-    el('b-meter-msg').textContent=totPct>40?'⚠ High — consider a cheaper option':totPct>30?'ℹ Slightly above ideal — manageable':'✓ Comfortable range';
-  } else { el('b-meter').style.display='none'; el('b-meter-msg').style.display='none'; }
+// Meter
+if(totPct>0) {
+const mc = totPct>40?‘var(–red)’:totPct>30?‘var(–amber)’:‘var(–green)’;
+el(‘b-meter’).style.display=‘block’; el(‘b-meter-fill’).style.width=Math.min(100,totPct)+’%’; el(‘b-meter-fill’).style.background=mc;
+el(‘b-meter-msg’).style.display=‘block’; el(‘b-meter-msg’).style.color=mc;
+el(‘b-meter-msg’).textContent=totPct>40?‘⚠ High — consider a cheaper option’:totPct>30?‘ℹ Slightly above ideal — manageable’:‘✓ Comfortable range’;
+} else { el(‘b-meter’).style.display=‘none’; el(‘b-meter-msg’).style.display=‘none’; }
 
-  // Upfront rows
-  const ur = (l,v) => v>0?`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--t2)">${l}</span><span style="font-size:13px;font-weight:600">$${v.toLocaleString()}</span></div>`:'';
-  el('b-upfront-rows').innerHTML = ur('Security Deposit',nv('secDep'))+ur('Cat Deposit',nv('catDep'))+ur('First Month Rent',nv('rent'))+ur('Moving Costs',nv('moving'))+ur('Overlap Rent',Math.round(parseFloat(sv('overlap')||0)*nv('rent')));
-  el('b-upfront-total').textContent='$'+upfront.toLocaleString();
+// Upfront rows
+const ur = (l,v) => v>0?`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--t2)">${l}</span><span style="font-size:13px;font-weight:600">$${v.toLocaleString()}</span></div>`:’’;
+el(‘b-upfront-rows’).innerHTML = ur(‘Security Deposit’,nv(‘secDep’))+ur(‘Cat Deposit’,nv(‘catDep’))+ur(‘First Month Rent’,nv(‘rent’))+ur(‘Moving Costs’,nv(‘moving’))+ur(‘Overlap Rent’,Math.round(parseFloat(sv(‘overlap’)||0)*nv(‘rent’)));
+el(‘b-upfront-total’).textContent=’$’+upfront.toLocaleString();
 
-  // Split
-  if(total>0&&income>0) {
-    el('b-split').style.display='block';
-    el('b-each').textContent='$'+Math.round(total/2).toLocaleString();
-    el('b-pct').textContent=rentPct+'%';
-  } else { el('b-split').style.display='none'; }
+// Split
+if(total>0&&income>0) {
+el(‘b-split’).style.display=‘block’;
+el(‘b-each’).textContent=’$’+Math.round(total/2).toLocaleString();
+el(‘b-pct’).textContent=rentPct+’%’;
+} else { el(‘b-split’).style.display=‘none’; }
 
-  // Plan B
-  el('b-planb').innerHTML = `If Josiah's sublease doesn't come through, you'll pay new rent while he also pays old rent through July 31.`
-    +(nv('rent')>0?`<br><br><strong>Extra cost Jun–Jul: ~$${Math.round(nv('rent')*2.5).toLocaleString()}</strong> ($${nv('rent').toLocaleString()}/mo × 2.5 months)`:'');
+// Plan B
+el(‘b-planb’).innerHTML = `If Josiah's sublease doesn't come through, you'll pay new rent while he also pays old rent through July 31.`
++(nv(‘rent’)>0?`<br><br><strong>Extra cost Jun–Jul: ~$${Math.round(nv('rent')*2.5).toLocaleString()}</strong> ($${nv('rent').toLocaleString()}/mo × 2.5 months)`:’’);
+
+// What-If Scenarios
+if(el(‘b-scenarios’)) {
+const rent = nv(‘rent’);
+const sc = (label, detail, amount, color) => ` <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:11px 14px;border-radius:var(--radius-sm);background:var(--bg);border:1px solid var(--border)"> <div> <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:2px">${label}</div> <div style="font-size:11px;color:var(--t3);line-height:1.4">${detail}</div> </div> <div style="font-size:15px;font-weight:700;color:${color};flex-shrink:0;margin-left:12px">${amount}</div> </div>`;
+
+```
+const planBTotal = rent>0 ? Math.round(rent*2.5) : 0;
+const renewalJump = rent>0 ? Math.round(rent*1.1) : 0;
+const oneIncome = income>0 ? total : 0;
+const worstTotal = rent>0 ? total+planBTotal : 0;
+
+el('b-scenarios').innerHTML = [
+  rent>0 ? sc('✅ Best case — sublease works', `You find a place, Josiah subleases, clean transition`, `$${total.toLocaleString()}/mo`, 'var(--green)') : '',
+  rent>0 ? sc('⚡ Plan B — no sublease', `Jun–Jul: new rent + Josiah's old rent overlap (~2.5mo)`, `+$${planBTotal.toLocaleString()} total`, 'var(--amber)') : '',
+  rent>0 ? sc('📈 Renewal rent jump (+10%)', `Common in Fort Collins. Year 2 rent would be ~$${renewalJump.toLocaleString()}/mo`, `$${Math.round(total+(rent*0.1)).toLocaleString()}/mo`, 'var(--t2)') : '',
+  income>0&&total>0 ? sc('🤒 One income for a month', `If one person has a gap — rent is ${Math.round((total/income)*200)}% of one paycheck`, `${Math.round((total/(income/2))*100)}% of 1 income`, total>income/2?'var(--red)':'var(--amber)') : '',
+  rent>0 ? sc('💸 Worst case — Plan B + renewal bump', `No sublease AND rent goes up year 2`, `+$${(planBTotal + Math.round(rent*0.1)).toLocaleString()} pain`, 'var(--red)') : '',
+].filter(Boolean).join('') || `<div style="font-size:13px;color:var(--t3);text-align:center;padding:12px">Enter your rent above to see scenarios</div>`;
+```
+
+}
 }
 
 // ═══════════════════════════════════════════
 //  COMPARE
 // ═══════════════════════════════════════════
 function renderCompare() {
-  const opts = (sel) => ['<option value="">Select a listing…</option>',
-    ...S.listings.map(p=>`<option value="${p.id}" ${sel===p.id?'selected':''}>${esc(p.name||'Unnamed')}</option>`)].join('');
-  const pA = S.listings.find(p=>p.id===S.compareA);
-  const pB = S.listings.find(p=>p.id===S.compareB);
+const active = S.listings.filter(p=>!p.archived);
+const opts = (sel) => [’<option value="">Select a listing…</option>’,
+…active.map(p=>`<option value="${p.id}" ${sel===p.id?'selected':''}>${esc(p.name||'Unnamed')}</option>`)].join(’’);
+const pA = S.listings.find(p=>p.id===S.compareA);
+const pB = S.listings.find(p=>p.id===S.compareB);
 
-  const CMP_ROWS = [
-    {l:'Monthly Rent',    fn:p=>p.rent?fmt(p.rent)+'/mo':'—'},
-    {l:'+ Cat Rent',      fn:p=>p.catRent?'+'+fmt(p.catRent)+'/mo':'—'},
-    {l:'Total Monthly',   fn:p=>{const t=(parseInt(p.rent)||0)+(parseInt(p.catRent)||0);return t?'$'+t.toLocaleString()+'/mo':'—'},b:true},
-    {l:'Security Deposit',fn:p=>p.deposit?fmt(p.deposit):'—'},
-    {l:'Cat Deposit',     fn:p=>p.catDeposit?fmt(p.catDeposit):'—'},
-    {l:'Type',            fn:p=>p.type||'—'},
-    {l:'Beds / Baths',    fn:p=>p.beds?p.beds+'bd / '+p.baths+'ba':'—'},
-    {l:'Sq Ft',           fn:p=>p.sqft?p.sqft+' sqft':'—'},
-    {l:'Neighborhood',    fn:p=>p.neighborhood||'—'},
-    {l:'Available',       fn:p=>fmtDate(p.availDate)},
-    {l:'Parking',         fn:p=>p.parking||'—'},
-    {l:'Laundry',         fn:p=>p.laundry||'—'},
-    {l:'Cat Policy',      fn:p=>p.catPolicy||'—'},
-    {l:'Status',          fn:p=>p.status},
-    {hdr:true},
-    ...SCORE_CATS.map(c=>({l:'Amelia — '+c.l,fn:p=>p.ameliaScores?.[c.k]?'★'.repeat(p.ameliaScores[c.k]):'—',star:true})),
-    {l:'Amelia Average',  fn:p=>{const a=avgSc(p.ameliaScores);return a>0?a.toFixed(1)+' / 5':'—'},b:true},
-    ...SCORE_CATS.map(c=>({l:'Josiah — '+c.l,fn:p=>p.josiahScores?.[c.k]?'★'.repeat(p.josiahScores[c.k]):'—',star:true})),
-    {l:'Josiah Average',  fn:p=>{const j=avgSc(p.josiahScores);return j>0?j.toFixed(1)+' / 5':'—'},b:true},
-    {l:'⭐ Combined Score',fn:p=>combined(p)>0?combined(p).toFixed(1)+' / 5':'—',b:true,hi:true},
-  ];
+const CMP_ROWS = [
+{l:‘Monthly Rent’,    fn:p=>p.rent?fmt(p.rent)+’/mo’:’—’},
+{l:’+ Cat Rent’,      fn:p=>p.catRent?’+’+fmt(p.catRent)+’/mo’:’—’},
+{l:‘Total Monthly’,   fn:p=>{const t=(parseInt(p.rent)||0)+(parseInt(p.catRent)||0);return t?’$’+t.toLocaleString()+’/mo’:’—’},b:true},
+{l:‘Security Deposit’,fn:p=>p.deposit?fmt(p.deposit):’—’},
+{l:‘Cat Deposit’,     fn:p=>p.catDeposit?fmt(p.catDeposit):’—’},
+{l:‘Type’,            fn:p=>p.type||’—’},
+{l:‘Beds / Baths’,    fn:p=>p.beds?p.beds+‘bd / ‘+p.baths+‘ba’:’—’},
+{l:‘Sq Ft’,           fn:p=>p.sqft?p.sqft+’ sqft’:’—’},
+{l:‘Neighborhood’,    fn:p=>p.neighborhood||’—’},
+{l:‘Available’,       fn:p=>fmtDate(p.availDate)},
+{l:‘Parking’,         fn:p=>p.parking||’—’},
+{l:‘Laundry’,         fn:p=>p.laundry||’—’},
+{l:‘Utilities’,       fn:p=>p.utilities||’—’},
+{l:‘Cat Policy’,      fn:p=>p.catPolicy||’—’},
+{l:‘Status’,          fn:p=>p.status},
+{hdr:true},
+…SCORE_CATS.map(c=>({l:‘Amelia — ‘+c.l,fn:p=>p.ameliaScores?.[c.k]?‘★’.repeat(p.ameliaScores[c.k]):’—’,star:true})),
+{l:‘Amelia Average’,  fn:p=>{const a=avgSc(p.ameliaScores);return a>0?a.toFixed(1)+’ / 5’:’—’},b:true},
+…SCORE_CATS.map(c=>({l:‘Josiah — ‘+c.l,fn:p=>p.josiahScores?.[c.k]?‘★’.repeat(p.josiahScores[c.k]):’—’,star:true})),
+{l:‘Josiah Average’,  fn:p=>{const j=avgSc(p.josiahScores);return j>0?j.toFixed(1)+’ / 5’:’—’},b:true},
+{l:‘⭐ Combined Score’,fn:p=>combined(p)>0?combined(p).toFixed(1)+’ / 5’:’—’,b:true,hi:true},
+];
 
-  let tableHTML = '';
-  if(pA && pB) {
-    const thumbCard = p => {
-      const avg = combined(p);
-      return `<div class="card">
-        ${p.photo?`<img src="${esc(p.photo)}" onerror="this.style.display='none'" style="width:100%;height:130px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:12px">`:''}
-        <div style="font-size:17px;font-weight:700;margin-bottom:7px">${esc(p.name)}</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          ${p.rent?badge(fmt(p.rent)+'/mo','var(--indigo)','var(--indigo-l)'):''}
-          ${avg>0?badge('★ '+avg.toFixed(1),'var(--green)','var(--green-l)'):''}
-          ${badge(p.status,SC[p.status]?.tx||'#64748B',SC[p.status]?.bg||'#F1F5F9')}
-        </div>
-      </div>`;
-    };
-    tableHTML = `
-      <div class="g2" style="margin-bottom:16px">${thumbCard(pA)}${thumbCard(pB)}</div>
-      <div class="card" style="padding:0;overflow:hidden;box-shadow:var(--shadow)">
-        <table class="cmp-table">
-          <thead><tr style="background:var(--bg)">
-            <th style="text-align:left;width:34%">Field</th>
-            <th>${esc(pA.name)}</th><th>${esc(pB.name)}</th>
-          </tr></thead>
-          <tbody>
-            ${CMP_ROWS.map((row,i)=>{
-              if(row.hdr) return `<tr class="cmp-hdr"><td colspan="3" style="padding:9px 16px;background:var(--bg)">SCORES</td></tr>`;
-              return `<tr class="${row.hi?'cmp-hi':''}">
-                <td style="padding:9px 16px;font-size:${row.b?12:12}px;font-weight:${row.b?700:400};color:var(--t2);border-bottom:1px solid var(--border)">${row.l}</td>
-                ${[pA,pB].map(p=>`<td style="padding:9px 16px;text-align:center;border-bottom:1px solid var(--border);font-size:${row.star?14:13}px;font-weight:${row.b?700:400};color:${row.hi?'var(--indigo)':row.star?'#F59E0B':'var(--t1)'}">${row.fn(p)}</td>`).join('')}
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>`;
-  }
+let tableHTML = ‘’;
+let simHTML = ‘’;
 
-  el('page-compare').innerHTML = `
-    <div class="pg-title">Head-to-Head Compare</div>
-    <div class="pg-sub">Pick two listings and see every detail side by side.</div>
-    <div class="card" style="margin-bottom:18px">
-      <div class="g2">
-        <div class="field"><label class="lbl">Listing A</label>
-          <select onchange="S.compareA=this.value;renderCompare()">${opts(S.compareA)}</select></div>
-        <div class="field"><label class="lbl">Listing B</label>
-          <select onchange="S.compareB=this.value;renderCompare()">${opts(S.compareB)}</select></div>
+if(pA && pB) {
+const thumbCard = p => {
+const avg = combined(p);
+return `<div class="card"> ${p.photo?`<img src="${esc(p.photo)}" onerror="this.style.display='none'" style="width:100%;height:130px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:12px">`:''} <div style="font-size:17px;font-weight:700;margin-bottom:7px">${esc(p.name)}</div> <div style="display:flex;gap:8px;flex-wrap:wrap"> ${p.rent?badge(fmt(p.rent)+'/mo','var(--indigo)','var(--indigo-l)'):''} ${avg>0?badge('★ '+avg.toFixed(1),'var(--green)','var(--green-l)'):''} ${badge(p.status,SC[p.status]?.tx||'#64748B',SC[p.status]?.bg||'#F1F5F9')} </div> </div>`;
+};
+
+```
+// ── Financial simulation ──
+const rentA = parseInt(pA.rent)||0, rentB = parseInt(pB.rent)||0;
+const catA  = parseInt(pA.catRent)||0, catB = parseInt(pB.catRent)||0;
+const depA  = (parseInt(pA.deposit)||0)+(parseInt(pA.catDeposit)||0);
+const depB  = (parseInt(pB.deposit)||0)+(parseInt(pB.catDeposit)||0);
+const totA  = rentA+catA, totB = rentB+catB;
+const yr1A  = totA*12+depA, yr1B = totB*12+depB;
+const yr2A  = Math.round(totA*1.1)*12, yr2B = Math.round(totB*1.1)*12;
+const planBExtra = Math.round(Math.max(rentA,rentB)*2.5); // plan B cost using cheaper option
+const scoreA = combined(pA), scoreB = combined(pB);
+const winner = scoreA===scoreB ? null : scoreA>scoreB ? pA : pB;
+const cheaper = totA===totB ? null : totA<totB ? pA : pB;
+
+simHTML = `
+  <div class="card" style="margin-top:20px;border-color:var(--indigo)">
+    <div style="font-size:14px;font-weight:700;color:var(--indigo);margin-bottom:16px">📊 Side-by-Side Simulation</div>
+    <div class="g2" style="gap:10px;margin-bottom:16px">
+      ${[
+        ['Monthly total',`$${totA.toLocaleString()}`,`$${totB.toLocaleString()}`, totA!==totB],
+        ['Each pays (50/50)',`$${Math.round(totA/2).toLocaleString()}`,`$${Math.round(totB/2).toLocaleString()}`, totA!==totB],
+        ['Deposits upfront',`$${depA.toLocaleString()}`,`$${depB.toLocaleString()}`, depA!==depB],
+        ['Year 1 total cost',`$${yr1A.toLocaleString()}`,`$${yr1B.toLocaleString()}`, yr1A!==yr1B],
+        ['Year 2 (est. +10%)',`$${yr2A.toLocaleString()}/yr`,`$${yr2B.toLocaleString()}/yr`, yr2A!==yr2B],
+      ].map(([lbl,vA,vB,diff])=>`
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">${lbl}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="text-align:center">
+              <div style="font-size:10px;color:var(--t3);margin-bottom:2px">${esc(pA.name).slice(0,14)}</div>
+              <div style="font-size:15px;font-weight:700;color:${diff&&totA<=totB?'var(--green)':'var(--t1)'}">${vA}</div>
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:10px;color:var(--t3);margin-bottom:2px">${esc(pB.name).slice(0,14)}</div>
+              <div style="font-size:15px;font-weight:700;color:${diff&&totB<=totA?'var(--green)':'var(--t1)'}">${vB}</div>
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div style="background:var(--t1);border-radius:var(--radius-sm);padding:16px 18px">
+      <div style="font-size:11px;color:#5E6E82;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Verdict</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#C8D6E5;line-height:1.6">
+        ${winner?`<div>⭐ <strong style="color:#fff">${esc(winner.name)}</strong> scores higher (${combined(winner).toFixed(1)} vs ${combined(winner===pA?pB:pA).toFixed(1)})</div>`:'<div>🤝 Both score the same — flip a coin or go with your gut</div>'}
+        ${cheaper?`<div>💰 <strong style="color:#fff">${esc(cheaper.name)}</strong> saves $${Math.abs(totA-totB).toLocaleString()}/mo ($${Math.abs(yr1A-yr1B).toLocaleString()} in year 1)</div>`:'<div>💰 Same monthly cost</div>'}
+        ${winner&&cheaper&&winner.id!==cheaper.id?`<div>⚡ <em style="color:#A0B0C0">Score says ${esc(winner.name)}, wallet says ${esc(cheaper.name)} — only you can decide if the difference is worth $${Math.abs(totA-totB)}/mo.</em></div>`:''}
       </div>
     </div>
-    ${(!pA||!pB)
-      ? `<div class="empty"><div class="em">⚖️</div>
-           <div style="font-size:15px;font-weight:600;color:var(--t2)">${S.listings.length<2?'Add at least 2 listings first':'Select two listings above to compare'}</div>
-         </div>`
-      : tableHTML}
-  `;
+  </div>`;
+
+tableHTML = `
+  <div class="g2" style="margin-bottom:16px">${thumbCard(pA)}${thumbCard(pB)}</div>
+  ${simHTML}
+  <div class="card" style="padding:0;overflow:hidden;box-shadow:var(--shadow);margin-top:16px">
+    <table class="cmp-table">
+      <thead><tr style="background:var(--bg)">
+        <th style="text-align:left;width:34%">Field</th>
+        <th>${esc(pA.name)}</th><th>${esc(pB.name)}</th>
+      </tr></thead>
+      <tbody>
+        ${CMP_ROWS.map((row,i)=>{
+          if(row.hdr) return `<tr class="cmp-hdr"><td colspan="3" style="padding:9px 16px;background:var(--bg)">SCORES</td></tr>`;
+          return `<tr class="${row.hi?'cmp-hi':''}">
+            <td style="padding:9px 16px;font-size:12px;font-weight:${row.b?700:400};color:var(--t2);border-bottom:1px solid var(--border)">${row.l}</td>
+            ${[pA,pB].map(p=>`<td style="padding:9px 16px;text-align:center;border-bottom:1px solid var(--border);font-size:${row.star?14:13}px;font-weight:${row.b?700:400};color:${row.hi?'var(--indigo)':row.star?'#F59E0B':'var(--t1)'}">${row.fn(p)}</td>`).join('')}
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>`;
+```
+
+}
+
+el(‘page-compare’).innerHTML = `<div class="pg-title">Head-to-Head Compare</div> <div class="pg-sub">Pick two listings — see costs, scores, and a real financial verdict side by side.</div> <div class="card" style="margin-bottom:18px"> <div class="g2"> <div class="field"><label class="lbl">Listing A</label> <select onchange="S.compareA=this.value;renderCompare()">${opts(S.compareA)}</select></div> <div class="field"><label class="lbl">Listing B</label> <select onchange="S.compareB=this.value;renderCompare()">${opts(S.compareB)}</select></div> </div> </div> ${(!pA||!pB) ?`<div class="empty"><div class="em">⚖️</div>
+<div style="font-size:15px;font-weight:600;color:var(--t2)">${active.length<2?‘Add at least 2 listings first’:‘Select two listings above’}</div>
+</div>`: tableHTML}`;
 }
 
 // ═══════════════════════════════════════════
 //  CHECKLIST
 // ═══════════════════════════════════════════
 function renderChecklist() {
-  const done = Object.values(S.checked).filter(Boolean).length;
-  const pct  = Math.round((done/ALL_ITEMS.length)*100);
-  if(S.openPhase===null) {
-    const first = PHASES.find(ph=>ph.items.some(i=>!S.checked[i.id]));
-    if(first) S.openPhase = first.phase;
-  }
+const done = Object.values(S.checked).filter(Boolean).length;
+const pct  = Math.round((done/ALL_ITEMS.length)*100);
+if(S.openPhase===null) {
+const first = PHASES.find(ph=>ph.items.some(i=>!S.checked[i.id]));
+if(first) S.openPhase = first.phase;
+}
 
-  const phases = PHASES.map(ph => {
-    const pd   = ph.items.filter(i=>S.checked[i.id]).length;
-    const done = pd===ph.items.length;
-    const open = S.openPhase===ph.phase;
-    const rows = open ? ph.items.map(item => {
-      const ck = !!S.checked[item.id];
-      return `<div class="check-row ${ck?'done':''}" onclick="toggleCheck('${item.id}')">
-        <div class="chkbox ${ck?'on':''}">${ck?'✓':''}</div>
-        <div style="flex:1">
-          <div style="font-size:13px;font-weight:500;color:${ck?'var(--green)':'var(--t1)'};text-decoration:${ck?'line-through':'none'};margin-bottom:3px">${esc(item.task)}</div>
-          <div style="font-size:12px;color:var(--t3);line-height:1.5">${esc(item.tip)}</div>
-        </div>
-      </div>`;
-    }).join('') : '';
+const phases = PHASES.map(ph => {
+const pd   = ph.items.filter(i=>S.checked[i.id]).length;
+const done = pd===ph.items.length;
+const open = S.openPhase===ph.phase;
+const rows = open ? ph.items.map(item => {
+const ck = !!S.checked[item.id];
+return `<div class="check-row ${ck?'done':''}" onclick="toggleCheck('${item.id}')"> <div class="chkbox ${ck?'on':''}">${ck?'✓':''}</div> <div style="flex:1"> <div style="font-size:13px;font-weight:500;color:${ck?'var(--green)':'var(--t1)'};text-decoration:${ck?'line-through':'none'};margin-bottom:3px">${esc(item.task)}</div> <div style="font-size:12px;color:var(--t3);line-height:1.5">${esc(item.tip)}</div> </div> </div>`;
+}).join(’’) : ‘’;
 
-    return `<div style="margin-bottom:9px">
-      <button class="phase-btn ${done?'':''}}" onclick="togglePhase('${ph.phase}')" style="${done?'background:var(--green-l)':''}">
-        <div class="phase-dot" style="background:${done?'var(--green)':ph.color}"></div>
-        <span style="flex:1;font-size:14px;font-weight:600;color:${done?'var(--green)':'var(--t1)'}">${done?'✓ ':''}${ph.phase}</span>
-        <span style="font-size:12px;font-weight:600;color:${pd===ph.items.length?'var(--green)':'var(--t3)'}">${pd}/${ph.items.length}</span>
-        <span style="font-size:12px;color:var(--t3);margin-left:8px">${open?'▲':'▼'}</span>
-      </button>
-      ${open?`<div style="border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:6px 16px 12px;background:var(--surface)">${rows}</div>`:''}
-    </div>`;
-  }).join('');
+```
+return `<div style="margin-bottom:9px">
+  <button class="phase-btn ${done?'':''}}" onclick="togglePhase('${ph.phase}')" style="${done?'background:var(--green-l)':''}">
+    <div class="phase-dot" style="background:${done?'var(--green)':ph.color}"></div>
+    <span style="flex:1;font-size:14px;font-weight:600;color:${done?'var(--green)':'var(--t1)'}">${done?'✓ ':''}${ph.phase}</span>
+    <span style="font-size:12px;font-weight:600;color:${pd===ph.items.length?'var(--green)':'var(--t3)'}">${pd}/${ph.items.length}</span>
+    <span style="font-size:12px;color:var(--t3);margin-left:8px">${open?'▲':'▼'}</span>
+  </button>
+  ${open?`<div style="border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:6px 16px 12px;background:var(--surface)">${rows}</div>`:''}
+</div>`;
+```
 
-  el('page-checklist').innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
-      <div>
-        <div class="pg-title">Moving Checklist</div>
-        <div class="pg-sub" style="margin-bottom:0">Every step, in order, built around your May 10 deadline.</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:26px;font-weight:700;color:var(--indigo);letter-spacing:-.02em">${done}<span style="font-size:15px;color:var(--t3);font-weight:400">/${ALL_ITEMS.length}</span></div>
-        <div style="font-size:11px;color:var(--t3)">tasks complete</div>
-        <div class="pbar" style="margin-top:5px;width:90px;margin-left:auto"><div class="pbar-fill" style="width:${pct}%;background:var(--indigo)"></div></div>
-      </div>
-    </div>
-    ${phases}
-  `;
+}).join(’’);
+
+el(‘page-checklist’).innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px"> <div> <div class="pg-title">Moving Checklist</div> <div class="pg-sub" style="margin-bottom:0">Every step, in order, built around your May 10 deadline.</div> </div> <div style="text-align:right"> <div style="font-size:26px;font-weight:700;color:var(--indigo);letter-spacing:-.02em">${done}<span style="font-size:15px;color:var(--t3);font-weight:400">/${ALL_ITEMS.length}</span></div> <div style="font-size:11px;color:var(--t3)">tasks complete</div> <div class="pbar" style="margin-top:5px;width:90px;margin-left:auto"><div class="pbar-fill" style="width:${pct}%;background:var(--indigo)"></div></div> </div> </div> ${phases}`;
 }
 
 function toggleCheck(id) {
-  S.checked[id] = !S.checked[id]; saveC();
-  renderChecklist(); buildChrome();
-  if(S.tab==='dashboard') renderDash();
+S.checked[id] = !S.checked[id]; saveC();
+renderChecklist(); buildChrome();
+if(S.tab===‘dashboard’) renderDash();
 }
 function togglePhase(p) { S.openPhase = S.openPhase===p ? null : p; renderChecklist(); }
 
 // ═══════════════════════════════════════════
-//  AI ANALYZER
+//  AI ASSISTANT — clean prompt-copy workflow
 // ═══════════════════════════════════════════
+
+const CRITERIA_BLOCK = `Amelia & Josiah’s apartment criteria (today: ${new Date().toLocaleDateString(‘en-US’,{month:‘long’,day:‘numeric’,year:‘numeric’})}):
+
+- City: Fort Collins, CO
+- Location zone: south of Mulberry St AND east of College Ave
+- Non-negotiables: in-unit washer/dryer, 1+ parking spot, pet-friendly for 1 cat (Precious — indoor only)
+- Top priority: natural light (south/west-facing windows preferred)
+- Move-in deadline: May 10, 2025
+- Budget: ~$2,000/mo max total (rent + cat rent + parking), splitting 50/50
+- Combined income: $5,500–$7,500/mo`;
+
+const ANALYZE_SCHEMA = `Return ONLY valid JSON, no markdown, no preamble: { "summary": "2-3 sentence plain-English summary", "isComplex": true or false, "complexNote": "if a complex: note other units/floor plans/pricing tiers available and what to ask — else empty string", "passesNonNeg": { "petFriendly": "yes|no|unclear", "inUnitLaundry": "yes|no|unclear", "parking": "yes|no|unclear" }, "inZone": "yes|no|unclear", "catVerdict": "cat policy details — deposit, monthly fee, weight limit if mentioned", "lightNote": "natural light assessment — directional clues, floor, window count", "estimatedMonthly": "total monthly estimate (rent + cat rent + parking + avg Fort Collins utilities ~$190/mo)", "negotiationAngle": "specific leverage they have based on listing age, vacancy, or market", "redFlags": ["up to 6 specific red flags"], "greenFlags": ["up to 6 specific green flags"], "missedInfo": ["up to 5 things NOT in the listing they must find out before deciding"], "questionsToAsk": ["8-10 very specific questions for THIS listing"], "scores": { "location": 0-5, "value": 0-5, "space": 0-5, "light": 0-5, "cat": 0-5, "vibe": 0-5 }, "verdict": "one punchy sentence — tour it / skip it / apply now" }`;
+
+let _aiMode = ‘analyze’;
+
 function renderAI() {
-  el('page-ai').innerHTML = `
-    <div class="pg-title">AI Listing Analyzer</div>
-    <div class="pg-sub">Paste any listing — Zillow, Apartments.com, Facebook Marketplace, Craigslist — and get instant analysis tuned to your exact search.</div>
-    <div class="card" style="margin-bottom:18px">
-      <div class="field"><label class="lbl">Paste listing text</label>
-        <textarea id="ai-in" rows="10" placeholder="Paste the full listing here. More text = better analysis.&#10;&#10;Works with:&#10;• Zillow / Apartments.com descriptions&#10;• Facebook Marketplace posts&#10;• Craigslist ads&#10;• Your notes from a showing&#10;• Emails from a landlord"></textarea>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <button class="btn btn-primary" onclick="runAI()" id="ai-btn" style="font-size:14px;padding:10px 22px">✦ Analyze This Listing</button>
-        <span id="ai-err" style="font-size:12px;color:var(--red)"></span>
-      </div>
-    </div>
-    <div id="ai-out"></div>
-  `;
+el(‘page-ai’).innerHTML = `
+<div style="margin-bottom:22px">
+<div class="pg-title">AI Assistant</div>
+<div class="pg-sub" style="margin-bottom:0">Fill in a form → the app builds a perfect Claude prompt → copy it, paste into Claude.ai, paste the response back.</div>
+</div>
+
+```
+<div class="ai-mode-tabs">
+  ${[
+    {id:'analyze',   label:'Analyze listing text'},
+    {id:'link',      label:'Analyze a URL'},
+    {id:'find',      label:'Find listings'},
+    {id:'questions', label:'Questions to ask'},
+  ].map(m=>`<button class="ai-tab ${_aiMode===m.id?'on':''}" onclick="setAIMode('${m.id}')">${m.label}</button>`).join('')}
+</div>
+
+<div id="ai-mode-body"></div>
+<div id="ai-out"></div>
+```
+
+`;
+renderAIMode();
 }
 
-async function runAI() {
-  const txt = el('ai-in').value.trim(); if(!txt) return;
-  const btn = el('ai-btn'); btn.innerHTML='<span class="spin">⟳</span> Analyzing…'; btn.disabled=true;
-  el('ai-err').textContent=''; el('ai-out').innerHTML='';
-  try {
-    const prompt = `You are an expert apartment advisor. Amelia and Josiah are looking for a 2BR rental in Fort Collins, CO — south of Mulberry St and east of College Ave. They have 1 cat. Non-negotiables: in-unit W/D, parking, pet-friendly. Top priority: natural light. Deadline: May 10, 2025. Income: $5,500–$7,500/mo combined.
-
-Analyze this listing. Return ONLY a valid JSON object with no markdown:
-{"summary":"2-3 sentence summary","passesNonNeg":{"petFriendly":"yes|no|unclear","inUnitLaundry":"yes|no|unclear","parking":"yes|no|unclear"},"inZone":"yes|no|unclear","catVerdict":"cat assessment","lightNote":"light assessment","estimatedMonthly":"total monthly estimate","redFlags":["max 5"],"greenFlags":["max 5"],"questionsToAsk":["4-5 specific"],"negotiationTip":"one tip","scores":{"location":0,"value":0,"space":0,"light":0,"cat":0,"vibe":0},"verdict":"one punchy sentence"}
-Listing: ${txt.substring(0,4000)}`;
-    const res  = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1400,messages:[{role:'user',content:prompt}]})});
-    const data = await res.json();
-    const raw  = data.content?.map(b=>b.text||'').join('')||'';
-    showAIResult(JSON.parse(raw.replace(/```json|```/g,'').trim()));
-  } catch(e) { el('ai-err').textContent="Couldn't analyze — try pasting more text from the listing."; }
-  btn.innerHTML='✦ Analyze This Listing'; btn.disabled=false;
+function setAIMode(mode) {
+_aiMode = mode;
+document.querySelectorAll(’.ai-tab’).forEach(b => {
+b.classList.toggle(‘on’, b.textContent.trim() === {
+analyze:‘Analyze listing text’, link:‘Analyze a URL’,
+find:‘Find listings’, questions:‘Questions to ask’
+}[mode]);
+});
+el(‘ai-out’).innerHTML = ‘’;
+renderAIMode();
 }
 
-function showAIResult(r) {
-  const avgSco = Object.values(r.scores||{}).reduce((a,b)=>a+b,0)/SCORE_CATS.length;
-  const pc = v => v==='yes'?'var(--green)':v==='no'?'var(--red)':'var(--amber)';
-  const pb = v => v==='yes'?'var(--green-l)':v==='no'?'var(--red-l)':'var(--amber-l)';
+function renderAIMode() {
+const body = el(‘ai-mode-body’); if(!body) return;
 
-  el('ai-out').innerHTML = `
-    <div class="verdict-bar">
-      <div>
-        <div style="font-size:10px;color:#5E6E82;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Verdict</div>
-        <div style="font-size:16px;color:#fff;font-style:italic;line-height:1.4">"${esc(r.verdict)}"</div>
-      </div>
-      <div style="text-align:center;min-width:70px;flex-shrink:0">
-        <div style="font-size:30px;font-weight:700;color:#fff;letter-spacing:-.02em">${avgSco.toFixed(1)}</div>
-        <div style="font-size:11px;color:#5E6E82">/ 5.0</div>
-      </div>
-    </div>
-    <div class="g2" style="gap:14px">
-      <div class="card" style="grid-column:1/-1">
-        <div class="sec-hdr"><span class="sec-hdr-label">Summary</span></div>
-        <p style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:${r.estimatedMonthly?12:0}px">${esc(r.summary)}</p>
-        ${r.estimatedMonthly?`<div style="display:inline-flex;gap:8px;align-items:center;background:var(--indigo-l);padding:7px 13px;border-radius:var(--radius-sm)"><span style="font-size:11px;color:var(--indigo);font-weight:700">EST. TOTAL MONTHLY:</span><span style="font-size:14px;font-weight:700;color:var(--indigo-d)">${esc(r.estimatedMonthly)}</span></div>`:''}
-      </div>
-      <div class="card">
-        <div class="sec-hdr"><span class="sec-hdr-label">✅ Non-Negotiables</span></div>
-        ${[['petFriendly','Pet Friendly for 1 Cat'],['inUnitLaundry','In-Unit W/D'],['parking','Parking Included']].map(([k,l])=>`
-          <div class="nonneg-row" style="background:${pb(r.passesNonNeg?.[k]||'unclear')}">
-            <span style="font-size:13px">${l}</span>
-            ${badge((r.passesNonNeg?.[k]||'unclear').toUpperCase(),pc(r.passesNonNeg?.[k]||'unclear'),pb(r.passesNonNeg?.[k]||'unclear'))}
-          </div>`).join('')}
-        <hr class="div">
-        <div style="padding:7px 11px;background:var(--bg);border-radius:var(--radius-sm)">
-          <div style="font-size:10px;color:var(--t3);font-weight:700;margin-bottom:2px">ZONE CHECK</div>
-          <div style="font-size:12px;color:var(--t2)">${r.inZone==='yes'?'✓ In your target zone (S of Mulberry, E of College)':r.inZone==='no'?'✗ Outside your search zone':esc(r.inZone||'Unclear from listing')}</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="sec-hdr"><span class="sec-hdr-label">🐱 Cat &amp; ☀️ Light</span></div>
-        <div style="padding:10px 12px;background:var(--green-l);border-radius:var(--radius-sm);margin-bottom:10px;border:1px solid #A7F3D0">
-          <div style="font-size:10px;color:var(--green);font-weight:700;margin-bottom:3px">CAT VERDICT</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.catVerdict)}</div>
-        </div>
-        <div style="padding:10px 12px;background:var(--amber-l);border-radius:var(--radius-sm);border:1px solid #FADFA0">
-          <div style="font-size:10px;color:var(--amber);font-weight:700;margin-bottom:3px">NATURAL LIGHT</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.lightNote)}</div>
-        </div>
-      </div>
-      ${r.greenFlags?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">✅ Green Flags</span></div>${r.greenFlags.map(f=>`<div class="flag-row"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span>${esc(f)}</div>`).join('')}</div>`:''}
-      ${r.redFlags?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">⚠️ Red Flags</span></div>${r.redFlags.map(f=>`<div class="flag-row"><span style="color:var(--red);font-weight:700;flex-shrink:0">!</span>${esc(f)}</div>`).join('')}</div>`:''}
-      ${r.questionsToAsk?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">❓ Questions to Ask</span></div>${r.questionsToAsk.map(q=>`<div class="q-row">${esc(q)}</div>`).join('')}</div>`:''}
-      ${r.negotiationTip?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">🤝 Negotiation Tip</span></div><div style="padding:10px 12px;background:var(--green-l);border-radius:var(--radius-sm);border:1px solid #A7F3D0;font-size:13px;color:#15803D;line-height:1.6">${esc(r.negotiationTip)}</div></div>`:''}
-    </div>
-    <div style="display:flex;gap:10px;margin-top:18px">
-      <button class="btn btn-primary" onclick='addFromAI(${JSON.stringify(r)})'>+ Add to Listings</button>
-      <button class="btn btn-ghost" onclick="renderAI()">Analyze Another</button>
-    </div>
-  `;
+if(_aiMode === ‘analyze’) {
+body.innerHTML = ` <div class="card" style="margin-bottom:12px"> <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:12px">Paste listing text</div> <div class="field"><textarea id="ai-text" rows="7" placeholder="Paste the full listing — from Zillow, Apartments.com, Facebook, Craigslist, or your own notes. More text = better analysis."></textarea></div> <div style="background:var(--bg);border-radius:var(--radius-sm);padding:13px;margin-bottom:14px;border:1px solid var(--border)"> <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px">Optional context — helps Claude tailor the analysis</div> <div class="g2" style="gap:10px"> <div class="field" style="margin-bottom:0"><label class="lbl">Landlord type</label> <select id="ai-lt"><option value="">Not sure</option><option value="complex">Apartment complex</option><option value="private">Private landlord</option></select></div> <div class="field" style="margin-bottom:0"><label class="lbl">How long listed?</label> <select id="ai-age"><option value="">Unknown</option><option value="new">Just listed</option><option value="week">~1 week</option><option value="weeks">2–3 weeks</option><option value="month">A month+</option></select></div> <div class="field" style="margin-bottom:0"><label class="lbl">Toured already?</label> <select id="ai-toured"><option value="no">Not yet</option><option value="yes">Yes, in person</option><option value="virtual">Virtual only</option></select></div> <div class="field" style="margin-bottom:0"><label class="lbl">Source</label> <select id="ai-src"><option value="">Any</option><option value="zillow">Zillow</option><option value="apartments">Apartments.com</option><option value="facebook">Facebook</option><option value="craigslist">Craigslist</option></select></div> </div> <div class="field" style="margin-top:10px;margin-bottom:0"><label class="lbl">Anything specific to focus on?</label> <input id="ai-focus" placeholder="e.g. is the price fair, parking situation, lease flexibility…"></div> </div> <button class="btn btn-primary" onclick="buildAndCopy('analyze')" style="width:100%;justify-content:center;padding:10px">Generate &amp; copy prompt →</button> </div>`;
+
+} else if(_aiMode === ‘link’) {
+body.innerHTML = ` <div class="card" style="margin-bottom:12px"> <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px">Analyze a listing URL</div> <div style="font-size:12px;color:var(--t3);margin-bottom:14px">Claude.ai has web access — paste a URL and it'll visit the page directly. Works with Zillow, Apartments.com, and Craigslist. Facebook requires copy-pasting text instead.</div> <div class="field"><label class="lbl">Listing URL</label> <input id="ai-url" type="url" placeholder="https://www.zillow.com/homedetails/..."></div> <div class="field"><label class="lbl">Anything to focus on? (optional)</label> <input id="ai-url-focus" placeholder="e.g. confirm cat policy, assess if price is fair…"></div> <button class="btn btn-primary" onclick="buildAndCopy('link')" style="width:100%;justify-content:center;padding:10px">Generate &amp; copy prompt →</button> </div>`;
+
+} else if(_aiMode === ‘find’) {
+body.innerHTML = ` <div class="card" style="margin-bottom:12px"> <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px">Find real listings now</div> <div style="font-size:12px;color:var(--t3);margin-bottom:14px">Builds a prompt that tells Claude to search Zillow, Apartments.com, Craigslist, and Facebook right now — it returns real listings with links.</div> <div class="g2" style="gap:10px;margin-bottom:12px"> <div class="field" style="margin-bottom:0"><label class="lbl">Max rent ($/mo)</label> <input id="find-rent" type="number" placeholder="2000" value="${S.budget.rent||''}"></div> <div class="field" style="margin-bottom:0"><label class="lbl">Area</label> <select id="find-area"> <option value="all">All of SE Fort Collins</option> <option value="harmony">Harmony corridor</option> <option value="midtown">Midtown / Drake</option> <option value="fossil">Fossil Creek / South FC</option> </select></div> <div class="field" style="margin-bottom:0"><label class="lbl">Property type</label> <select id="find-type"> <option value="any">Any (apt, townhouse, house)</option> <option value="apartment">Apartments only</option> <option value="townhouse">Townhouse / house</option> </select></div> <div class="field" style="margin-bottom:0"><label class="lbl">Available by</label> <select id="find-avail"> <option value="may">May 1–10 (strict)</option> <option value="april">April or earlier</option> <option value="flexible">Around May (±1 week)</option> </select></div> </div> <div class="field"><label class="lbl">Anything else to prioritize?</label> <input id="find-extra" placeholder="e.g. quiet street, ground floor, near Fossil Creek park…"></div> <button class="btn btn-primary" onclick="buildAndCopy('find')" style="width:100%;justify-content:center;padding:10px">Generate &amp; copy prompt →</button> </div>`;
+
+} else if(_aiMode === ‘questions’) {
+body.innerHTML = ` <div class="card" style="margin-bottom:12px"> <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px">Generate questions to ask</div> <div style="font-size:12px;color:var(--t3);margin-bottom:14px">Describe the listing, tell us what you're doing next, and Claude generates exactly the right questions for that moment.</div> <div class="field"><label class="lbl">What do you know about this listing?</label> <textarea id="q-known" rows="4" placeholder="e.g. 2BR at The Flats on Harmony, $1,850/mo, complex says cats OK, haven't confirmed deposit yet, listed for 2 weeks…"></textarea></div> <div class="g2" style="gap:10px;margin-bottom:0"> <div class="field" style="margin-bottom:0"><label class="lbl">What are you doing next?</label> <select id="q-ctx"><option value="call">Calling to inquire</option><option value="tour">About to tour</option><option value="apply">Considering applying</option><option value="lease">About to sign the lease</option></select></div> <div class="field" style="margin-bottom:0"><label class="lbl">Landlord type</label> <select id="q-ll"><option value="unknown">Not sure</option><option value="complex">Apartment complex</option><option value="private">Private landlord</option></select></div> </div> <div class="field" style="margin-top:10px"><label class="lbl">Your biggest concern about this one?</label> <input id="q-concern" placeholder="e.g. is the cat deposit refundable, street noise, lease length…"></div> <button class="btn btn-primary" onclick="buildAndCopy('questions')" style="width:100%;justify-content:center;padding:10px">Generate &amp; copy prompt →</button> </div>`;
+}
 }
 
-function addFromAI(r) {
-  const name = prompt('Give this listing a nickname:'); if(!name) return;
-  const p = mkListing(); p.name=name;
-  p.ameliaScores={...r.scores}; p.josiahScores={...r.scores};
-  p.pros=(r.greenFlags||[]).slice(0,2).join('; ');
-  p.cons=(r.redFlags||[]).slice(0,2).join('; ');
-  p.notes='AI: '+r.summary+'\n\nVerdict: '+r.verdict;
-  S.listings.push(p); saveL(); goTab('listings'); buildChrome();
+// ── Single entry point for all prompt building + copying ──
+
+function buildAndCopy(mode) {
+let prompt = ‘’;
+try {
+if(mode === ‘analyze’)   prompt = buildAnalyzePrompt();
+if(mode === ‘link’)      prompt = buildLinkPrompt();
+if(mode === ‘find’)      prompt = buildFindPrompt();
+if(mode === ‘questions’) prompt = buildQuestionsPrompt();
+} catch(e) { return; }
+if(!prompt) return;
+
+window._aiPrompt    = prompt;
+window._aiResultType = mode === ‘find’ ? ‘find’ : mode === ‘questions’ ? ‘questions’ : ‘analyze’;
+
+// Auto-copy
+const doShow = (copied) => {
+el(‘ai-out’).innerHTML = `
+<div class="ai-copy-card" id="ai-copy-card">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px">
+<div>
+<div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:3px">${copied ? ‘✓ Prompt copied to clipboard’ : ‘Prompt ready’}</div>
+<div style="font-size:12px;color:var(--t3)">Open Claude.ai, start a new chat, and paste it in. Then come back here.</div>
+</div>
+<div style="display:flex;gap:7px;flex-shrink:0">
+<button class="btn btn-subtle btn-sm" id="recopy-btn" onclick="recopyPrompt()">Copy again</button>
+<a href="https://claude.ai/new" target="_blank" rel="noreferrer" class="btn btn-primary btn-sm">Open Claude.ai →</a>
+</div>
+</div>
+<details style="margin-bottom:0">
+<summary style="font-size:12px;color:var(--t3);cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:5px">
+<span>▶</span> Show prompt text
+</summary>
+<textarea readonly onclick="this.select()" rows="6" style="margin-top:10px;font-size:11px;color:var(--t3);background:var(--bg);cursor:text;line-height:1.5">${esc(prompt)}</textarea>
+</details>
+</div>
+
+```
+  <div class="ai-paste-card" id="ai-paste-card">
+    <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:3px">Paste Claude's response</div>
+    <div style="font-size:12px;color:var(--t3);margin-bottom:12px">Copy the full response from Claude.ai and paste it here. The app renders it automatically.</div>
+    <textarea id="ai-paste-back" rows="4"
+      placeholder="Paste response here…"
+      oninput="tryRenderPaste('${window._aiResultType}')"></textarea>
+    <div id="paste-err" style="font-size:12px;color:var(--red);margin-top:5px;min-height:14px"></div>
+  </div>
+
+  <div id="ai-result" style="margin-top:14px"></div>
+`;
+el('ai-out').scrollIntoView({behavior:'smooth', block:'start'});
+```
+
+};
+
+navigator.clipboard.writeText(prompt).then(() => doShow(true)).catch(() => doShow(false));
+}
+
+function recopyPrompt() {
+navigator.clipboard.writeText(window._aiPrompt||’’).then(()=>{
+const b = el(‘recopy-btn’);
+if(b){ b.textContent=‘✓ Copied’; setTimeout(()=>b.textContent=‘Copy again’,2000); }
+}).catch(()=>{
+window.prompt(‘Copy this:’, window._aiPrompt||’’);
+});
+}
+
+// ── Prompt builders (now return string, don’t call showPromptBox) ──
+
+function buildAnalyzePrompt() {
+const txt = el(‘ai-text’)?.value.trim();
+if(!txt) { showToast(‘Paste a listing first.’); throw new Error(); }
+const lt     = el(‘ai-lt’)?.value||’’;
+const age    = el(‘ai-age’)?.value||’’;
+const toured = el(‘ai-toured’)?.value||‘no’;
+const focus  = el(‘ai-focus’)?.value||’’;
+const extras = [
+lt===‘complex’ ? ‘NOTE: This is an apartment complex. In complexNote, tell them to ask what other units/floor plans are currently available, which floors get the most light, and whether any units are discounted for quick move-in.’ : ‘’,
+lt===‘private’ ? ‘NOTE: Private landlord — highlight any flexibility on price, deposit, or terms.’ : ‘’,
+(age===‘weeks’||age===‘month’) ? `NOTE: Listing has been up for ${age==='month'?'a month+':'2–3 weeks'} — flag this strongly as a negotiation opportunity and reason to ask why it has not rented.` : ‘’,
+toured===‘yes’ ? ‘NOTE: They have already toured — focus on helping them decide, not just what to ask.’ : ‘’,
+focus ? `Pay special attention to: ${focus}` : ‘’,
+].filter(Boolean).join(’\n’);
+return `You are an expert apartment advisor.\n${CRITERIA_BLOCK}\n${extras}\n\nAnalyze this listing and respond with ONLY valid JSON, no markdown, no explanation before or after:\n${ANALYZE_SCHEMA}\n\nListing text:\n${txt.substring(0,5000)}`;
+}
+
+function buildLinkPrompt() {
+const url = el(‘ai-url’)?.value.trim();
+if(!url) { showToast(‘Paste a URL first.’); throw new Error(); }
+const focus = el(‘ai-url-focus’)?.value||’’;
+return `You are an expert apartment advisor.\n${CRITERIA_BLOCK}\n${focus?`Pay special attention to: ${focus}`:''}\n\nPlease visit this rental listing URL and read the full page content:\n${url}\n\nThen analyze what you find. Add these three fields at the very top of your JSON (before "summary"):\n  "extractedName": "best name or address for this listing",\n  "extractedRent": "monthly rent as found on page",\n  "extractedAddress": "full address if found",\n\nThen continue with the rest of the schema. Respond with ONLY valid JSON, no markdown:\n${ANALYZE_SCHEMA}`;
+}
+
+function buildFindPrompt() {
+const rent  = el(‘find-rent’)?.value||‘2000’;
+const area  = el(‘find-area’)?.value||‘all’;
+const type  = el(‘find-type’)?.value||‘any’;
+const avail = el(‘find-avail’)?.value||‘may’;
+const extra = el(‘find-extra’)?.value||’’;
+const areaStr  = {all:‘south of Mulberry St and east of College Ave in Fort Collins, CO’,harmony:‘the Harmony Road corridor (SE Fort Collins)’,midtown:‘Midtown Fort Collins near Drake Rd’,fossil:‘South Fort Collins / Fossil Creek area’}[area];
+const availStr = {may:‘available by May 1–10 2025’,april:‘available April 2025 or earlier’,flexible:‘available around May 2025 (flexible ±1 week)’}[avail];
+const typeStr  = {any:‘2-bedroom apartment, townhouse, or house’,apartment:‘2-bedroom apartment’,townhouse:‘2-bedroom townhouse or house’}[type];
+return `You are helping Amelia and Josiah find a rental. Use your web search tool to find REAL, CURRENT listings right now.\n\nSearch ALL of these sources:\n1. Zillow — Fort Collins CO 2 bedroom for rent\n2. Apartments.com — Fort Collins CO 2 bedroom\n3. Craigslist Fort Collins apartments\n4. Facebook Marketplace — 2 bedroom Fort Collins rent\n\nCriteria:\n- Location: ${areaStr}\n- Property: ${typeStr}\n- Max rent: $${rent}/mo\n- Must be ${availStr}\n- Must allow 1 cat (Precious), must have parking, in-unit W/D strongly preferred\n${extra?`- Also prioritize: ${extra}`:''}\n\nFor each listing include a direct URL. For complexes, note floor plans and price range.\n\nRespond with ONLY valid JSON, no markdown:\n{\n  "searchSummary": "2-3 sentences on what you found and the market right now",\n  "marketNote": "useful current context about Fort Collins rental market",\n  "listings": [\n    {\n      "name": "property name",\n      "address": "street address",\n      "neighborhood": "neighborhood",\n      "rent": "monthly rent or range",\n      "type": "Apartment / Townhouse / House",\n      "url": "direct URL — required",\n      "source": "Zillow / Apartments.com / Craigslist / Facebook",\n      "catFriendly": "yes / no / likely / unclear",\n      "hasParking": "yes / no / unclear",\n      "hasWD": "yes / no / unclear",\n      "isComplex": true or false,\n      "complexUnitsNote": "if complex: units available, floor plans, price range",\n      "lightNote": "orientation or window info",\n      "highlight": "most compelling thing",\n      "concern": "biggest question mark",\n      "estimatedMonthly": "total monthly estimate with cat rent, parking, avg utilities"\n    }\n  ],\n  "complexesToCallDirectly": [\n    { "name": "complex name", "area": "neighborhood", "why": "why worth calling" }\n  ],\n  "searchTips": ["3-4 specific tips for their search right now"]\n}`;
+}
+
+function buildQuestionsPrompt() {
+const known = el(‘q-known’)?.value.trim()||’’;
+if(!known) { showToast(‘Describe the listing first.’); throw new Error(); }
+const ctx     = el(‘q-ctx’)?.value||‘call’;
+const ll      = el(‘q-ll’)?.value||‘unknown’;
+const concern = el(‘q-concern’)?.value||’’;
+const ctxStr  = {call:‘calling the landlord/leasing office for the first time’,tour:‘about to do an in-person tour’,apply:‘considering submitting an application’,lease:‘about to sign the lease’}[ctx];
+return `You are an expert apartment advisor helping Amelia and Josiah. They are ${ctxStr}.\nLandlord type: ${ll}.${concern?` Their biggest concern: ${concern}`:''}\n\n${CRITERIA_BLOCK}\n\nWhat they know about this listing: ${known}\n\nGenerate a thorough set of questions tailored to this exact situation. Respond with ONLY valid JSON, no markdown:\n{\n  "contextNote": "one sentence on what to keep in mind for this specific interaction",\n  "criticalQuestions": [{ "q": "question", "why": "why this matters specifically" }],\n  "catQuestions": [{ "q": "question about Precious specifically", "why": "why" }],\n  "lightQuestions": [{ "q": "question about natural light", "why": "why" }],\n  "complexQuestions": [{ "q": "question about other units/floor plans", "why": "why" }],\n  "utilityQuestions": [{ "q": "utility/cost question", "why": "why" }],\n  "leaseQuestions": [{ "q": "lease term question", "why": "why" }],\n  "negotiationQuestions": [{ "q": "negotiation question", "why": "why" }],\n  "dealbreakers": ["things to listen for that would disqualify this place immediately"],\n  "greenLights": ["answers that would make this a strong contender"]\n}`;
+}
+
+function tryRenderPaste(resultType) {
+const raw = el(‘ai-paste-back’)?.value?.trim()||’’;
+const errEl = el(‘paste-err’); if(errEl) errEl.textContent=’’;
+if(raw.length < 30) return;
+const pasteCard = el(‘ai-paste-card’);
+try {
+const cleaned = raw.replace(/`json\s*/gi,'').replace(/`\s*/g,’’).trim();
+const r = JSON.parse(cleaned);
+const out = el(‘ai-result’); if(!out) return;
+if(pasteCard) pasteCard.classList.add(‘ready’);
+if(resultType===‘find’)           out.innerHTML = renderFindResult(r);
+else if(resultType===‘questions’) out.innerHTML = renderQuestionsResult(r);
+else                              out.innerHTML = renderAnalysisResult(r);
+out.scrollIntoView({behavior:‘smooth’, block:‘start’});
+} catch(e) {
+if(pasteCard) pasteCard.classList.remove(‘ready’);
+if(raw.length > 80 && errEl) errEl.textContent = ‘Not valid JSON yet — copy the full response from Claude.ai.’;
+}
+}
+
+// ── Result renderers ──
+
+function renderAnalysisResult(r) {
+const avg = Object.values(r.scores||{}).reduce((a,b)=>a+b,0)/SCORE_CATS.length;
+const pc  = v => v===‘yes’?‘var(–green)’:v===‘no’?‘var(–red)’:‘var(–amber)’;
+const pb  = v => v===‘yes’?‘var(–green-l)’:v===‘no’?‘var(–red-l)’:‘var(–amber-l)’;
+return `
+<div class="verdict-bar">
+<div>
+<div style="font-size:10px;color:#6B7280;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px">Verdict</div>
+<div style="font-size:15px;color:#fff;font-style:italic;line-height:1.45">”${esc(r.verdict)}”</div>
+</div>
+<div style="text-align:center;flex-shrink:0;min-width:60px">
+<div style="font-size:28px;font-weight:700;color:#fff;letter-spacing:-.02em">${avg.toFixed(1)}</div>
+<div style="font-size:11px;color:#6B7280">/ 5.0</div>
+</div>
+</div>
+
+```
+${r.isComplex&&r.complexNote?`<div class="card" style="margin-bottom:12px;background:var(--indigo-l);border-color:#D4D4FC">
+  <div style="font-size:11px;font-weight:600;color:var(--indigo);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Apartment complex — ask about other units</div>
+  <div style="font-size:13px;color:var(--indigo-d);line-height:1.6">${esc(r.complexNote)}</div>
+</div>`:''}
+
+<div class="g2" style="gap:12px">
+  <div class="card" style="grid-column:1/-1">
+    <div class="sec-hdr"><span class="sec-hdr-label">Summary</span></div>
+    <p style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:${r.estimatedMonthly?12:0}px">${esc(r.summary)}</p>
+    ${r.estimatedMonthly?`<div style="display:inline-flex;gap:8px;align-items:center;background:var(--indigo-l);padding:6px 12px;border-radius:var(--radius-sm)">
+      <span style="font-size:11px;color:var(--indigo);font-weight:600">Est. total monthly</span>
+      <span style="font-size:14px;font-weight:700;color:var(--indigo-d)">${esc(r.estimatedMonthly)}</span>
+    </div>`:''}
+  </div>
+
+  <div class="card">
+    <div class="sec-hdr"><span class="sec-hdr-label">Non-negotiables</span></div>
+    ${[['petFriendly','Precious (1 cat)'],['inUnitLaundry','In-unit W/D'],['parking','Parking']].map(([k,l])=>`
+      <div class="nonneg-row" style="background:${pb(r.passesNonNeg?.[k]||'unclear')}">
+        <span style="font-size:13px;color:var(--t1)">${l}</span>
+        ${badge((r.passesNonNeg?.[k]||'unclear').toUpperCase(),pc(r.passesNonNeg?.[k]||'unclear'),pb(r.passesNonNeg?.[k]||'unclear'))}
+      </div>`).join('')}
+    <hr class="div">
+    <div style="font-size:12px;color:${r.inZone==='yes'?'var(--green)':r.inZone==='no'?'var(--red)':'var(--t3)'}">
+      ${r.inZone==='yes'?'✓ In zone (S of Mulberry, E of College)':r.inZone==='no'?'✗ Outside target zone':'Zone: unclear from listing'}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-hdr"><span class="sec-hdr-label">Precious &amp; Light</span></div>
+    <div style="padding:9px 11px;background:var(--green-l);border-radius:var(--radius-sm);margin-bottom:9px;border:1px solid #BBF7D0">
+      <div style="font-size:10px;color:var(--green);font-weight:600;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em">Cat verdict</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.catVerdict)}</div>
+    </div>
+    <div style="padding:9px 11px;background:var(--amber-l);border-radius:var(--radius-sm);border:1px solid #FDE68A">
+      <div style="font-size:10px;color:var(--amber);font-weight:600;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em">Natural light</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.lightNote)}</div>
+    </div>
+  </div>
+
+  ${r.greenFlags?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">Green flags</span></div>${r.greenFlags.map(f=>`<div class="flag-row"><span style="color:var(--green);font-weight:600;flex-shrink:0;width:16px">✓</span><span>${esc(f)}</span></div>`).join('')}</div>`:''}
+  ${r.redFlags?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">Red flags</span></div>${r.redFlags.map(f=>`<div class="flag-row"><span style="color:var(--red);font-weight:600;flex-shrink:0;width:16px">!</span><span>${esc(f)}</span></div>`).join('')}</div>`:''}
+  ${r.missedInfo?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">Find out before deciding</span></div>${r.missedInfo.map(m=>`<div class="flag-row"><span style="color:var(--amber);font-weight:600;flex-shrink:0;width:16px">?</span><span>${esc(m)}</span></div>`).join('')}</div>`:''}
+  ${r.questionsToAsk?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">Questions to ask</span></div>${r.questionsToAsk.map(q=>`<div class="q-row">${esc(q)}</div>`).join('')}</div>`:''}
+  ${r.negotiationAngle?`<div class="card" style="grid-column:1/-1"><div class="sec-hdr"><span class="sec-hdr-label">Negotiation angle</span></div><div style="padding:10px 12px;background:var(--green-l);border-radius:var(--radius-sm);border:1px solid #BBF7D0;font-size:13px;color:var(--green);line-height:1.6">${esc(r.negotiationAngle)}</div></div>`:''}
+</div>
+<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+  <button class="btn btn-primary" onclick='aiAddListing(${JSON.stringify(r).replace(/'/g,"&#39;")})'>+ Add to listings</button>
+  <button class="btn btn-ghost" onclick="setAIMode(_aiMode)">Analyze another</button>
+</div>`;
+```
+
+}
+
+function renderFindResult(r) {
+const L = r.listings||[];
+return ` <div class="card" style="margin-bottom:12px"> <div style="font-size:14px;font-weight:600;margin-bottom:6px">Search results</div> <div style="font-size:13px;color:var(--t2);line-height:1.65">${esc(r.searchSummary||'')}</div> ${r.marketNote?`<div style="font-size:12px;color:var(--t3);margin-top:5px;font-style:italic">${esc(r.marketNote)}</div>`:''} </div> ${L.length===0?`<div class="empty"><div class="em">🏘️</div><div style="color:var(--t2)">No specific listings found — see tips below</div></div>`:''} ${L.map((l,i)=>`<div class="card" style="margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:10px">
+<div>
+<div style="font-size:14px;font-weight:600;margin-bottom:1px">${esc(l.name||‘Listing ‘+(i+1))}</div>
+<div style="font-size:12px;color:var(--t3)">${esc(l.address||l.neighborhood||’’)}${l.source?’ · ‘+esc(l.source):’’}</div>
+</div>
+<div style="text-align:right;flex-shrink:0">
+<div style="font-size:15px;font-weight:700;color:var(--indigo)">${esc(l.rent||’—’)}/mo</div>
+<div style="font-size:11px;color:var(--t3)">${l.type||’’}</div>
+</div>
+</div>
+${l.isComplex&&l.complexUnitsNote?`<div style="background:var(--indigo-l);border-radius:var(--radius-sm);padding:8px 11px;margin-bottom:9px;font-size:12px;color:var(--indigo-d);line-height:1.5">${esc(l.complexUnitsNote)}</div>`:’’}
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px">
+${badge(‘🐱 ‘+(l.catFriendly||’?’),l.catFriendly===‘yes’?‘var(–green)’:l.catFriendly===‘no’?‘var(–red)’:‘var(–amber)’,l.catFriendly===‘yes’?‘var(–green-l)’:l.catFriendly===‘no’?‘var(–red-l)’:‘var(–amber-l)’)}
+${badge(‘Parking: ‘+(l.hasParking||’?’),l.hasParking===‘yes’?‘var(–green)’:‘var(–t3)’,l.hasParking===‘yes’?‘var(–green-l)’:‘var(–bg)’)}
+${badge(‘W/D: ‘+(l.hasWD||’?’),l.hasWD===‘yes’?‘var(–green)’:‘var(–t3)’,l.hasWD===‘yes’?‘var(–green-l)’:‘var(–bg)’)}
+</div>
+<div class="g2" style="gap:8px;margin-bottom:9px">
+${l.highlight?`<div style="background:var(--green-l);border:1px solid #BBF7D0;border-radius:var(--radius-sm);padding:8px 10px;font-size:12px;color:var(--green);line-height:1.5">✓ ${esc(l.highlight)}</div>`:’’}
+${l.concern?`<div style="background:var(--amber-l);border:1px solid #FDE68A;border-radius:var(--radius-sm);padding:8px 10px;font-size:12px;color:var(--amber);line-height:1.5">? ${esc(l.concern)}</div>`:’’}
+</div>
+${(l.lightNote||l.estimatedMonthly)?`<div style="font-size:12px;color:var(--t3);margin-bottom:8px">${l.lightNote?'☀️ '+esc(l.lightNote)+'  ':''}${l.estimatedMonthly?'Est: '+esc(l.estimatedMonthly)+'/mo':''}</div>`:’’}
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+${l.url?`<a href="${esc(l.url)}" target="_blank" rel="noreferrer" class="btn btn-ghost btn-sm">View ↗</a>`:’’}
+<button class=“btn btn-subtle btn-sm” onclick=‘aiAddFindListing(${JSON.stringify(l).replace(/’/g,”'”)})’>+ Track this</button>
+</div>
+</div>`).join('')} ${r.complexesToCallDirectly?.length?`<div class="card" style="margin-bottom:10px">
+<div class="sec-hdr"><span class="sec-hdr-label">Worth calling directly</span></div>
+${r.complexesToCallDirectly.map(c=>`<div style="padding:8px 0;border-bottom:1px solid var(--border)"> <div style="font-size:13px;font-weight:600">${esc(c.name||c)}</div> ${c.area?`<div style="font-size:11px;color:var(--t3)">${esc(c.area)}</div>`:''} ${c.why?`<div style="font-size:12px;color:var(--t2);margin-top:2px">${esc(c.why)}</div>`:''} </div>`).join(’’)}
+</div>`:''} ${r.searchTips?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label">Search tips</span></div>${r.searchTips.map(t=>`<div class="flag-row"><span style="color:var(--indigo);font-weight:600;width:16px;flex-shrink:0">→</span><span>${esc(t)}</span></div>`).join(’’)}</div>`:''}`;
+}
+
+function renderQuestionsResult(r) {
+const sec = (title,qs,color)=>{
+if(!qs?.length) return ‘’;
+return `<div class="card" style="margin-bottom:10px"> <div class="sec-hdr"><span class="sec-hdr-label" style="color:${color||'var(--t2)'}">${title}</span></div> ${qs.map(q=>`<div style="margin-bottom:8px;padding:9px 11px;background:var(--bg);border-radius:var(--radius-sm);border-left:2px solid ${color||'var(--indigo)'}">
+<div style="font-size:13px;font-weight:500;color:var(--t1);margin-bottom:2px">${esc(q.q||q)}</div>
+${q.why?`<div style="font-size:11px;color:var(--t3);line-height:1.4">${esc(q.why)}</div>`:’’}
+</div>`).join('')} </div>`;
+};
+return ` ${r.contextNote?`<div class="card" style="margin-bottom:10px;background:var(--indigo-l);border-color:#D4D4FC">
+<div style="font-size:13px;color:var(--indigo-d);line-height:1.6">${esc(r.contextNote)}</div>
+</div>`:''} ${sec('Critical — ask these first', r.criticalQuestions, 'var(--red)')} ${sec('Precious & cat policy', r.catQuestions, 'var(--green)')} ${sec('Natural light', r.lightQuestions, 'var(--amber)')} ${sec('Other units & floor plans', r.complexQuestions, 'var(--indigo)')} ${sec('Utilities & real costs', r.utilityQuestions, 'var(--t2)')} ${sec('Lease terms', r.leaseQuestions, 'var(--t2)')} ${sec('Negotiation', r.negotiationQuestions, 'var(--green)')} ${(r.dealbreakers?.length||r.greenLights?.length)?`<div class="g2" style="gap:12px">
+${r.dealbreakers?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label" style="color:var(--red)">Walk away if…</span></div>${r.dealbreakers.map(d=>`<div class="flag-row"><span style="color:var(--red);font-weight:600;width:16px;flex-shrink:0">✗</span><span>${esc(d)}</span></div>`).join('')}</div>`:’’}
+${r.greenLights?.length?`<div class="card"><div class="sec-hdr"><span class="sec-hdr-label" style="color:var(--green)">Green lights</span></div>${r.greenLights.map(g=>`<div class="flag-row"><span style="color:var(--green);font-weight:600;width:16px;flex-shrink:0">✓</span><span>${esc(g)}</span></div>`).join('')}</div>`:’’}
+</div>`:''}`;
+}
+
+function aiAddListing(r) {
+const name = r.extractedName || prompt(‘Nickname for this listing:’);
+if(!name) return;
+const p = mkListing();
+p.name    = name;
+p.address = r.extractedAddress||’’;
+p.rent    = (r.extractedRent||’’).replace(/[^0-9]/g,’’)||’’;
+p.ameliaScores = {…(r.scores||{})};
+p.josiahScores = {…(r.scores||{})};
+p.pros  = (r.greenFlags||[]).slice(0,2).join(’; ‘);
+p.cons  = (r.redFlags||[]).slice(0,2).join(’; ‘);
+p.notes = (r.summary||’’)+(r.verdict?’\n\nVerdict: ‘+r.verdict:’’);
+S.listings.push(p); saveL(); goTab(‘listings’); buildChrome();
+}
+
+function aiAddFindListing(l) {
+const p = mkListing();
+p.name     = l.name||’’;
+p.address  = l.address||’’;
+p.neighborhood = l.neighborhood||’’;
+p.type     = l.type||‘Apartment’;
+p.rent     = (l.rent||’’).replace(/[^0-9]/g,’’)||’’;
+p.url      = l.url||’’;
+p.catPolicy= l.catFriendly===‘yes’?‘Cat friendly’:’’;
+p.parking  = l.hasParking===‘yes’?‘1 spot included’:’’;
+p.laundry  = l.hasWD===‘yes’?‘In-unit W/D’:’’;
+p.notes    = (l.highlight||’’)+(l.concern?’\nConcern: ‘+l.concern:’’);
+S.listings.push(p); saveL(); buildChrome();
+showToast(‘✓ Added to listings’);
 }
 
 // ═══════════════════════════════════════════
-//  INIT
+//  SHARE SNAPSHOT
+//  Encodes all listings into a URL param so Josiah
+//  can open it on his phone and see everything.
 // ═══════════════════════════════════════════
+function shareSnapshot() {
+try {
+const payload = JSON.stringify({ listings: S.listings, shared: true, ts: Date.now() });
+const encoded = btoa(unescape(encodeURIComponent(payload)));
+// Keep URL short — use hash so it never hits server
+const url = window.location.href.split(’#’)[0] + ‘#share=’ + encoded;
+if(url.length > 200000) {
+alert(‘Too much data to share via URL — try removing some listings first or sharing individual ones.’);
+return;
+}
+navigator.clipboard.writeText(url).then(() => {
+showToast(‘📤 Link copied! Send it to Josiah.’);
+}).catch(() => {
+// Fallback: show in a prompt
+window.prompt(‘Copy this link and send to Josiah:’, url);
+});
+} catch(e) {
+alert(‘Could not generate share link. Try again.’);
+}
+}
+
+function checkSharedUrl() {
+const hash = window.location.hash;
+if(!hash.startsWith(’#share=’)) return;
+try {
+const encoded = hash.slice(7);
+const payload = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+if(payload.listings && payload.shared) {
+const count = payload.listings.length;
+if(count === 0) return;
+const ok = confirm(`Amelia shared ${count} listing${count!==1?'s':''} with you.\n\nLoad them? (This will replace any listings you have saved here.)`);
+if(ok) {
+S.listings = payload.listings;
+saveL();
+buildChrome();
+renderDash();
+showToast(`✓ Loaded ${count} listing${count!==1?'s':''} from Amelia`);
+// Clean the hash
+history.replaceState(null,’’, window.location.pathname);
+}
+}
+} catch(e) { /* bad link, ignore */ }
+}
+
+function showToast(msg) {
+const t = document.createElement(‘div’);
+t.style.cssText = ‘position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1C1410;color:#fff;padding:11px 22px;border-radius:22px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.25);white-space:nowrap’;
+t.textContent = msg;
+document.body.appendChild(t);
+setTimeout(() => t.style.opacity=‘0’, 2000);
+setTimeout(() => t.remove(), 2400);
+}
+
 load();
+checkSharedUrl();
 buildChrome();
 renderDash();
 
 // Close modal on overlay click
-el('modal').addEventListener('click', e => { if(e.target===el('modal')) closeModal(); });
+el(‘modal’).addEventListener(‘click’, e => { if(e.target===el(‘modal’)) closeModal(); });
 </script>
+
 </body>
-</html
+</html>
