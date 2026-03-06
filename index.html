@@ -4,335 +4,201 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="Home Base"/>
-<title>Home Base · Amelia &amp; Josiah</title>
+<title>Home Base 🏡</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #F9F9F7;
-  --surface: #FFFFFF;
-  --raised:  #FAFAFA;
-  --border:  #E8E8E4;
-  --border-l:#F2F2EE;
-  --t1: #18181B;
-  --t2: #6B6B6B;
-  --t3: #AFAFAC;
-  --blue:    #2563EB;
-  --blue-l:  #EFF6FF;
-  --blue-d:  #1D4ED8;
-  --green:   #16A34A;
-  --green-l: #F0FDF4;
-  --red:     #DC2626;
-  --red-l:   #FEF2F2;
-  --amber:   #D97706;
-  --amber-l: #FFFBEB;
-  --r: 8px; --rs: 6px;
-  --sh: 0 1px 2px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.04);
-  --sh-md: 0 4px 20px rgba(0,0,0,.1);
-  --sh-lg: 0 12px 48px rgba(0,0,0,.16);
-  --font: 'Figtree', system-ui, sans-serif;
-  --sw: 228px; --th: 52px;
+  --ink:  #1C1917; --ink2: #57534E; --ink3: #A8A29E; --ink4: #D6D3D1;
+  --paper:#FAFAF8; --cream:#F5F3EE; --warm: #EDE9E0; --line: #E7E5E0;
+  --sage: #4A7C59; --sage-l:#EEF4F0;
+  --rust: #C0522A; --rust-l:#FAF0EB;
+  --gold: #B45309; --gold-l:#FEF9EC;
+  --sky:  #2F6EA5; --sky-l: #EEF4FB;
+  --r:6px; --r2:10px;
+  --sh:0 1px 3px rgba(28,25,23,.06),0 1px 2px rgba(28,25,23,.04);
+  --sh2:0 4px 16px rgba(28,25,23,.10);
+  --sh3:0 12px 40px rgba(28,25,23,.15);
+  --serif:'Lora',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --sw:220px; --th:50px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--bg);font-family:var(--font);color:var(--t1);-webkit-text-size-adjust:100%}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+html,body{height:100%;background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-text-size-adjust:100%}
+::selection{background:#D4C9B0}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
 
-/* ── Layout ── */
 #app{display:flex;height:100vh;overflow:hidden}
-#sidebar{width:var(--sw);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+#sidebar{width:var(--sw);background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0}
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-#topbar{height:var(--th);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 22px;flex-shrink:0}
-#content{flex:1;overflow-y:auto;padding:24px;padding-bottom:32px}
-.page{display:none}.page.active{display:block;animation:fadeUp .18s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+#topbar{height:var(--th);background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0}
+#content{flex:1;overflow-y:auto;padding:28px 24px 40px}
+.page{display:none}.page.active{display:block;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── Sidebar ── */
-.sb-brand{padding:15px 14px 12px;border-bottom:1px solid var(--border)}
-.sb-brand-name{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:1px}
-.sb-brand-sub{font-size:11px;color:var(--t3)}
-.sb-countdown{margin:10px 8px 0;padding:10px 12px;border-radius:var(--rs);border:1px solid var(--border)}
-.sb-countdown.c-ok{background:var(--blue-l);border-color:#BFDBFE}
-.sb-countdown.c-warn{background:var(--amber-l);border-color:#FDE68A}
-.sb-countdown.c-hot{background:var(--red-l);border-color:#FECACA}
-.scd-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;opacity:.7}
-.scd-days{font-size:24px;font-weight:800;letter-spacing:-.04em;line-height:1}
-.scd-sub{font-size:11px;margin-top:2px;opacity:.7}
-.sb-nav{flex:1;padding:8px 6px;overflow-y:auto}
-.nb{display:flex;align-items:center;gap:8px;width:100%;padding:7px 10px;border-radius:var(--rs);border:none;background:transparent;color:var(--t2);font-size:13px;font-weight:500;cursor:pointer;text-align:left;margin-bottom:1px;font-family:var(--font);transition:all .1s}
-.nb:hover{background:var(--bg);color:var(--t1)}
-.nb.on{background:var(--blue-l);color:var(--blue);font-weight:600}
-.nb .ico{font-size:14px;width:18px;text-align:center;flex-shrink:0;opacity:.55}
+.sb-top{padding:16px 14px 10px}
+.sb-title{font-family:var(--serif);font-size:15px;font-weight:700;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:1px}
+.sb-sub{font-size:10.5px;color:var(--ink3);letter-spacing:.02em}
+.sb-cd{margin:8px 10px;padding:10px 12px;border-radius:var(--r2);background:var(--cream);border:1px solid var(--line)}
+.sb-cd.warm{background:var(--gold-l);border-color:#FDE68A}
+.sb-cd.hot{background:var(--rust-l);border-color:#FECACA}
+.scd-n{font-family:var(--mono);font-size:28px;font-weight:500;line-height:1;letter-spacing:-.03em}
+.scd-l{font-size:10px;text-transform:uppercase;letter-spacing:.07em;opacity:.55;margin-top:3px}
+.sb-nav{flex:1;padding:6px 8px;overflow-y:auto}
+.nb{display:flex;align-items:center;gap:9px;width:100%;padding:7px 10px;border-radius:var(--r);border:none;background:transparent;color:var(--ink2);font-size:12.5px;font-weight:500;cursor:pointer;text-align:left;margin-bottom:2px;font-family:var(--sans);transition:all .1s}
+.nb:hover{background:var(--cream);color:var(--ink)}
+.nb.on{background:var(--ink);color:var(--paper);font-weight:600}
+.nb .ico{font-size:13px;width:17px;text-align:center;flex-shrink:0;opacity:.6}
 .nb.on .ico{opacity:1}
-.nb-cnt{margin-left:auto;font-size:10px;font-weight:700;background:var(--border);color:var(--t2);padding:1px 6px;border-radius:8px}
-.nb.on .nb-cnt{background:var(--blue);color:#fff}
-.sb-foot{padding:10px 14px;border-top:1px solid var(--border);font-size:11px;color:var(--t3);line-height:1.85}
-.sb-who{margin:0 8px 4px;padding:8px 10px;border-radius:var(--rs);background:var(--bg);border:1px solid var(--border);font-size:12px;font-weight:600;color:var(--t2);display:flex;align-items:center;justify-content:space-between}
-.sb-who-name{color:var(--t1)}
-.sb-sync{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
-.sb-sync.off{background:var(--t3)}
+.nb-badge{margin-left:auto;font-family:var(--mono);font-size:10px;background:var(--line);color:var(--ink3);padding:1px 6px;border-radius:10px}
+.nb.on .nb-badge{background:rgba(255,255,255,.2);color:rgba(255,255,255,.8)}
+.sb-foot{padding:10px 14px 12px;border-top:1px solid var(--line);font-size:10.5px;color:var(--ink3);line-height:1.9}
 
-/* ── Topbar ── */
-.tb-title{font-size:13px;font-weight:600;color:var(--t1)}
+.tb-name{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink2)}
 .tb-right{display:flex;gap:8px;align-items:center}
-.tb-meta{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--t3)}
-.tb-sep{width:1px;height:12px;background:var(--border)}
-.tb-chip{font-size:12px;color:var(--red);font-weight:600}
+.tb-meta{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tb-sep{width:1px;height:10px;background:var(--line)}
 
-/* ── Type ── */
-.pg-h{font-size:19px;font-weight:800;letter-spacing:-.025em;margin-bottom:2px}
-.pg-s{font-size:13px;color:var(--t2);margin-bottom:20px;line-height:1.5}
-.sec-h{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.lbl{display:block;font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
-hr.div{border:none;border-top:1px solid var(--border);margin:14px 0}
+.pg-h{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:3px}
+.pg-s{font-size:13px;color:var(--ink2);margin-bottom:22px;line-height:1.55}
+.sec-h{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:10px}
+.lbl{display:block;font-size:10.5px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
 
-/* ── Cards ── */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r2);padding:18px;box-shadow:var(--sh)}
+.card-sm{padding:13px 15px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 
-/* ── Badges ── */
-.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:3px;white-space:nowrap;font-family:var(--mono)}
 
-/* ── Buttons ── */
-.btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--font);font-weight:600;cursor:pointer;border:none;border-radius:var(--rs);transition:all .12s;letter-spacing:-.01em;font-size:13px;padding:8px 14px}
+.btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-weight:600;cursor:pointer;border:none;border-radius:var(--r);transition:all .12s;font-size:12.5px;padding:7px 13px}
 .btn:active{transform:scale(.97)}
-.btn-primary{background:var(--blue);color:#fff}
-.btn-primary:hover{background:var(--blue-d)}
-.btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--border)}
-.btn-ghost:hover{background:var(--bg);color:var(--t1)}
-.btn-danger{background:var(--red-l);color:var(--red);border:1px solid #FECACA}
-.btn-green{background:var(--green-l);color:var(--green);border:1px solid #BBF7D0}
-.btn-sm{padding:5px 10px;font-size:12px;border-radius:5px}
-.btn-xs{padding:3px 8px;font-size:11px;border-radius:4px}
-.btn-icon{padding:6px;border-radius:var(--rs);background:none;border:none;cursor:pointer;color:var(--t3);font-size:14px;transition:all .1s;font-family:var(--font)}
-.btn-icon:hover{background:var(--bg);color:var(--t1)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{background:#2C2825}
+.btn-ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn-ghost:hover{background:var(--cream);color:var(--ink)}
+.btn-rust{background:var(--rust-l);color:var(--rust);border:1px solid #F5C4B0}
+.btn-sm{padding:4px 9px;font-size:11.5px;border-radius:5px}
+.btn-xs{padding:3px 7px;font-size:11px;border-radius:4px}
+.btn-icon{padding:5px;border-radius:var(--r);background:none;border:none;cursor:pointer;color:var(--ink3);font-size:13px;transition:all .1s;font-family:var(--sans)}
+.btn-icon:hover{background:var(--cream);color:var(--ink)}
 
-/* ── Forms ── */
-.field{margin-bottom:12px}
-input,textarea,select{width:100%;padding:7px 10px;font-size:13px;color:var(--t1);background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);font-family:var(--font);transition:border-color .12s;-webkit-appearance:none;appearance:none}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(37,99,235,.12)}
-textarea{resize:vertical;line-height:1.5;min-height:72px}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23AFAFAC' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;padding-right:26px}
-.field-r{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.field-r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.field{margin-bottom:11px}
+input,textarea,select{width:100%;padding:7px 10px;font-size:12.5px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:var(--r);font-family:var(--sans);transition:border-color .12s;-webkit-appearance:none;appearance:none}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ink3);box-shadow:0 0 0 2px rgba(28,25,23,.06)}
+textarea{resize:vertical;line-height:1.55;min-height:68px}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5'%3E%3Cpath d='M1 1l3.5 3L8 1' stroke='%23A8A29E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;padding-right:26px}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 
-/* ── Stars ── */
-.stars{display:flex;gap:1px}
-.star{font-size:16px;cursor:pointer;color:#E5E5E3;transition:color .08s;user-select:none;-webkit-user-select:none}
-.star.on{color:#FBBF24}
+.stars{display:flex;gap:2px}
+.star{font-size:17px;cursor:pointer;color:var(--line);transition:color .08s;user-select:none;-webkit-user-select:none}
+.star.on{color:#D97706}
 
-/* ── Listing cards ── */
-.lcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
-.lcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .12s,box-shadow .12s}
-.lcard:hover{border-color:#93C5FD;box-shadow:0 0 0 3px rgba(37,99,235,.06)}
-.lcard-img{height:96px;background:var(--bg);border-bottom:1px solid var(--border);position:relative;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--t3);overflow:hidden}
+.lcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:10px}
+.lcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--r2);overflow:hidden;display:flex;flex-direction:column;transition:all .15s;box-shadow:var(--sh)}
+.lcard:hover{border-color:var(--ink3);box-shadow:var(--sh2);transform:translateY(-1px)}
+.lcard-img{height:88px;background:var(--cream);border-bottom:1px solid var(--line);position:relative;display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden}
 .lcard-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.lcard-rank{position:absolute;top:7px;left:7px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.02em}
-.lcard-status{position:absolute;top:7px;right:7px;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px}
+.lcard-rank{position:absolute;top:6px;left:6px;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:9.5px;padding:2px 6px;border-radius:3px}
+.lcard-status{position:absolute;top:6px;right:6px;font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:3px;font-family:var(--mono)}
 .lcard-body{padding:12px;flex:1}
-.lcard-name{font-size:14px;font-weight:700;margin-bottom:1px;line-height:1.3}
-.lcard-addr{font-size:12px;color:var(--t3);margin-bottom:8px}
-.lcard-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
-.lcard-score{font-size:13px;font-weight:700;color:var(--t2)}
-.lcard-foot{padding:8px 12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:6px}
-.vote-btn{flex:1;padding:5px 2px;border-radius:5px;border:1px solid var(--border);background:var(--surface);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .1s;text-align:center;color:var(--t2)}
-.vote-btn:hover{background:var(--bg)}
-.vote-apply.va{background:var(--green-l);border-color:#86EFAC;color:var(--green)}
-.vote-maybe.vm{background:var(--amber-l);border-color:#FDE68A;color:var(--amber)}
-.vote-pass.vp{background:var(--red-l);border-color:#FECACA;color:var(--red)}
+.lcard-name{font-family:var(--serif);font-size:14px;font-weight:600;margin-bottom:2px;line-height:1.3}
+.lcard-addr{font-size:11.5px;color:var(--ink3);margin-bottom:8px}
+.lcard-chips{display:flex;gap:5px;flex-wrap:wrap}
+.lcard-foot{padding:8px 12px;border-top:1px solid var(--line);display:flex;align-items:center;gap:5px}
+.vbtn{flex:1;padding:5px 3px;border-radius:4px;border:1px solid var(--line);background:var(--paper);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .1s;text-align:center;color:var(--ink2)}
+.vbtn:hover{background:var(--cream)}
+.vbtn.v-apply{background:var(--sage-l);border-color:#B0D4BC;color:var(--sage)}
+.vbtn.v-maybe{background:var(--gold-l);border-color:#FDE68A;color:var(--gold)}
+.vbtn.v-pass{background:var(--rust-l);border-color:#F5C4B0;color:var(--rust)}
 
-/* ── Filters ── */
-.filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.pill{padding:4px 10px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--t2);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .1s;white-space:nowrap}
-.pill:hover{background:var(--bg);color:var(--t1)}
-.pill.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.pill{padding:4px 10px;border-radius:4px;border:1px solid var(--line);background:var(--paper);color:var(--ink2);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:all .1s;white-space:nowrap}
+.pill:hover{background:var(--cream);color:var(--ink)}
+.pill.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
-/* ── Modal ── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:1000;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(28,25,23,.35);z-index:1000;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .overlay.open{display:flex}
-.modal{background:var(--surface);border-radius:10px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-lg);border:1px solid var(--border);display:flex;flex-direction:column}
-.mhead{padding:16px 18px 0;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:10;flex-shrink:0}
-.mhead-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.mhead-title{font-size:15px;font-weight:700}
+.modal{background:var(--paper);border-radius:var(--r2);width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:var(--sh3);border:1px solid var(--line);display:flex;flex-direction:column}
+.mhead{padding:15px 18px 0;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:10;flex-shrink:0}
+.mhead-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.mhead-title{font-family:var(--serif);font-size:15px;font-weight:600;font-style:italic}
 .mtabs{display:flex}
-.mtab{background:none;border:none;color:var(--t3);padding:7px 12px;font-size:12px;font-weight:600;font-family:var(--font);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .1s;white-space:nowrap}
-.mtab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.mtab{background:none;border:none;color:var(--ink3);padding:7px 12px;font-size:12px;font-weight:500;font-family:var(--sans);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .1s;white-space:nowrap}
+.mtab:hover{color:var(--ink2)}
+.mtab.on{color:var(--ink);border-bottom-color:var(--ink)}
 .mbody{padding:16px 18px 20px;flex:1}
-.mfoot{display:flex;justify-content:flex-end;gap:8px;padding-top:14px;border-top:1px solid var(--border);margin-top:14px}
-.x{background:none;border:none;font-size:18px;color:var(--t3);cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1}
-.x:hover{color:var(--t1);background:var(--bg)}
+.mfoot{display:flex;justify-content:flex-end;gap:7px;padding-top:13px;border-top:1px solid var(--line);margin-top:13px}
+.x{background:none;border:none;font-size:19px;color:var(--ink3);cursor:pointer;padding:1px 5px;border-radius:4px;line-height:1;font-family:var(--sans)}
+.x:hover{color:var(--ink);background:var(--cream)}
 
-/* ── Checklist ── */
-.phase-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden}
+.phase-wrap{background:var(--paper);border:1px solid var(--line);border-radius:var(--r2);margin-bottom:8px;overflow:hidden;box-shadow:var(--sh)}
 .phase-hd{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;transition:background .08s}
-.phase-hd:hover{background:var(--bg)}
+.phase-hd:hover{background:var(--cream)}
 .pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.citem{display:flex;gap:10px;padding:9px 14px;cursor:pointer;border-top:1px solid var(--border-l);transition:background .08s}
-.citem:hover{background:var(--bg)}
-.citem.done{opacity:.5}
-.cbox{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .12s;font-size:9px;font-weight:800;color:#fff}
-.cbox.on{background:var(--green);border-color:var(--green)}
+.citem{display:flex;gap:10px;padding:9px 14px;cursor:pointer;border-top:1px solid var(--line);transition:background .08s}
+.citem:hover{background:var(--cream)}
+.citem.done{opacity:.45}
+.cbox{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .12s;font-size:9px;color:#fff}
+.cbox.on{background:var(--sage);border-color:var(--sage)}
 
-/* ── Progress ── */
-.prog{height:4px;background:var(--border);border-radius:6px;overflow:hidden}
+.prog{height:3px;background:var(--line);border-radius:6px;overflow:hidden}
 .prog-f{height:100%;border-radius:6px;transition:width .4s}
 
-/* ── AI ── */
-.ai-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:20px;overflow-x:auto}
-.atab{background:none;border:none;color:var(--t3);padding:9px 14px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .1s;white-space:nowrap}
-.atab:hover{color:var(--t2)}
-.atab.on{color:var(--blue);font-weight:600;border-bottom-color:var(--blue)}
-.ai-result-card{border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:8px}
-.ai-result-card h4{font-size:13px;font-weight:600;margin-bottom:4px}
-.ai-result-card p,.ai-result-card li{font-size:13px;color:var(--t2);line-height:1.65}
-.ai-result-card ul{padding-left:16px;margin-top:4px}
-.verdict-bar{background:var(--t1);border-radius:var(--r);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:16px}
+.bline{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.bline:last-child{border:none}
+.btotal{display:flex;justify-content:space-between;padding:11px 0 3px;font-size:15px;font-weight:700;font-family:var(--serif)}
+.scenario{padding:10px 12px;border-radius:var(--r);background:var(--cream);border:1px solid var(--line);margin-bottom:6px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.dc-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r2);padding:13px;display:flex;align-items:center;gap:12px;margin-bottom:7px;box-shadow:var(--sh)}
+.dc-chip{padding:3px 8px;border-radius:3px;font-size:10.5px;font-weight:600;font-family:var(--mono);white-space:nowrap}
 
-/* ── Decide tab ── */
-.decide-section{margin-bottom:24px}
-.decide-section h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.decide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:7px}
-.decide-votes{display:flex;gap:6px;flex-shrink:0}
-.dv-chip{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap}
+.divider{border:none;border-top:1px solid var(--line);margin:14px 0}
+.empty{text-align:center;padding:48px 20px}
+.empty-ico{font-size:32px;margin-bottom:10px}
+.empty-h{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink2);margin-bottom:4px}
+.empty-s{font-size:12.5px;color:var(--ink3)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 17px;border-radius:20px;font-size:12.5px;font-weight:500;z-index:9999;pointer-events:none;white-space:nowrap;transition:opacity .3s;box-shadow:var(--sh2);opacity:0}
 
-/* ── Budget ── */
-.budget-line{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border-l);font-size:13px}
-.budget-line:last-child{border-bottom:none}
-.budget-total{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0 4px;font-size:15px;font-weight:700}
-.scenario-row{padding:10px 13px;border-radius:var(--rs);background:var(--bg);border:1px solid var(--border);margin-bottom:6px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-
-/* ── Misc ── */
-.empty{text-align:center;padding:50px 20px}
-.empty-ico{font-size:36px;margin-bottom:12px}
-.empty-h{font-size:15px;font-weight:700;color:var(--t2);margin-bottom:4px}
-.empty-s{font-size:13px;color:var(--t3)}
-.spinner{display:inline-block;width:16px;height:16px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .65s linear infinite;vertical-align:middle}
-@keyframes spin{to{transform:rotate(360deg)}}
-.toast-el{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(0);background:var(--t1);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:500;z-index:9999;pointer-events:none;white-space:nowrap;transition:opacity .3s;box-shadow:var(--sh-md)}
-
-/* ── Setup screen ── */
-#setup{display:none;position:fixed;inset:0;background:var(--bg);z-index:2000;overflow-y:auto;align-items:flex-start;justify-content:center;padding:30px 16px}
-#setup.open{display:flex}
-.setup-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:30px;max-width:480px;width:100%;margin:auto;box-shadow:var(--sh-md)}
-.setup-step{display:none}.setup-step.active{display:block}
-.setup-h{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
-.setup-s{font-size:13px;color:var(--t2);margin-bottom:22px;line-height:1.6}
-.who-btn{width:100%;padding:14px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--surface);font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;margin-bottom:8px;transition:all .15s;text-align:left;display:flex;align-items:center;gap:10px;color:var(--t1)}
-.who-btn:hover{border-color:var(--blue);background:var(--blue-l);color:var(--blue)}
-.setup-note{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--t2);line-height:1.65}
-.setup-note code{background:var(--border);padding:1px 5px;border-radius:3px;font-size:11px;font-family:monospace}
-
-/* ── Mobile ── */
 @media(max-width:640px){
   #sidebar{display:none}
-  #app{flex-direction:column}
-  #main{height:100dvh}
-  #content{padding:14px;padding-bottom:68px}
-  #topbar{padding:0 14px}
-  .tb-meta{display:none}
+  #content{padding:16px 14px 72px}
   .lcards{grid-template-columns:1fr}
   .g2,.g4{grid-template-columns:1fr}
   .g3{grid-template-columns:1fr 1fr}
-  .modal{border-radius:12px 12px 0 0;max-height:88vh;position:fixed;bottom:0;left:0;right:0;max-width:100%}
+  .modal{border-radius:var(--r2) var(--r2) 0 0;max-height:88vh;position:fixed;bottom:0;left:0;right:0;max-width:100%}
   .overlay{align-items:flex-end;padding:0}
-  #mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:200;padding-bottom:env(safe-area-inset-bottom,0)}
-  .mn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;border:none;background:none;color:var(--t3);font-family:var(--font);font-size:10px;font-weight:500;cursor:pointer;transition:color .1s}
-  .mn.on{color:var(--blue)}
-  .mn .mi{font-size:18px;line-height:1}
-  .decide-card{flex-wrap:wrap}
+  #mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:1px solid var(--line);z-index:200;padding-bottom:env(safe-area-inset-bottom,0)}
+  .mn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;border:none;background:none;color:var(--ink3);font-family:var(--sans);font-size:9.5px;font-weight:500;cursor:pointer;transition:color .1s}
+  .mn.on{color:var(--ink)}
+  .mn .mi{font-size:17px;line-height:1}
 }
 @media(min-width:641px){#mob-nav{display:none}}
 </style>
 </head>
 <body>
-
-<!-- Setup screen -->
-<div id="setup">
-  <div class="setup-box">
-    <!-- Step 1: Who are you -->
-    <div class="setup-step active" id="step-who">
-      <div style="font-size:28px;margin-bottom:12px">🏡</div>
-      <div class="setup-h">Welcome to Home Base</div>
-      <div class="setup-s">Your apartment search, organized. First — who's using this device?</div>
-      <button class="who-btn" onclick="setWho('amelia')"><span style="font-size:20px">👩</span> I'm Amelia</button>
-      <button class="who-btn" onclick="setWho('josiah')"><span style="font-size:20px">👨</span> I'm Josiah</button>
-    </div>
-
-    <!-- Step 2: GitHub token -->
-    <div class="setup-step" id="step-firebase">
-      <div class="setup-h">GitHub token</div>
-      <div class="setup-s">Saves your data to your private GitHub repo — free forever, you own everything.</div>
-      <div class="setup-note">
-        1. Go to <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--blue)">github.com/settings/tokens</a><br>
-        2. <strong>Generate new token (classic)</strong><br>
-        3. Name: <code>homebase</code> &nbsp;·&nbsp; Expiration: <strong>No expiration</strong><br>
-        4. Check only: <strong>repo</strong><br>
-        5. Click Generate, copy the token, paste below
-      </div>
-      <div class="field">
-        <label class="lbl">Personal access token (starts with ghp_)</label>
-        <input id="gh-token-input" type="password" placeholder="ghp_...">
-        <div id="fb-err" style="color:var(--red);font-size:12px;margin-top:6px;min-height:16px"></div>
-      </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="saveGHToken()">Connect &#x2192;</button>
-    </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="saveGHToken()">Connect →</button>
-    </div>
-
-    <!-- Step 3: API key -->
-    <div class="setup-step" id="step-api">
-      <div class="setup-h">Anthropic API Key</div>
-      <div class="setup-s">Powers real-time listing analysis, quick-capture from URLs, and cross-listing insights. Your key is only stored locally on this device.</div>
-      <div class="setup-note">
-        Get a key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue)">console.anthropic.com</a> → API Keys → Create key.<br>
-        <strong>Cost:</strong> Analyzing a few listings per day is less than $0.10/month.
-      </div>
-      <div class="field">
-        <label class="lbl">API Key</label>
-        <input id="api-key-input" type="password" placeholder="sk-ant-api03-...">
-      </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="saveApiKey()">Save &amp; Launch →</button>
-      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px" onclick="skipApiKey()">Skip for now (some features won't work)</button>
-    </div>
-  </div>
-</div>
-
-<!-- Main app -->
-<div id="app" style="display:none">
+<div id="app">
   <aside id="sidebar">
-    <div class="sb-brand">
-      <div class="sb-brand-name">Amelia &amp; Josiah 🏡</div>
-      <div class="sb-brand-sub">Fort Collins · Precious approved 🐱</div>
+    <div class="sb-top">
+      <div class="sb-title">Amelia &amp; Josiah</div>
+      <div class="sb-sub">Fort Collins · Precious 🐱 · May 10</div>
     </div>
-    <div class="sb-countdown c-ok" id="sb-cd">
-      <div class="scd-lbl" id="scd-lbl">Deadline</div>
-      <div class="scd-days" id="scd-days">—</div>
-      <div class="scd-sub" id="scd-sub">days until May 10</div>
-    </div>
-    <div class="sb-who" id="sb-who">
-      <span>Logged in as <span class="sb-who-name" id="sb-who-name">—</span></span>
-      <div class="sb-sync" id="sb-sync" title="Sync status"></div>
+    <div class="sb-cd" id="sb-cd">
+      <div class="scd-n" id="scd-n">—</div>
+      <div class="scd-l" id="scd-l">days until May 10</div>
     </div>
     <nav class="sb-nav" id="sb-nav"></nav>
-    <div class="sb-foot">1 cat · 2BR · In-unit W/D<br>S of Mulberry · E of College<br>May 10 deadline</div>
+    <div class="sb-foot">2BR · in-unit W/D · parking<br>S of Mulberry · E of College<br>~$2,000/mo max</div>
   </aside>
-
   <div id="main">
     <header id="topbar">
-      <span class="tb-title" id="tb-title">Dashboard</span>
+      <span class="tb-name" id="tb-name">Home Base</span>
       <div class="tb-right">
-        <div class="tb-meta">
-          <span id="meta-listings">0 listings</span>
-          <div class="tb-sep"></div>
-          <span id="meta-tasks">0 tasks</span>
-          <div class="tb-sep"></div>
-          <span id="meta-days" class="tb-chip">— days</span>
-        </div>
-        <button class="btn btn-ghost btn-sm" onclick="openSettings()">Settings</button>
+        <div class="tb-meta" id="tb-meta"></div>
+        <button class="btn btn-ghost btn-sm" onclick="openSettings()">⚙ Settings</button>
       </div>
     </header>
     <main id="content">
@@ -340,1610 +206,452 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div id="page-listings"  class="page"></div>
       <div id="page-decide"    class="page"></div>
       <div id="page-budget"    class="page"></div>
-      <div id="page-ai"        class="page"></div>
       <div id="page-checklist" class="page"></div>
     </main>
   </div>
-
   <nav id="mob-nav"></nav>
 </div>
 
-<!-- Listing modal -->
-<div class="overlay" id="listing-modal">
+<div class="overlay" id="lm-overlay">
   <div class="modal">
     <div class="mhead">
-      <div class="mhead-row">
-        <span class="mhead-title" id="lm-title">Add Listing</span>
-        <button class="x" onclick="closeListingModal()">×</button>
-      </div>
+      <div class="mhead-row"><span class="mhead-title" id="lm-title">Add Listing</span><button class="x" onclick="closeLM()">×</button></div>
       <div class="mtabs" id="lm-tabs"></div>
     </div>
     <div class="mbody" id="lm-body"></div>
   </div>
 </div>
 
-<!-- Settings modal -->
-<div class="overlay" id="settings-modal">
-  <div class="modal" style="max-width:420px">
+<div class="overlay" id="sm-overlay">
+  <div class="modal" style="max-width:400px">
     <div class="mhead">
-      <div class="mhead-row">
-        <span class="mhead-title">Settings</span>
-        <button class="x" onclick="closeSettings()">×</button>
-      </div>
+      <div class="mhead-row"><span class="mhead-title">Settings</span><button class="x" onclick="closeSM()">×</button></div>
     </div>
-    <div class="mbody" id="settings-body"></div>
+    <div class="mbody" id="sm-body"></div>
   </div>
 </div>
 
-<!-- Quick-capture modal -->
-<div class="overlay" id="qc-modal">
-  <div class="modal" style="max-width:480px">
-    <div class="mhead">
-      <div class="mhead-row">
-        <span class="mhead-title">⚡ Quick Capture</span>
-        <button class="x" onclick="closeQC()">×</button>
-      </div>
-    </div>
-    <div class="mbody" id="qc-body"></div>
-  </div>
-</div>
-
+<div class="toast" id="toast"></div>
 <script>
 'use strict';
-
-// ═══════════════════════════════════════════════════
-//  CONSTANTS
-// ═══════════════════════════════════════════════════
-const DEADLINE    = new Date('2025-05-10');
-const daysLeft    = () => Math.max(0, Math.ceil((DEADLINE - new Date()) / 86400000));
-const MODEL       = 'claude-sonnet-4-6';
-const NAV = [
-  {id:'dash',      label:'Dashboard',  ico:'⌂'},
-  {id:'listings',  label:'Listings',   ico:'🏠'},
-  {id:'decide',    label:'Decide',     ico:'⚖️'},
-  {id:'budget',    label:'Budget',     ico:'💰'},
-  {id:'ai',        label:'AI',         ico:'✨'},
-  {id:'checklist', label:'Checklist',  ico:'✓'},
+const DEADLINE=new Date('2025-05-10');
+const daysLeft=()=>Math.max(0,Math.ceil((DEADLINE-Date.now())/86400000));
+const NAV=[
+  {id:'dash',label:'Dashboard',ico:'⌂'},
+  {id:'listings',label:'Listings',ico:'🏠'},
+  {id:'decide',label:'Decide',ico:'⚖'},
+  {id:'budget',label:'Budget',ico:'$'},
+  {id:'checklist',label:'Checklist',ico:'✓'},
 ];
-const STATUSES   = ['Saved','Touring','Applied','Rejected'];
-const SC = {Saved:{bg:'#EFF6FF',tx:'#2563EB'},Touring:{bg:'#FFFBEB',tx:'#D97706'},Applied:{bg:'#F0FDF4',tx:'#16A34A'},Rejected:{bg:'#FEF2F2',tx:'#DC2626'}};
-const SCORE_CATS = [{k:'location',l:'Location'},{k:'value',l:'Value'},{k:'light',l:'Light'},{k:'cat',l:'Cat'},{k:'vibe',l:'Vibe'}];
+const STATUSES=['Saved','Touring','Applied','Rejected'];
+const SC={Saved:{bg:'#EEF4FB',tx:'#2F6EA5'},Touring:{bg:'#FEF9EC',tx:'#B45309'},Applied:{bg:'#EEF4F0',tx:'#4A7C59'},Rejected:{bg:'#FAF0EB',tx:'#C0522A'}};
+const SCORE_CATS=[{k:'location',l:'Location'},{k:'value',l:'Value'},{k:'light',l:'Light'},{k:'cat',l:'Precious'},{k:'vibe',l:'Vibe'}];
+const FC_TIPS=[
+  'SE Fort Collins 2BR runs $1,500–$2,100/mo right now. Under $1,700 is a deal — move fast.',
+  'Always ask what the previous tenant actually paid for electric + gas. Xcel bills vary wildly.',
+  'Ting fiber is excellent in SE Fort Collins and usually faster than Xfinity. Ask before signing.',
+  'May is CSU graduation month — movers book up fast. Reserve a truck the day you sign.',
+  'Private landlords are far more flexible on Precious than big complexes — "no pets" is sometimes negotiable.',
+  'Colorado law requires 24-hour notice before landlord entry. Any lease waiving this is a red flag.',
+  'Ask about rent-increase policy at renewal upfront — some FC landlords raise 10–15% annually.',
+  'Xcel gas bills spike Oct–March. Budget $80–100/mo in winter, not $40.',
+  'A refundable pet deposit beats monthly pet rent. $400 deposit > $50/mo after just 8 months.',
+  'South-facing = afternoon light year-round. West = golden hour. North = very little direct sun.',
+];
+const PHASES=[
+  {phase:'Get Ready',color:'var(--rust)',items:[
+    {id:'c1',task:'Get pay stubs (last 2 months)'},
+    {id:'c2',task:'Get bank statements (last 2 months)'},
+    {id:'c3',task:'Get a letter of employment'},
+    {id:'c4',task:'Have photo ID ready'},
+    {id:'c5',task:'Check both credit scores'},
+    {id:'c6',task:'Write a renter\'s intro letter — mention Precious is indoor-only'},
+    {id:'c7',task:'Set your budget in the Budget tab'},
+  ]},
+  {phase:'Active Search',color:'var(--gold)',items:[
+    {id:'c8', task:'Check Zillow, Apartments.com, Craigslist daily'},
+    {id:'c9', task:'Check Facebook Marketplace weekly'},
+    {id:'c10',task:'Drive the target zone — look for "For Rent" signs'},
+    {id:'c11',task:'Set up email alerts on Zillow'},
+    {id:'c12',task:'Call about Precious before every tour — confirm deposit + monthly fee'},
+    {id:'c13',task:'Ask window orientation and floor at every showing (light is your #1)'},
+    {id:'c14',task:'Ask what the previous tenant actually paid for utilities'},
+  ]},
+  {phase:'Touring & Deciding',color:'var(--sky)',items:[
+    {id:'c15',task:'Tour your top 3 in person'},
+    {id:'c16',task:'Both vote Apply/Maybe/Pass in the Decide tab'},
+    {id:'c17',task:'Get a lease to review before signing'},
+    {id:'c18',task:'Check lease red flags: entry notice, rent increase policy'},
+    {id:'c19',task:'Try to negotiate — deposit, move-in date, or one free month'},
+    {id:'c20',task:'Confirm Precious is approved in writing before signing'},
+    {id:'c21',task:'Pay application fee on your top choice'},
+  ]},
+  {phase:'Moving In',color:'var(--sage)',items:[
+    {id:'c22',task:'Sign the lease'},
+    {id:'c23',task:'Set up renters insurance (most FoCo landlords require it)'},
+    {id:'c24',task:'Book moving truck — May fills up fast'},
+    {id:'c25',task:'Set up Xcel Energy account'},
+    {id:'c26',task:'Set up internet (check if Ting fiber is available)'},
+    {id:'c27',task:'Change addresses — USPS, bank, etc.'},
+    {id:'c28',task:'Help Josiah find a sublease or list on Facebook/Craigslist'},
+    {id:'c29',task:'Set up a Precious safe room first — one quiet room before any boxes'},
+  ]},
+];
+const ALL_ITEMS=PHASES.flatMap(ph=>ph.items);
 
-const CRITERIA = `Amelia & Josiah's apartment criteria (today: ${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}):
-- City: Fort Collins, CO. Zone: south of Mulberry St AND east of College Ave
-- Non-negotiables: in-unit W/D, 1+ parking spot, pet-friendly for 1 cat (Precious, indoor only)
-- Top priority: natural light (south/west-facing preferred)
-- Move-in deadline: May 10, 2025. Budget: ~$2,000/mo max (rent+cat rent+parking). Income: $5,500–$7,500/mo, splitting 50/50`;
+let S={listings:[],budget:{},checked:{},settings:{ameliaWork:'',josiahWork:'',who:'amelia'},tab:'dash',filter:'All',sort:'score',lmTab:'info',_openPhase:null};
+const KEYS={listings:'hb7-listings',budget:'hb7-budget',checked:'hb7-checked',settings:'hb7-settings'};
+function load(){
+  try{const d=localStorage.getItem(KEYS.listings);if(d)S.listings=JSON.parse(d);}catch(e){}
+  try{const d=localStorage.getItem(KEYS.budget);if(d)S.budget=JSON.parse(d);}catch(e){}
+  try{const d=localStorage.getItem(KEYS.checked);if(d)S.checked=JSON.parse(d);}catch(e){}
+  try{const d=localStorage.getItem(KEYS.settings);if(d)S.settings=Object.assign({ameliaWork:'',josiahWork:'',who:'amelia'},JSON.parse(d));}catch(e){}
+}
+const persist=k=>{try{localStorage.setItem(KEYS[k],JSON.stringify(S[k]));}catch(e){}};
 
-// ═══════════════════════════════════════════════════
-//  APP STATE  (in-memory mirror of Firebase data)
-// ═══════════════════════════════════════════════════
-const S = {
-  listings:  [],   // array, mirrored from Firebase
-  budget:    {},
-  checked:   {},
-  settings:  { ameliaWork:'', josiahWork:'' },
-  tab:       'dash',
-  filter:    'All',
-  sort:      'score',
-  lmTab:     'info',  // listing modal active tab
-  editId:    null,    // listing being edited
-  aiMode:    'analyze',
-  fbReady:   false,
-};
+const el=id=>document.getElementById(id);
+const esc=s=>s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):'';
+const fmt=n=>n?'$'+parseInt(n).toLocaleString():'\u2014';
+const avgSc=sc=>{if(!sc)return 0;const v=Object.values(sc).filter(n=>n>0);return v.length?v.reduce((a,b)=>a+b,0)/SCORE_CATS.length:0;};
+const combo=p=>(avgSc(p.ameliaScores)+avgSc(p.josiahScores))/2;
+const badge=(t,tx,bg)=>`<span class="badge" style="color:${tx};background:${bg}">${esc(t)}</span>`;
+const mkId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const who=()=>S.settings.who||'amelia';
+const myVote=p=>who()==='amelia'?(p.ameliaVote||null):(p.josiahVote||null);
+const theirVote=p=>who()==='amelia'?(p.josiahVote||null):(p.ameliaVote||null);
+const myName=()=>who()==='amelia'?'Amelia':'Josiah';
+const theirName=()=>who()==='amelia'?'Josiah':'Amelia';
 
-// ═══════════════════════════════════════════════════
-//  CONFIG HELPERS (localStorage — device-specific)
-// ═══════════════════════════════════════════════════
-const who      = ()  => localStorage.getItem('hb-who') || '';
-const apiKey   = ()  => localStorage.getItem('hb-api-key') || '';
-const fbConfig = ()  => { try { return JSON.parse(localStorage.getItem('hb-fb') || '{}'); } catch(e) { return {}; } };
-
-// ═══════════════════════════════════════════════════
-//  UTILITIES
-// ═══════════════════════════════════════════════════
-const el    = id  => document.getElementById(id);
-const esc   = s   => s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : '';
-const fmt   = n   => n ? '$'+parseInt(n).toLocaleString() : '—';
-const fmtD  = d   => { if(!d) return '—'; return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}); };
-const avgSc = sc  => { if(!sc) return 0; const v = Object.values(sc).filter(n=>n>0); return v.length ? v.reduce((a,b)=>a+b,0)/SCORE_CATS.length : 0; };
-const combo = p   => (avgSc(p.ameliaScores)+avgSc(p.josiahScores))/2;
-const badge = (t,tx,bg) => `<span class="badge" style="color:${tx};background:${bg}">${esc(t)}</span>`;
-const mkId  = ()  => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-
-function showToast(msg, dur=2600) {
-  let t = el('toast-el');
-  if(!t){ t=document.createElement('div'); t.id='toast-el'; t.className='toast-el'; document.body.appendChild(t); }
-  t.textContent = msg;
-  t.style.opacity = '1';
-  clearTimeout(t._tid);
-  t._tid = setTimeout(()=>{ t.style.opacity='0'; },dur);
+function toast(msg,dur=2500){
+  const t=el('toast');t.textContent=msg;t.style.opacity='1';
+  clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity='0',dur);
 }
 
-function mkListing() {
-  return {
-    id: mkId(),
-    name:'',address:'',neighborhood:'',type:'Apartment',status:'Saved',
+function mkListing(){
+  return{id:mkId(),name:'',address:'',neighborhood:'',type:'Apartment',status:'Saved',
     rent:'',deposit:'',sqft:'',beds:'2',baths:'1',
     catPolicy:'',catDeposit:'',catRent:'',
     parking:'',laundry:'',utilities:'',availDate:'',leaseLength:'',
-    url:'',photo:'',pros:'',cons:'',notes:'',nextAction:'',
-    archived:false,
-    ameliaVote:null, josiahVote:null,
+    url:'',photo:'',pros:'',cons:'',tourNotes:'',notes:'',nextAction:'',
+    archived:false,ameliaVote:null,josiahVote:null,
     ameliaScores:{location:0,value:0,light:0,cat:0,vibe:0},
     josiahScores:{location:0,value:0,light:0,cat:0,vibe:0},
-    createdAt: Date.now(),
-  };
+    createdAt:Date.now()};
 }
 
-// ═══════════════════════════════════════════════════
-//  GITHUB API SYNC
-//  Data lives in data.json in the private repo.
-//  Reads: unauthenticated (private repo = needs token too)
-//  Writes: PUT via GitHub Contents API
-// ═══════════════════════════════════════════════════
-const GH_OWNER = 'ameliaggish';
-const GH_REPO  = 'homebase';
-const GH_FILE  = 'data.json';
-const GH_BRANCH= 'main';
-const ghToken  = () => localStorage.getItem('hb-gh-token') || '';
-
-let _fileSHA   = null;   // needed for GitHub PUT updates
-let _saveTimer = null;   // debounce timer
-let _pendingSave = false;
-
-function setSyncIndicator(ok, syncing=false) {
-  const s = el('sb-sync');
-  if(!s) return;
-  s.className = 'sb-sync' + (syncing?' syncing': ok?'':' off');
-  s.title = syncing ? 'Saving…' : ok ? 'Synced to GitHub' : 'Not connected';
-}
-
-async function ghFetch(path, opts={}) {
-  const token = ghToken();
-  if(!token) throw new Error('No GitHub token — go to Settings');
-  const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/${path}`, {
-    ...opts,
-    headers: {
-      'Authorization': `token ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      ...(opts.headers||{}),
-    },
-  });
-  if(!res.ok) {
-    const err = await res.json().catch(()=>({}));
-    throw new Error(err.message || `GitHub API error ${res.status}`);
+function buildChrome(){
+  const days=daysLeft(),done=Object.values(S.checked).filter(Boolean).length;
+  const active=S.listings.filter(p=>!p.archived);
+  const cd=el('sb-cd');
+  if(cd){
+    cd.className='sb-cd'+(days<21?' hot':days<35?' warm':'');
+    const clr=days<21?'var(--rust)':days<35?'var(--gold)':'var(--ink)';
+    el('scd-n').textContent=days;el('scd-n').style.color=clr;
+    el('scd-l').style.color=clr;
+    el('scd-l').textContent=days<21?'days left — move fast!':days<35?'days — getting close':'days until May 10';
   }
-  return res.json();
-}
-
-// Load all data from GitHub on startup
-async function loadFromGitHub() {
-  try {
-    setSyncIndicator(false, true);
-    const file = await ghFetch(`contents/${GH_FILE}?ref=${GH_BRANCH}`);
-    _fileSHA = file.sha;
-    const raw = atob(file.content.replace(/\s+/g,''));
-    const data = JSON.parse(raw);
-    S.listings = data.listings || [];
-    S.budget   = data.budget   || {};
-    S.checked  = data.checked  || {};
-    S.settings = Object.assign({ameliaWork:'',josiahWork:''}, data.settings||{});
-    setSyncIndicator(true);
-    refreshActiveTab();
-    buildChrome();
-  } catch(e) {
-    if(e.message && e.message.includes('404')) {
-      // File doesn't exist yet — create it
-      await saveToGitHub(true);
-    } else {
-      console.error('GitHub load error:', e);
-      setSyncIndicator(false);
-      showToast('Could not load data from GitHub: ' + e.message);
-    }
-  }
-}
-
-// Save all data to GitHub
-async function saveToGitHub(force=false) {
-  const token = ghToken();
-  if(!token) return;
-  try {
-    setSyncIndicator(true, true);
-    const data = {
-      listings: S.listings,
-      budget:   S.budget,
-      checked:  S.checked,
-      settings: S.settings,
-      updatedAt: new Date().toISOString(),
-    };
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-    const body = {
-      message: `update: ${new Date().toLocaleTimeString()}`,
-      content,
-      branch: GH_BRANCH,
-    };
-    if(_fileSHA) body.sha = _fileSHA;
-    const res = await ghFetch(`contents/${GH_FILE}`, {
-      method: 'PUT',
-      body: JSON.stringify(body),
-    });
-    _fileSHA = res.content?.sha || _fileSHA;
-    setSyncIndicator(true);
-  } catch(e) {
-    setSyncIndicator(false);
-    console.error('GitHub save error:', e);
-    // If conflict (someone else saved), reload then retry
-    if(e.message && (e.message.includes('409') || e.message.includes('conflict'))) {
-      showToast('Sync conflict — reloading…');
-      await loadFromGitHub();
-    } else {
-      showToast('Save failed: ' + e.message);
-    }
-  }
-}
-
-// Debounced save — batches rapid changes into one write
-function scheduleSave() {
-  clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(() => saveToGitHub(), 800);
-}
-
-// Data write helpers — update local state immediately, then sync
-function saveListing(p) {
-  const idx = S.listings.findIndex(x => x.id === p.id);
-  if(idx >= 0) S.listings[idx] = p; else S.listings.push(p);
-  refreshActiveTab();
-  buildChrome();
-  scheduleSave();
-}
-
-function delListing(id) {
-  if(!confirm('Remove this listing permanently?')) return;
-  S.listings = S.listings.filter(x => x.id !== id);
-  refreshActiveTab();
-  buildChrome();
-  scheduleSave();
-}
-
-function archiveListing(id) {
-  const p = S.listings.find(x => x.id === id);
-  if(!p) return;
-  p.archived = true;
-  p.status = 'Rejected';
-  refreshActiveTab();
-  buildChrome();
-  scheduleSave();
-}
-
-function saveBudget(b) {
-  S.budget = b;
-  scheduleSave();
-}
-
-function saveChecked(c) {
-  S.checked = c;
-  buildChrome();
-  scheduleSave();
-}
-
-function saveSettings(s) {
-  S.settings = s;
-  scheduleSave();
-}
-
-function saveVote(listingId, vote) {
-  const p = S.listings.find(x => x.id === listingId);
-  if(!p) return;
-  const field = who() === 'amelia' ? 'ameliaVote' : 'josiahVote';
-  p[field] = vote;
-  refreshActiveTab();
-  buildChrome();
-  scheduleSave();
-}
-
-// Poll for remote changes every 30s (so Josiah sees Amelia's updates)
-function startPolling() {
-  setInterval(async () => {
-    try {
-      const file = await ghFetch(`contents/${GH_FILE}?ref=${GH_BRANCH}&_=${Date.now()}`);
-      if(file.sha !== _fileSHA) {
-        // Remote changed — reload
-        _fileSHA = file.sha;
-        const raw = atob(file.content.replace(/\s+/g,''));
-        const data = JSON.parse(raw);
-        S.listings = data.listings || [];
-        S.budget   = data.budget   || {};
-        S.checked  = data.checked  || {};
-        S.settings = Object.assign({ameliaWork:'',josiahWork:''}, data.settings||{});
-        refreshActiveTab();
-        buildChrome();
-        showToast('↻ Synced new changes');
-      }
-    } catch(e) { /* silent — don't interrupt user */ }
-  }, 30000);
-}
-
-// ═══════════════════════════════════════════════════
-//  SETUP FLOW
-// ═══════════════════════════════════════════════════
-function setWho(w) {
-  localStorage.setItem('hb-who', w);
-  el('step-who').classList.remove('active');
-  el('step-firebase').classList.add('active');
-}
-
-async function saveGHToken() {
-  const token = el('gh-token-input')?.value.trim();
-  const errEl = el('fb-err');
-  if(errEl) errEl.textContent = '';
-  if(!token || !token.startsWith('ghp_')) {
-    if(errEl) errEl.textContent = 'Token should start with ghp_ — make sure you copied the full thing';
-    return;
-  }
-  localStorage.setItem('hb-gh-token', token);
-  // Test the token
-  try {
-    const btn = el('step-firebase').querySelector('button.btn-primary');
-    if(btn) { btn.disabled=true; btn.textContent='Connecting…'; }
-    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}`, {
-      headers: { 'Authorization': `token ${token}` }
-    });
-    if(!res.ok) throw new Error('Could not access repo — check the token has repo scope');
-    el('step-firebase').classList.remove('active');
-    el('step-api').classList.add('active');
-  } catch(e) {
-    if(errEl) errEl.textContent = e.message;
-    const btn = el('step-firebase').querySelector('button.btn-primary');
-    if(btn) { btn.disabled=false; btn.textContent='Connect →'; }
-  }
-}
-
-function saveApiKey() {
-  const k = el('api-key-input').value.trim();
-  if(k) localStorage.setItem('hb-api-key', k);
-  launchApp();
-}
-
-function skipApiKey() {
-  launchApp();
-}
-
-function launchApp() {
-  el('setup').classList.remove('open');
-  el('app').style.display = 'flex';
-  buildChrome();
-  goTab('dash');
-  loadFromGitHub().then(() => startPolling());
-}
-
-function checkSetup() {
-  const hasWho   = !!who();
-  const hasToken = !!ghToken();
-
-  if(!hasWho || !hasToken) {
-    el('setup').classList.add('open');
-    el('app').style.display = 'none';
-    ['step-who','step-firebase','step-api'].forEach(id => el(id).classList.remove('active'));
-    if(!hasWho) el('step-who').classList.add('active');
-    else        el('step-firebase').classList.add('active');
-    return false;
-  }
-  return true;
-}
-
-// ═══════════════════════════════════════════════════
-//  CHROME / NAVIGATION
-// ═══════════════════════════════════════════════════
-function buildChrome() {
-  const days  = daysLeft();
-  const done  = Object.values(S.checked).filter(Boolean).length;
-  const total = ALL_ITEMS.length;
-  const active = S.listings.filter(p=>!p.archived);
-
-  // Countdown
-  const cd = el('sb-cd');
-  if(cd) {
-    cd.className = 'sb-countdown ' + (days<21?'c-hot':days<35?'c-warn':'c-ok');
-    const clr = days<21?'var(--red)':days<35?'var(--amber)':'var(--blue)';
-    el('scd-days').textContent = days; el('scd-days').style.color = clr;
-    el('scd-lbl').style.color = clr;
-    el('scd-sub').style.color = clr;
-    el('scd-sub').textContent = days<21?'Move fast! 🔴':days<35?'Getting close 🟡':'days until May 10';
-  }
-
-  // Who
-  const w = who();
-  if(el('sb-who-name')) el('sb-who-name').textContent = w ? (w==='amelia'?'Amelia':'Josiah') : '—';
-
-  // Desktop nav
-  if(el('sb-nav')) el('sb-nav').innerHTML = NAV.map(n=>{
-    let cnt = '';
-    if(n.id==='listings') cnt = `<span class="nb-cnt">${active.length}</span>`;
-    if(n.id==='checklist' && done>0) cnt = `<span class="nb-cnt">${done}/${total}</span>`;
-    if(n.id==='decide') {
-      const needVote = active.filter(p=>myVote(p)===null).length;
-      if(needVote>0) cnt = `<span class="nb-cnt" style="background:var(--amber);color:#fff">${needVote}</span>`;
-    }
-    return `<button class="nb ${S.tab===n.id?'on':''}" onclick="goTab('${n.id}')"><span class="ico">${n.ico}</span>${n.label}${cnt}</button>`;
+  if(el('sb-nav'))el('sb-nav').innerHTML=NAV.map(n=>{
+    let b='';
+    if(n.id==='listings')b=`<span class="nb-badge">${active.length}</span>`;
+    if(n.id==='checklist'&&done>0)b=`<span class="nb-badge">${done}/${ALL_ITEMS.length}</span>`;
+    if(n.id==='decide'){const need=active.filter(p=>!myVote(p)).length;if(need>0)b=`<span class="nb-badge" style="background:var(--gold-l);color:var(--gold)">${need}</span>`;}
+    return`<button class="nb ${S.tab===n.id?'on':''}" onclick="goTab('${n.id}')"><span class="ico">${n.ico}</span>${n.label}${b}</button>`;
   }).join('');
-
-  // Mobile nav
-  if(el('mob-nav')) el('mob-nav').innerHTML = NAV.map(n=>
-    `<button class="mn ${S.tab===n.id?'on':''}" onclick="goTab('${n.id}')"><span class="mi">${n.ico}</span>${n.label}</button>`
-  ).join('');
-
-  // Topbar
-  if(el('tb-title')) el('tb-title').textContent = NAV.find(n=>n.id===S.tab)?.label||'';
-  if(el('meta-listings')) el('meta-listings').textContent = active.length+' listing'+(active.length!==1?'s':'');
-  if(el('meta-tasks')) el('meta-tasks').textContent = done+'/'+total+' tasks';
-  if(el('meta-days')) { el('meta-days').textContent = days+'d'; el('meta-days').className = days<21?'tb-chip':''; }
+  if(el('mob-nav'))el('mob-nav').innerHTML=NAV.map(n=>`<button class="mn ${S.tab===n.id?'on':''}" onclick="goTab('${n.id}')"><span class="mi">${n.ico}</span>${n.label}</button>`).join('');
+  if(el('tb-name'))el('tb-name').textContent=NAV.find(n=>n.id===S.tab)?.label||'';
+  if(el('tb-meta'))el('tb-meta').innerHTML=`<span>${active.length} listing${active.length!==1?'s':''}</span><div class="tb-sep"></div><span>${done}/${ALL_ITEMS.length} tasks</span><div class="tb-sep"></div><span style="color:${days<21?'var(--rust)':days<35?'var(--gold)':'var(--ink3)'}">${days}d left</span>`;
 }
 
-function goTab(id) {
-  S.tab = id;
+function goTab(id){
+  S.tab=id;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const pg = el('page-'+id); if(pg) pg.classList.add('active');
-  buildChrome();
-  renderPage(id);
+  const pg=el('page-'+id);if(pg)pg.classList.add('active');
+  buildChrome();renderPage(id);
+}
+function renderPage(id){
+  if(id==='dash')renderDash();
+  else if(id==='listings')renderListings();
+  else if(id==='decide')renderDecide();
+  else if(id==='budget')renderBudget();
+  else if(id==='checklist')renderChecklist();
 }
 
-function refreshActiveTab() { renderPage(S.tab); }
-
-function renderPage(id) {
-  if(id==='dash')      renderDash();
-  else if(id==='listings')  renderListings();
-  else if(id==='decide')    renderDecide();
-  else if(id==='budget')    renderBudget();
-  else if(id==='ai')        renderAI();
-  else if(id==='checklist') renderChecklist();
-}
-
-function myVote(p) { return who()==='amelia' ? (p.ameliaVote||null) : (p.josiahVote||null); }
-function theirVote(p) { return who()==='amelia' ? (p.josiahVote||null) : (p.ameliaVote||null); }
-function myName()    { return who()==='amelia' ? 'Amelia' : 'Josiah'; }
-function theirName() { return who()==='amelia' ? 'Josiah' : 'Amelia'; }
-
-// ═══════════════════════════════════════════════════
-//  DASHBOARD
-// ═══════════════════════════════════════════════════
-function renderDash() {
-  const pg = el('page-dash'); if(!pg) return;
-  const days  = daysLeft();
-  const done  = Object.values(S.checked).filter(Boolean).length;
-  const pct   = Math.round((done/ALL_ITEMS.length)*100);
-  const active = S.listings.filter(p=>!p.archived);
-  const top   = active.length ? [...active].sort((a,b)=>combo(b)-combo(a))[0] : null;
-  const tip   = FC_TIPS[Math.floor(Date.now()/86400000) % FC_TIPS.length];
-  const urgent= PHASES[0].items.filter(i=>!S.checked[i.id]);
-  const agree = active.filter(p=>p.ameliaVote==='apply'&&p.josiahVote==='apply').length;
-
-  const statCard = (l,v,c,s) => `<div class="card" style="padding:14px 16px">
-    <div class="lbl">${l}</div>
-    <div style="font-size:22px;font-weight:800;color:${c};letter-spacing:-.03em;margin:2px 0;line-height:1">${v}</div>
-    <div style="font-size:12px;color:var(--t3)">${s}</div>
-  </div>`;
-
-  pg.innerHTML = `
-    <div style="margin-bottom:22px">
-      <div class="pg-h">Home Base 🏡</div>
-      <div class="pg-s" style="margin-bottom:0">Amelia &amp; Josiah · Fort Collins · Precious-approved · May 10</div>
-    </div>
-
+function renderDash(){
+  const pg=el('page-dash');if(!pg)return;
+  const days=daysLeft(),done=Object.values(S.checked).filter(Boolean).length;
+  const pct=Math.round(done/ALL_ITEMS.length*100);
+  const active=S.listings.filter(p=>!p.archived);
+  const top=active.length?[...active].sort((a,b)=>combo(b)-combo(a))[0]:null;
+  const tip=FC_TIPS[Math.floor(Date.now()/86400000)%FC_TIPS.length];
+  const urgent=PHASES[0].items.filter(i=>!S.checked[i.id]);
+  const agree=active.filter(p=>p.ameliaVote==='apply'&&p.josiahVote==='apply').length;
+  const sc=(l,v,c,s)=>`<div class="card card-sm"><div class="lbl">${l}</div><div style="font-family:var(--mono);font-size:22px;font-weight:500;color:${c};letter-spacing:-.03em;margin:3px 0;line-height:1">${v}</div><div style="font-size:11px;color:var(--ink3)">${s}</div></div>`;
+  pg.innerHTML=`
+    <div style="margin-bottom:24px"><div class="pg-h">Home Base 🏡</div><div class="pg-s" style="margin-bottom:0">Amelia &amp; Josiah · Fort Collins · May 10 deadline</div></div>
     <div class="g4" style="margin-bottom:14px">
-      ${statCard('Days Left',days,days<21?'var(--red)':days<35?'var(--amber)':'var(--blue)','until May 10')}
-      ${statCard('Listings',active.length,'var(--t1)','tracked')}
-      ${statCard('Both Apply',agree,'var(--green)','agreements')}
-      ${statCard('Tasks',pct+'%',pct===100?'var(--green)':'var(--t1)','complete')}
+      ${sc('Days Left',days,days<21?'var(--rust)':days<35?'var(--gold)':'var(--ink)','until May 10')}
+      ${sc('Listings',active.length,'var(--ink)','tracked')}
+      ${sc('Both Apply',agree,'var(--sage)','agreements')}
+      ${sc('Tasks',pct+'%',pct===100?'var(--sage)':'var(--ink)','complete')}
     </div>
-
     <div class="g2" style="margin-bottom:14px">
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <span class="sec-h" style="margin:0">🔴 Do This Now</span>
-          <button class="btn btn-ghost btn-xs" onclick="goTab('checklist')">All tasks →</button>
-        </div>
-        ${urgent.length===0
-          ? `<div style="font-size:13px;color:var(--green);font-weight:600">✓ All urgent tasks done</div>`
-          : urgent.slice(0,4).map(i=>`<div style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-l)">
-              <div style="width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px"></div>
-              <span style="font-size:13px;line-height:1.4;font-weight:500">${esc(i.task)}</span>
-            </div>`).join('')
-        }
-        ${urgent.length>4?`<div style="font-size:12px;color:var(--t3);margin-top:6px">+${urgent.length-4} more</div>`:''}
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="sec-h" style="margin:0">🔴 Do this now</div><button class="btn btn-ghost btn-xs" onclick="goTab('checklist')">All →</button></div>
+        ${urgent.length===0?`<div style="font-size:13px;color:var(--sage);font-family:var(--serif);font-style:italic">✓ All urgent tasks done</div>`:urgent.slice(0,4).map(i=>`<div style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)"><div style="width:5px;height:5px;border-radius:50%;background:var(--rust);flex-shrink:0;margin-top:5px"></div><span style="font-size:12.5px;line-height:1.45;font-weight:500">${esc(i.task)}</span></div>`).join('')}
+        ${urgent.length>4?`<div style="font-size:11.5px;color:var(--ink3);margin-top:7px">+${urgent.length-4} more</div>`:''}
       </div>
-
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <span class="sec-h" style="margin:0">⭐ Top Pick</span>
-          <button class="btn btn-ghost btn-xs" onclick="goTab('listings')">All →</button>
-        </div>
-        ${top
-          ? `<div style="font-size:15px;font-weight:700;margin-bottom:2px">${esc(top.name)}</div>
-             <div style="font-size:12px;color:var(--t3);margin-bottom:8px">${esc(top.neighborhood||top.address||'—')}</div>
-             <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px">
-               ${top.rent?badge(fmt(top.rent)+'/mo','var(--blue)','var(--blue-l)'):''}
-               ${combo(top)>0?badge('★ '+combo(top).toFixed(1),'var(--green)','var(--green-l)'):''}
-               ${badge(top.status,SC[top.status]?.tx||'#666',SC[top.status]?.bg||'#f5f5f5')}
-             </div>
-             <div style="display:flex;gap:5px">
-               ${top.ameliaVote?`<span style="font-size:11px;color:var(--t3)">Amelia: ${top.ameliaVote}</span>`:''}
-               ${top.josiahVote?`<span style="font-size:11px;color:var(--t3)">Josiah: ${top.josiahVote}</span>`:''}
-             </div>`
-          : `<div class="empty" style="padding:24px 0"><div class="empty-h">No listings yet</div>
-               <button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="openListingModal(null)">+ Add first listing</button>
-             </div>`
-        }
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="sec-h" style="margin:0">★ Top pick</div><button class="btn btn-ghost btn-xs" onclick="goTab('listings')">All →</button></div>
+        ${top?`<div style="font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:2px">${esc(top.name||'Unnamed')}</div><div style="font-size:11.5px;color:var(--ink3);margin-bottom:9px">${esc(top.neighborhood||top.address||'\u2014')}</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px">${top.rent?badge(fmt(top.rent)+'/mo','var(--sky)','var(--sky-l)'):''} ${combo(top)>0?badge('★ '+combo(top).toFixed(1),'var(--gold)','var(--gold-l)'):''} ${badge(top.status,SC[top.status]?.tx||'var(--ink2)',SC[top.status]?.bg||'var(--cream)')} </div><div style="font-size:11px;color:var(--ink3)">${top.ameliaVote?'A: <strong>'+top.ameliaVote+'</strong>':''}${top.josiahVote?' · J: <strong>'+top.josiahVote+'</strong>':''}</div>`:
+          `<div class="empty" style="padding:20px 0"><div class="empty-h">No listings yet</div><button class="btn btn-ink btn-sm" style="margin-top:10px" onclick="openLM(null)">+ Add first listing</button></div>`}
       </div>
     </div>
-
     <div class="g2">
       <div class="card">
-        <div class="sec-h">📋 Checklist Progress</div>
-        <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
-          <svg width="56" height="56" style="flex-shrink:0;transform:rotate(-90deg)">
-            <circle cx="28" cy="28" r="22" fill="none" stroke="var(--border)" stroke-width="4"/>
-            <circle cx="28" cy="28" r="22" fill="none" stroke="var(--blue)" stroke-width="4"
-              stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22*(1-pct/100)}"
-              stroke-linecap="round" style="transition:stroke-dashoffset .4s"/>
+        <div class="sec-h">Checklist progress</div>
+        <div style="display:flex;align-items:center;gap:15px;margin-bottom:14px">
+          <svg width="52" height="52" style="flex-shrink:0;transform:rotate(-90deg)">
+            <circle cx="26" cy="26" r="21" fill="none" stroke="var(--line)" stroke-width="4"/>
+            <circle cx="26" cy="26" r="21" fill="none" stroke="var(--ink)" stroke-width="4" stroke-dasharray="${2*Math.PI*21}" stroke-dashoffset="${2*Math.PI*21*(1-pct/100)}" stroke-linecap="round" style="transition:stroke-dashoffset .4s"/>
           </svg>
-          <div>
-            <div style="font-size:22px;font-weight:800;color:var(--blue)">${pct}%</div>
-            <div style="font-size:12px;color:var(--t3)">${done} of ${ALL_ITEMS.length}</div>
-          </div>
+          <div><div style="font-family:var(--mono);font-size:21px;font-weight:500">${pct}%</div><div style="font-size:11.5px;color:var(--ink3)">${done} of ${ALL_ITEMS.length}</div></div>
         </div>
-        ${PHASES.map(ph=>{
-          const pd=ph.items.filter(i=>S.checked[i.id]).length;
-          return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
-            <div style="width:6px;height:6px;border-radius:50%;background:${ph.color};flex-shrink:0"></div>
-            <span style="flex:1;font-size:12px;color:var(--t2)">${ph.phase}</span>
-            <span style="font-size:12px;font-weight:600;color:${pd===ph.items.length?'var(--green)':'var(--t3)'}">${pd}/${ph.items.length}</span>
-          </div>`;
-        }).join('')}
+        ${PHASES.map(ph=>{const pd=ph.items.filter(i=>S.checked[i.id]).length;return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="pdot" style="background:${ph.color}"></div><span style="flex:1;font-size:12px;color:var(--ink2)">${ph.phase}</span><span style="font-family:var(--mono);font-size:11.5px;color:${pd===ph.items.length?'var(--sage)':'var(--ink3)'}">${pd}/${ph.items.length}</span></div>`;}).join('')}
       </div>
-
       <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="card" style="background:var(--blue-l);border-color:#BFDBFE">
-          <div class="lbl" style="color:var(--blue)">Fort Collins Tip</div>
-          <div style="font-size:13px;color:var(--blue-d);line-height:1.65;margin-top:4px">${tip}</div>
+        <div class="card" style="background:var(--sky-l);border-color:#BFDBFE">
+          <div class="sec-h" style="color:var(--sky)">Fort Collins tip</div>
+          <div style="font-size:12.5px;color:var(--ink2);line-height:1.7;margin-top:4px;font-style:italic;font-family:var(--serif)">"${tip}"</div>
         </div>
-        <div class="card" style="background:var(--amber-l);border-color:#FDE68A">
-          <div class="lbl" style="color:var(--amber)">⚡ Sublease Alert</div>
-          <div style="font-size:13px;color:#92400E;line-height:1.65;margin-top:4px">
-            Josiah's lease ends July 31. No sublease = 2.5 months double rent.
-            ${S.budget.rent?` That's ~${fmt(Math.round(parseInt(S.budget.rent)*2.5))} extra.`:''}
+        <div class="card" style="background:var(--gold-l);border-color:#FDE68A">
+          <div class="sec-h" style="color:var(--gold)">⚡ Sublease watch</div>
+          <div style="font-size:12.5px;color:var(--ink2);line-height:1.65;margin-top:4px">Josiah's lease ends July 31. No sublease = 2.5 months double rent.${S.budget.rent?' That\'s ~'+fmt(Math.round(parseInt(S.budget.rent)*2.5))+' extra.':''}
           </div>
-          <div style="margin-top:8px"><button class="btn btn-ghost btn-xs" onclick="goTab('budget')" style="border-color:#FDE68A">See budget scenarios →</button></div>
+          <button class="btn btn-ghost btn-xs" style="margin-top:8px;border-color:#FDE68A" onclick="goTab('budget')">Budget it →</button>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
-// ═══════════════════════════════════════════════════
-//  LISTINGS
-// ═══════════════════════════════════════════════════
-function renderListings() {
-  const pg = el('page-listings'); if(!pg) return;
-  const showArchived = S.filter === '__archived__';
-  const active = S.listings.filter(p=>!p.archived);
-  const ranked = [...active].sort((a,b)=>combo(b)-combo(a)).map(p=>p.id);
-
-  const shown = [...S.listings]
-    .filter(p => showArchived ? p.archived : (!p.archived && (S.filter==='All'||p.status===S.filter)))
-    .sort((a,b)=>{
-      if(S.sort==='score') return combo(b)-combo(a);
-      if(S.sort==='rent')  return (parseInt(a.rent)||9999)-(parseInt(b.rent)||9999);
-      return (a.name||'').localeCompare(b.name||'');
-    });
-
-  const archivedCount = S.listings.filter(p=>p.archived).length;
-  const pills = ['All',...STATUSES].map(s=>{
-    const cnt = s!=='All' ? active.filter(p=>p.status===s).length : 0;
-    return `<button class="pill ${S.filter===s&&!showArchived?'on':''}" onclick="setFilter('${s}')">${s}${cnt>0&&s!=='All'?' · '+cnt:''}</button>`;
-  }).join('');
-
-  const cards = shown.length===0
-    ? `<div class="empty"><div class="empty-ico">${showArchived?'📦':'🏠'}</div>
-         <div class="empty-h">${showArchived?'No archived listings':S.filter==='All'?'No listings yet':'Nothing with this status'}</div>
-         <div class="empty-s">${showArchived?'Rejected listings show here':'Use Quick Capture or add one manually'}</div>
-       </div>`
-    : `<div class="lcards">${shown.map(p=>listingCard(p, ranked.indexOf(p.id)+1, showArchived)).join('')}</div>`;
-
-  pg.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px">
+function renderListings(){
+  const pg=el('page-listings');if(!pg)return;
+  const showArch=S.filter==='__arch__';
+  const active=S.listings.filter(p=>!p.archived);
+  const ranked=[...active].sort((a,b)=>combo(b)-combo(a)).map(p=>p.id);
+  const shown=[...S.listings].filter(p=>showArch?p.archived:(!p.archived&&(S.filter==='All'||p.status===S.filter))).sort((a,b)=>{if(S.sort==='score')return combo(b)-combo(a);if(S.sort==='rent')return(parseInt(a.rent)||9999)-(parseInt(b.rent)||9999);return(a.name||''). localeCompare(b.name||'')} );
+  const archCount=S.listings.filter(p=>p.archived).length;
+  pg.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
       <div><div class="pg-h">Listings</div><div class="pg-s" style="margin-bottom:0">Fort Collins · Precious 🐱 · S of Mulberry · E of College</div></div>
-      <div style="display:flex;gap:7px">
-        <button class="btn btn-ghost btn-sm" onclick="openQC()">⚡ Quick Capture</button>
-        <button class="btn btn-primary btn-sm" onclick="openListingModal(null)">+ Add</button>
-      </div>
+      <button class="btn btn-ink btn-sm" onclick="openLM(null)" style="flex-shrink:0;margin-top:4px">+ Add</button>
     </div>
     <div class="filters">
-      ${pills}
-      ${archivedCount>0?`<button class="pill ${showArchived?'on':''}" onclick="setFilter('__archived__')" style="${showArchived?'':'border-style:dashed;color:var(--t3)'}">📦 Archived · ${archivedCount}</button>`:''}
-      <select onchange="S.sort=this.value;renderListings()" style="margin-left:auto;width:auto;padding:4px 24px 4px 9px;font-size:12px;border-color:var(--border)">
+      ${['All',...STATUSES].map(s=>{const cnt=s!=='All'?active.filter(p=>p.status===s).length:0;return`<button class="pill ${S.filter===s&&!showArch?'on':''}" onclick="setFilter('${s}')">${s}${cnt>0&&s!=='All'?' · '+cnt:''}</button>`;}).join('')}
+      ${archCount>0?`<button class="pill ${showArch?'on':''}" onclick="setFilter('__arch__')" style="${showArch?'':' border-style:dashed;color:var(--ink3)'}">Archived · ${archCount}</button>`:''}
+      <select onchange="S.sort=this.value;renderListings()" style="margin-left:auto;width:auto;padding:4px 24px 4px 8px;font-size:11.5px">
         <option value="score" ${S.sort==='score'?'selected':''}>Best score</option>
         <option value="rent"  ${S.sort==='rent'?'selected':''}>Lowest rent</option>
         <option value="name"  ${S.sort==='name'?'selected':''}>A–Z</option>
       </select>
     </div>
-    ${cards}
-  `;
+    ${shown.length===0?`<div class="empty"><div class="empty-ico">🏠</div><div class="empty-h">${showArch?'No archived listings':S.filter==='All'?'No listings yet':'Nothing here'}</div>${S.filter==='All'&&!showArch?'<button class="btn btn-ink btn-sm" style="margin-top:12px" onclick="openLM(null)">+ Add first listing</button>':''}</div>`:`<div class="lcards">${shown.map(p=>lCard(p,ranked.indexOf(p.id)+1,showArch)).join('')}</div>`}`;
 }
 
-function listingCard(p, rank, isArchived) {
-  const avg  = combo(p);
-  const mv   = myVote(p);
-  const tv   = theirVote(p);
-  const vCls = {'apply':'va','maybe':'vm','pass':'vp'};
-  const vLbl = {'apply':'✓ Apply','maybe':'? Maybe','pass':'✗ Pass'};
-  const stInfo = SC[p.status]||{bg:'#F5F5F5',tx:'#666'};
-
-  return `<div class="lcard" id="lcard-${p.id}">
-    <div class="lcard-img">
-      ${p.photo?`<img src="${esc(p.photo)}" onerror="this.style.display='none'" loading="lazy">`:'🏠'}
-      ${rank>0&&!isArchived?`<span class="lcard-rank">#${rank}</span>`:''}
-      <span class="lcard-status" style="background:${stInfo.bg};color:${stInfo.tx}">${p.status}</span>
-    </div>
+function lCard(p,rank,isArch){
+  const avg=combo(p),mv=myVote(p),tv=theirVote(p);
+  const st=SC[p.status]||{bg:'var(--cream)',tx:'var(--ink2)'};
+  const vL={apply:'✓ Apply',maybe:'? Maybe',pass:'✗ Pass'};
+  const vC={apply:'v-apply',maybe:'v-maybe',pass:'v-pass'};
+  return`<div class="lcard">
+    <div class="lcard-img">${p.photo?`<img src="${esc(p.photo)}" onerror="this.style.display='none'" loading="lazy">`:'🏠'}${rank>0&&!isArch?`<span class="lcard-rank">#${rank}</span>`:''}<span class="lcard-status" style="background:${st.bg};color:${st.tx}">${p.status}</span></div>
     <div class="lcard-body">
       <div class="lcard-name">${esc(p.name||'Unnamed listing')}</div>
-      <div class="lcard-addr">${esc(p.neighborhood||p.address||'—')}</div>
-      <div class="lcard-stats">
-        ${p.rent?badge(fmt(p.rent)+'/mo','var(--blue)','var(--blue-l)'):''}
-        ${p.sqft?badge(p.sqft+' sqft','var(--t2)','var(--bg)'):''}
-        ${avg>0?badge('★ '+avg.toFixed(1),'var(--amber)','var(--amber-l)'):''}
-      </div>
-      ${tv?`<div style="font-size:11px;color:var(--t3)">${theirName()}: <strong style="color:${tv==='apply'?'var(--green)':tv==='pass'?'var(--red)':'var(--amber)'}">${tv}</strong></div>`:''}
+      <div class="lcard-addr">${esc(p.neighborhood||p.address||'\u2014')}</div>
+      <div class="lcard-chips">${p.rent?badge(fmt(p.rent)+'/mo','var(--sky)','var(--sky-l)'):''} ${avg>0?badge('★ '+avg.toFixed(1),'var(--gold)','var(--gold-l)'):''} ${p.sqft?badge(p.sqft+'sf','var(--ink2)','var(--cream)'):''}</div>
+      ${tv?`<div style="font-size:11px;color:var(--ink3);margin-top:6px">${theirName()}: <strong style="color:${tv==='apply'?'var(--sage)':tv==='pass'?'var(--rust)':'var(--gold)'}">${tv}</strong></div>`:''}
     </div>
-    <div class="lcard-foot">
-      ${['apply','maybe','pass'].map(v=>`<button class="vote-btn vote-${v} ${mv===v?'v'+v[0]:'v'+v[0]}" onclick="castVote(event,'${p.id}','${v}')" title="${myName()}: ${v}">${vLbl[v]}</button>`).join('')}
-      <button class="btn-icon" onclick="openListingModal('${p.id}')" title="Edit">✏️</button>
-    </div>
-    ${p.url?`<div style="padding:0 12px 8px"><a href="${esc(p.url)}" target="_blank" rel="noreferrer" style="font-size:11px;color:var(--blue);font-weight:500">View listing ↗</a></div>`:''}
+    <div class="lcard-foot">${['apply','maybe','pass'].map(v=>`<button class="vbtn ${mv===v?vC[v]:''}" onclick="castVote(event,'${p.id}','${v}')">${vL[v]}</button>`).join('')}<button class="btn-icon" onclick="openLM('${p.id}')" title="Edit">✏️</button></div>
+    ${p.url?`<div style="padding:0 12px 9px"><a href="${esc(p.url)}" target="_blank" rel="noreferrer" style="font-size:11px;color:var(--sky);font-weight:500">View listing ↗</a></div>`:''}
   </div>`;
 }
 
-function castVote(evt, id, vote) {
+function castVote(evt,id,vote){
   evt.stopPropagation();
-  const p = S.listings.find(x=>x.id===id); if(!p) return;
-  const cur = myVote(p);
-  saveVote(id, cur===vote ? null : vote);
+  const p=S.listings.find(x=>x.id===id);if(!p)return;
+  const cur=myVote(p);
+  const field=who()==='amelia'?'ameliaVote':'josiahVote';
+  p[field]=cur===vote?null:vote;
+  persist('listings');renderListings();buildChrome();
+}
+const setFilter=f=>{S.filter=f;renderListings();};
+
+function renderDecide(){
+  const pg=el('page-decide');if(!pg)return;
+  const active=S.listings.filter(p=>!p.archived);
+  if(!active.length){pg.innerHTML=`<div class="pg-h">Decide</div><div class="empty"><div class="empty-ico">⚖</div><div class="empty-h">Add listings first</div></div>`;return;}
+  const both_apply=active.filter(p=>p.ameliaVote==='apply'&&p.josiahVote==='apply');
+  const one_apply=active.filter(p=>!both_apply.includes(p)&&(p.ameliaVote==='apply'||p.josiahVote==='apply'));
+  const both_maybe=active.filter(p=>p.ameliaVote==='maybe'&&p.josiahVote==='maybe');
+  const disagree=active.filter(p=>{if(!p.ameliaVote||!p.josiahVote)return false;if(both_apply.includes(p)||one_apply.includes(p)||both_maybe.includes(p))return false;return p.ameliaVote!==p.josiahVote;});
+  const need_vote=active.filter(p=>!p.ameliaVote||!p.josiahVote);
+  const both_pass=active.filter(p=>p.ameliaVote==='pass'&&p.josiahVote==='pass');
+  const vs={apply:{bg:'var(--sage-l)',tx:'var(--sage)',bd:'#B0D4BC'},maybe:{bg:'var(--gold-l)',tx:'var(--gold)',bd:'#FDE68A'},pass:{bg:'var(--rust-l)',tx:'var(--rust)',bd:'#F5C4B0'}};
+  const chip=v=>v?`<span class="dc-chip" style="background:${vs[v].bg};color:${vs[v].tx};border:1px solid ${vs[v].bd}">${v==='apply'?'✓ Apply':v==='pass'?'✗ Pass':'? Maybe'}</span>`:`<span class="dc-chip" style="background:var(--cream);color:var(--ink3);border:1px solid var(--line)">—</span>`;
+  const dCard=(p,hl)=>`<div class="dc-card" style="${hl?'border-left:3px solid '+hl:''}"><div style="flex:1;min-width:0"><div style="font-family:var(--serif);font-size:13.5px;font-weight:600;margin-bottom:1px">${esc(p.name||'Unnamed')}</div><div style="font-size:11.5px;color:var(--ink3)">${p.rent?fmt(p.rent)+'/mo · ':''} ${esc(p.neighborhood||p.address||'\u2014')}</div></div><div style="display:flex;gap:8px;flex-shrink:0"><div style="text-align:center"><div style="font-size:10px;color:var(--ink3);margin-bottom:3px">A</div>${chip(p.ameliaVote)}</div><div style="text-align:center"><div style="font-size:10px;color:var(--ink3);margin-bottom:3px">J</div>${chip(p.josiahVote)}</div></div><button class="btn btn-ghost btn-xs" onclick="openLM('${p.id}')">Edit</button></div>`;
+  const sec=(label,items,hl)=>items.length===0?'':`<div style="margin-bottom:22px"><div class="sec-h">${label} (${items.length})</div>${items.map(p=>dCard(p,hl)).join('')}</div>`;
+  const myUnvoted=active.filter(p=>!myVote(p));
+  pg.innerHTML=`<div class="pg-h">Decide</div><div class="pg-s">Vote on each listing from the Listings tab. Here's where you stand together.</div>
+    ${myUnvoted.length>0?`<div class="card" style="background:var(--sky-l);border-color:#BFDBFE;margin-bottom:18px"><div style="font-size:13px;font-weight:600;color:var(--sky);margin-bottom:3px">${myUnvoted.length} unvoted listing${myUnvoted.length!==1?'s':''} — your turn, ${myName()}</div><div style="font-size:12.5px;color:var(--ink2);margin-bottom:10px">Vote Apply / Maybe / Pass on each listing card.</div><button class="btn btn-ink btn-sm" onclick="goTab('listings')">Go vote →</button></div>`:''}
+    ${sec('✓ Both want to Apply',both_apply,'var(--sage)')}
+    ${sec('One wants to Apply',one_apply,'var(--sky)')}
+    ${sec('Both Maybe',both_maybe,'var(--gold)')}
+    ${sec('Disagree — talk about it',disagree,'var(--rust)')}
+    ${sec('Still need votes',need_vote,'')}
+    ${sec('Both passed',both_pass,'')}`;
 }
 
-const setFilter = f => { S.filter=f; renderListings(); };
-
-// ═══════════════════════════════════════════════════
-//  DECIDE TAB
-// ═══════════════════════════════════════════════════
-function renderDecide() {
-  const pg = el('page-decide'); if(!pg) return;
-  const active = S.listings.filter(p=>!p.archived);
-
-  if(active.length===0) {
-    pg.innerHTML = `<div class="pg-h">Decide</div><div class="empty"><div class="empty-ico">⚖️</div><div class="empty-h">Add listings first</div></div>`;
-    return;
-  }
-
-  const both_apply  = active.filter(p=>p.ameliaVote==='apply'&&p.josiahVote==='apply');
-  const one_apply   = active.filter(p=>(p.ameliaVote==='apply')!==(p.josiahVote==='apply') || (p.ameliaVote==='apply'&&p.josiahVote==='maybe') || (p.ameliaVote==='maybe'&&p.josiahVote==='apply'));
-  const both_maybe  = active.filter(p=>p.ameliaVote==='maybe'&&p.josiahVote==='maybe');
-  const disagree    = active.filter(p=>{
-    if(!p.ameliaVote||!p.josiahVote) return false;
-    if(both_apply.includes(p)) return false;
-    if(one_apply.includes(p)) return false;
-    return p.ameliaVote!==p.josiahVote;
-  });
-  const need_vote   = active.filter(p=>!p.ameliaVote||!p.josiahVote);
-  const both_pass   = active.filter(p=>p.ameliaVote==='pass'&&p.josiahVote==='pass');
-
-  const decideCard = (p, highlight) => {
-    const mv = myVote(p), tv = theirVote(p);
-    const vStyle = {apply:{bg:'#F0FDF4',tx:'var(--green)',bd:'#BBF7D0'},maybe:{bg:'var(--amber-l)',tx:'var(--amber)',bd:'#FDE68A'},pass:{bg:'var(--red-l)',tx:'var(--red)',bd:'#FECACA'}};
-    const chip = v => v ? `<span class="dv-chip" style="background:${vStyle[v]?.bg||'var(--bg)'};color:${vStyle[v]?.tx||'var(--t3)'};border:1px solid ${vStyle[v]?.bd||'var(--border)'}">${v==='apply'?'✓ Apply':v==='pass'?'✗ Pass':'? Maybe'}</span>` : `<span class="dv-chip" style="background:var(--bg);color:var(--t3);border:1px solid var(--border)">No vote</span>`;
-    return `<div class="decide-card" style="${highlight?'border-color:'+highlight+';background:'+highlight+'18':''}">
-      <div style="flex:1;min-width:0">
-        <div style="font-size:14px;font-weight:600;margin-bottom:1px">${esc(p.name||'Unnamed')}</div>
-        <div style="font-size:12px;color:var(--t3)">${p.rent?fmt(p.rent)+'/mo · ':''} ${esc(p.neighborhood||p.address||'—')}</div>
-      </div>
-      <div class="decide-votes">
-        <div style="text-align:center">
-          <div style="font-size:10px;color:var(--t3);margin-bottom:3px">Amelia</div>
-          ${chip(p.ameliaVote)}
-        </div>
-        <div style="text-align:center">
-          <div style="font-size:10px;color:var(--t3);margin-bottom:3px">Josiah</div>
-          ${chip(p.josiahVote)}
-        </div>
-      </div>
-      <button class="btn btn-ghost btn-xs" onclick="openListingModal('${p.id}')">Edit</button>
-    </div>`;
-  };
-
-  const myUnvoted = active.filter(p=>!myVote(p));
-
-  pg.innerHTML = `
-    <div style="margin-bottom:22px">
-      <div class="pg-h">Decide</div>
-      <div class="pg-s" style="margin-bottom:0">Vote Apply / Maybe / Pass on each listing card. Here's where you stand.</div>
-    </div>
-
-    ${myUnvoted.length>0?`<div class="card" style="background:var(--blue-l);border-color:#BFDBFE;margin-bottom:16px">
-      <div style="font-size:13px;font-weight:600;color:var(--blue);margin-bottom:4px">You have ${myUnvoted.length} unvoted listing${myUnvoted.length!==1?'s':''}, ${myName()}</div>
-      <div style="font-size:12px;color:#3B82F6;margin-bottom:8px">Vote on listings from the Listings tab to see your agreement status here.</div>
-      <button class="btn btn-primary btn-sm" onclick="goTab('listings')">Go vote →</button>
-    </div>`:''}
-
-    ${both_apply.length>0?`<div class="decide-section">
-      <h3><span style="color:var(--green)">●</span> You both said Apply (${both_apply.length})</h3>
-      ${both_apply.map(p=>decideCard(p,'#16A34A')).join('')}
-    </div>`:''}
-
-    ${one_apply.length>0?`<div class="decide-section">
-      <h3><span style="color:var(--blue)">●</span> One of you wants to Apply (${one_apply.length})</h3>
-      ${one_apply.map(p=>decideCard(p,'#2563EB')).join('')}
-    </div>`:''}
-
-    ${both_maybe.length>0?`<div class="decide-section">
-      <h3><span style="color:var(--amber)">●</span> Both Maybe (${both_maybe.length})</h3>
-      ${both_maybe.map(p=>decideCard(p,'#D97706')).join('')}
-    </div>`:''}
-
-    ${disagree.length>0?`<div class="decide-section">
-      <h3><span style="color:var(--red)">●</span> Disagree — talk about it (${disagree.length})</h3>
-      ${disagree.map(p=>decideCard(p,'')).join('')}
-    </div>`:''}
-
-    ${need_vote.length>0?`<div class="decide-section">
-      <h3><span style="color:var(--t3)">●</span> Still need votes (${need_vote.length})</h3>
-      ${need_vote.map(p=>decideCard(p,'')).join('')}
-    </div>`:''}
-
-    ${both_pass.length>0?`<div class="decide-section">
-      <h3><span style="color:var(--t3)">●</span> Both passed on (${both_pass.length})</h3>
-      ${both_pass.map(p=>decideCard(p,'')).join('')}
-    </div>`:''}
-
-    ${active.length>0&&both_apply.length===0&&one_apply.length===0?`<div class="card" style="text-align:center;padding:24px">
-      <div style="font-size:14px;color:var(--t2);margin-bottom:4px">No agreements yet</div>
-      <div style="font-size:13px;color:var(--t3)">Vote on listings and check back when Josiah votes too.</div>
-    </div>`:''}
-  `;
-}
-
-// ═══════════════════════════════════════════════════
-//  BUDGET
-// ═══════════════════════════════════════════════════
-function renderBudget() {
-  const pg = el('page-budget'); if(!pg) return;
-  const B = S.budget;
-
-  // Budget field helper — stable inputs
-  const bInput = (k, placeholder, type='number') =>
-    `<input id="b-${k}" type="${type}" placeholder="${placeholder}" value="${esc(B[k]||'')}"
-      oninput="S.budget['${k}']=this.value;saveBudget(S.budget);calcBudget()"
-      onblur="S.budget['${k}']=this.value;saveBudget(S.budget);calcBudget()">`;
-
-  pg.innerHTML = `
-    <div class="pg-h">Budget</div>
-    <div class="pg-s">All costs in one place. Model what you can actually afford to sign.</div>
-
+function renderBudget(){
+  const pg=el('page-budget');if(!pg)return;
+  const B=S.budget;
+  const bi=(k,ph,type='number')=>`<input id="b-${k}" type="${type}" placeholder="${ph}" value="${esc(B[k]||'')} " oninput="S.budget['${k}']=this.value;persist('budget');calcBudget()" onblur="S.budget['${k}']=this.value;persist('budget');calcBudget()">`;
+  pg.innerHTML=`<div class="pg-h">Budget</div><div class="pg-s">Everything you'll spend — monthly and at move-in.</div>
     <div class="g2" style="margin-bottom:14px">
-      <div class="card">
-        <div class="sec-h">Monthly Costs</div>
-        <div class="field"><label class="lbl">Rent ($/mo)</label>${bInput('rent','1850')}</div>
-        <div class="field-r">
-          <div class="field"><label class="lbl">Amelia income</label>${bInput('ameliaIncome','3000')}</div>
-          <div class="field"><label class="lbl">Josiah income</label>${bInput('josiahIncome','3000')}</div>
-        </div>
-        <div class="field-r">
-          <div class="field"><label class="lbl">Cat rent</label>${bInput('catRent','50')}</div>
-          <div class="field"><label class="lbl">Parking</label>${bInput('parking','50')}</div>
-        </div>
-        <div class="field"><label class="lbl">Utilities (est.)</label>${bInput('utilities','190')}</div>
+      <div class="card"><div class="sec-h">Monthly</div>
+        <div class="field"><label class="lbl">Rent ($/mo)</label>${bi('rent','1850')}</div>
+        <div class="fr2"><div class="field"><label class="lbl">Amelia income</label>${bi('ameliaIncome','3000')}</div><div class="field"><label class="lbl">Josiah income</label>${bi('josiahIncome','3000')}</div></div>
+        <div class="fr2"><div class="field"><label class="lbl">Cat rent</label>${bi('catRent','50')}</div><div class="field"><label class="lbl">Parking</label>${bi('parking','50')}</div></div>
+        <div class="field"><label class="lbl">Utilities est.</label>${bi('utilities','190')}</div>
       </div>
-
-      <div class="card">
-        <div class="sec-h">Move-In Costs (One-Time)</div>
-        <div class="field"><label class="lbl">Security deposit</label>${bInput('deposit','1850')}</div>
-        <div class="field-r">
-          <div class="field"><label class="lbl">Cat deposit</label>${bInput('catDeposit','300')}</div>
-          <div class="field"><label class="lbl">First month</label>${bInput('firstMonth','1850')}</div>
-        </div>
-        <div class="field-r">
-          <div class="field"><label class="lbl">Truck rental</label>${bInput('truck','250')}</div>
-          <div class="field"><label class="lbl">Misc / buffer</label>${bInput('misc','200')}</div>
-        </div>
+      <div class="card"><div class="sec-h">Move-in (one-time)</div>
+        <div class="field"><label class="lbl">Security deposit</label>${bi('deposit','1850')}</div>
+        <div class="fr2"><div class="field"><label class="lbl">Cat deposit</label>${bi('catDeposit','300')}</div><div class="field"><label class="lbl">First month</label>${bi('firstMonth','1850')}</div></div>
+        <div class="fr2"><div class="field"><label class="lbl">Truck rental</label>${bi('truck','250')}</div><div class="field"><label class="lbl">Misc buffer</label>${bi('misc','200')}</div></div>
       </div>
     </div>
-
-    <div class="g2" style="margin-bottom:14px">
-      <div class="card" id="b-monthly-summary">
-        <div class="sec-h">Monthly Breakdown</div>
-        <div id="b-monthly-lines"></div>
-      </div>
-      <div class="card" id="b-movein">
-        <div class="sec-h">Move-In Cash Needed 💸</div>
-        <div id="b-movein-lines"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="sec-h">What-If Scenarios</div>
-      <div id="b-scenarios"></div>
-    </div>
-  `;
+    <div class="g2" style="margin-bottom:14px"><div class="card" id="b-monthly"></div><div class="card" id="b-movein"></div></div>
+    <div class="card"><div class="sec-h">Scenarios</div><div id="b-scenarios"></div></div>`;
   calcBudget();
 }
 
-function calcBudget() {
-  const B  = S.budget;
-  const nv = k => parseInt(B[k])||0;
-  const rent   = nv('rent');
-  const catR   = nv('catRent');
-  const park   = nv('parking');
-  const utils  = nv('utilities');
-  const total  = rent+catR+park+utils;
-  const ai     = nv('ameliaIncome');
-  const ji     = nv('josiahIncome');
-  const income = ai+ji;
-  const each   = Math.round(total/2);
-  const pct    = income>0 ? Math.round((total/income)*100) : 0;
-
-  const monthly = el('b-monthly-lines');
-  if(monthly) monthly.innerHTML = `
-    <div class="budget-line"><span>Rent</span><strong>${fmt(rent)}</strong></div>
-    <div class="budget-line"><span>Cat rent</span><strong>${catR?fmt(catR):'—'}</strong></div>
-    <div class="budget-line"><span>Parking</span><strong>${park?fmt(park):'—'}</strong></div>
-    <div class="budget-line"><span>Est. utilities</span><strong>${utils?fmt(utils):'—'}</strong></div>
-    <hr class="div" style="margin:8px 0">
-    <div class="budget-total"><span>Total / mo</span><span>${fmt(total)}</span></div>
-    <div class="budget-line" style="font-size:12px"><span>Each person (50/50)</span><span style="font-weight:600">${fmt(each)}</span></div>
-    ${income>0?`<div class="budget-line" style="font-size:12px"><span>% of combined income</span><span style="font-weight:600;color:${pct>35?'var(--red)':pct>28?'var(--amber)':'var(--green)'}">${pct}%</span></div>`:''}
-  `;
-
-  const deposit   = nv('deposit');
-  const catDep    = nv('catDeposit');
-  const firstMo   = nv('firstMonth') || rent;
-  const truck     = nv('truck');
-  const misc      = nv('misc');
-  const moveIn    = deposit+catDep+firstMo+truck+misc;
-  const planBExtra = Math.round(rent*2.5);
-  const moveInWorst = moveIn+planBExtra;
-
-  const moveinEl = el('b-movein-lines');
-  if(moveinEl) moveinEl.innerHTML = `
-    <div class="budget-line"><span>First month rent</span><strong>${fmt(firstMo||rent)}</strong></div>
-    <div class="budget-line"><span>Security deposit</span><strong>${deposit?fmt(deposit):'—'}</strong></div>
-    <div class="budget-line"><span>Cat deposit</span><strong>${catDep?fmt(catDep):'—'}</strong></div>
-    <div class="budget-line"><span>Truck rental</span><strong>${truck?fmt(truck):'—'}</strong></div>
-    <div class="budget-line"><span>Misc / buffer</span><strong>${misc?fmt(misc):'—'}</strong></div>
-    <hr class="div" style="margin:8px 0">
-    <div class="budget-total"><span>Move-in total</span><span style="color:var(--blue)">${fmt(moveIn)}</span></div>
-    <div style="font-size:11px;color:var(--t3);margin-top:4px">Each person: ${fmt(Math.round(moveIn/2))}</div>
-    <hr class="div" style="margin:8px 0">
-    <div style="font-size:12px;color:var(--amber);font-weight:600">+ Plan B (no sublease): ${fmt(planBExtra)}</div>
-    <div style="font-size:13px;font-weight:700;margin-top:4px;color:var(--red)">Worst case: ${fmt(moveInWorst)}</div>
-  `;
-
-  const scenEl = el('b-scenarios');
-  if(scenEl && rent>0) {
-    const row = (ico,label,val,detail,color) => `<div class="scenario-row">
-      <div><div style="font-size:13px;font-weight:600;margin-bottom:1px">${ico} ${label}</div><div style="font-size:11px;color:var(--t3)">${detail}</div></div>
-      <div style="font-size:15px;font-weight:700;color:${color};flex-shrink:0">${val}</div>
-    </div>`;
-    scenEl.innerHTML = [
-      row('✅','Best case — sublease works',fmt(total)+'/mo','Clean transition, no overlap',  'var(--green)'),
-      row('⚡','Plan B — no sublease','+'+(planBExtra?fmt(planBExtra):'—'),'One-time overlap cost Jun–Jul','var(--amber)'),
-      row('📈','Year 2 rent (+10%)',fmt(Math.round(total+(rent*.1)))+'/mo','Common in Fort Collins','var(--t2)'),
-      income>0?row('🤒','One paycheck month',(each/Math.round(income/2)*100).toFixed(0)+'% of 1 paycheck','If someone has a gap','var(--t2)'):'',
-      row('💸','Worst case',fmt(moveInWorst+Math.round(rent*.1)),'No sublease + year 2 bump','var(--red)'),
-    ].filter(Boolean).join('');
-  } else if(scenEl) {
-    scenEl.innerHTML = `<div style="font-size:13px;color:var(--t3);text-align:center;padding:12px">Enter your rent above to see scenarios</div>`;
-  }
+function calcBudget(){
+  const B=S.budget,nv=k=>parseInt(B[k])||0;
+  const rent=nv('rent'),catR=nv('catRent'),park=nv('parking'),utils=nv('utilities'),total=rent+catR+park+utils;
+  const ai=nv('ameliaIncome'),ji=nv('josiahIncome'),inc=ai+ji,pct=inc>0?Math.round(total/inc*100):0,each=Math.round(total/2);
+  const mEl=el('b-monthly');
+  if(mEl)mEl.innerHTML=`<div class="sec-h">Monthly breakdown</div>
+    <div class="bline"><span>Rent</span><strong style="font-family:var(--mono)">${fmt(rent)}</strong></div>
+    ${catR?`<div class="bline"><span>Cat rent</span><strong style="font-family:var(--mono)">${fmt(catR)}</strong></div>`:''}
+    ${park?`<div class="bline"><span>Parking</span><strong style="font-family:var(--mono)">${fmt(park)}</strong></div>`:''}
+    ${utils?`<div class="bline"><span>Est. utilities</span><strong style="font-family:var(--mono)">${fmt(utils)}</strong></div>`:''}
+    <hr class="divider">
+    <div class="btotal"><span>Total</span><span style="font-family:var(--mono)">${fmt(total)}</span></div>
+    <div class="bline" style="font-size:12px"><span>Each (50/50)</span><span style="font-family:var(--mono);font-weight:600">${fmt(each)}</span></div>
+    ${inc>0?`<div class="bline" style="font-size:12px"><span>% of income</span><span style="font-family:var(--mono);font-weight:600;color:${pct>35?'var(--rust)':pct>28?'var(--gold)':'var(--sage)'}">${pct}%</span></div>`:''}`;
+  const dep=nv('deposit'),catD=nv('catDeposit'),first=nv('firstMonth')||rent,truck=nv('truck'),misc=nv('misc'),moveIn=dep+catD+first+truck+misc,planB=Math.round(rent*2.5);
+  const miEl=el('b-movein');
+  if(miEl)miEl.innerHTML=`<div class="sec-h">Move-in cash 💸</div>
+    <div class="bline"><span>First month</span><strong style="font-family:var(--mono)">${fmt(first||rent)}</strong></div>
+    ${dep?`<div class="bline"><span>Security deposit</span><strong style="font-family:var(--mono)">${fmt(dep)}</strong></div>`:''}
+    ${catD?`<div class="bline"><span>Cat deposit</span><strong style="font-family:var(--mono)">${fmt(catD)}</strong></div>`:''}
+    ${truck?`<div class="bline"><span>Truck rental</span><strong style="font-family:var(--mono)">${fmt(truck)}</strong></div>`:''}
+    ${misc?`<div class="bline"><span>Misc buffer</span><strong style="font-family:var(--mono)">${fmt(misc)}</strong></div>`:''}
+    <hr class="divider">
+    <div class="btotal"><span>Move-in total</span><span style="font-family:var(--mono);color:var(--sky)">${fmt(moveIn)}</span></div>
+    <div style="font-size:11.5px;color:var(--ink3);margin-top:3px">Each person: ${fmt(Math.round(moveIn/2))}</div>
+    ${rent>0?`<hr class="divider"><div style="font-size:12.5px;color:var(--gold);font-weight:600;margin-bottom:2px">+ Plan B (no sublease): ${fmt(planB)}</div><div style="font-family:var(--serif);font-size:14px;font-weight:600;color:var(--rust);margin-top:4px">Worst case: ${fmt(moveIn+planB)}</div>`:''}`;
+  const scEl=el('b-scenarios');
+  if(scEl&&rent>0){const row=(ico,l,v,d,c)=>`<div class="scenario"><div><div style="font-size:12.5px;font-weight:600;margin-bottom:1px">${ico} ${l}</div><div style="font-size:11px;color:var(--ink3)">${d}</div></div><div style="font-family:var(--mono);font-size:14px;font-weight:500;color:${c};flex-shrink:0">${v}</div></div>`;scEl.innerHTML=[row('✅','Best case',fmt(total)+'/mo','Clean move, sublease works','var(--sage)'),row('⚡','Plan B — no sublease','+'+fmt(planB),'One-time overlap Jun–Jul','var(--gold)'),row('📈','Year 2 (+10% rent)',fmt(Math.round(total+rent*.1))+'/mo','Common in Fort Collins','var(--ink2)'),row('💸','Worst case',fmt(moveIn+planB+Math.round(rent*.1)),'No sublease + rent increase','var(--rust)')].join('');}
+  else if(scEl)scEl.innerHTML=`<div style="font-size:12.5px;color:var(--ink3);text-align:center;padding:12px">Enter rent above to see scenarios</div>`;
 }
 
-// ═══════════════════════════════════════════════════
-//  AI TAB
-// ═══════════════════════════════════════════════════
-function renderAI() {
-  const pg = el('page-ai'); if(!pg) return;
-  const modes = [
-    {id:'analyze',  label:'Analyze listing'},
-    {id:'insights', label:'Cross-listing insights'},
-  ];
+function renderChecklist(){
+  const pg=el('page-checklist');if(!pg)return;
+  const done=Object.values(S.checked).filter(Boolean).length,total=ALL_ITEMS.length,pct=Math.round(done/total*100);
+  if(!S._openPhase){const f=PHASES.find(ph=>ph.items.some(i=>!S.checked[i.id]));if(f)S._openPhase=f.phase;}
+  pg.innerHTML=`<div style="margin-bottom:22px"><div class="pg-h">Checklist</div><div class="pg-s" style="margin-bottom:10px">Your search, step by step.</div><div style="display:flex;align-items:center;gap:14px"><div class="prog" style="flex:1"><div class="prog-f" style="width:${pct}%;background:var(--ink)"></div></div><span style="font-family:var(--mono);font-size:12.5px;color:var(--ink2);white-space:nowrap">${done}/${total}</span></div></div>
+  ${PHASES.map(ph=>{const pd=ph.items.filter(i=>S.checked[i.id]).length,open=S._openPhase===ph.phase;return`<div class="phase-wrap"><div class="phase-hd" onclick="S._openPhase=S._openPhase==='${ph.phase}'?null:'${ph.phase}';renderChecklist()"><div class="pdot" style="background:${ph.color}"></div><span style="flex:1;font-size:13px;font-weight:600">${ph.phase}</span><span style="font-family:var(--mono);font-size:11.5px;color:${pd===ph.items.length?'var(--sage)':'var(--ink3)'};margin-right:6px">${pd}/${ph.items.length}</span><span style="font-size:11px;color:var(--ink3)">${open?'▲':'▼'}</span></div>${open?ph.items.map(item=>`<div class="citem ${S.checked[item.id]?'done':''}" onclick="toggleTask('${item.id}')"><div class="cbox ${S.checked[item.id]?'on':''}">✓</div><span style="font-size:12.5px;line-height:1.5;font-weight:500">${esc(item.task)}</span></div>`).join(''):''}</div>`;}).join('')}`;
+}
+function toggleTask(id){S.checked[id]=!S.checked[id];persist('checked');buildChrome();renderChecklist();}
 
-  pg.innerHTML = `
-    <div class="pg-h">AI Assistant</div>
-    <div class="pg-s">Real Claude API calls — no copy-pasting required.</div>
+let _E=null;
+function openLM(id,prefill=null){
+  _E=id?JSON.parse(JSON.stringify(S.listings.find(p=>p.id===id)||mkListing())):JSON.parse(JSON.stringify(prefill||mkListing()));
+  if(!id)_E.id=mkId();
+  S.lmTab='info';
+  el('lm-title').textContent=id?'Edit Listing':'Add Listing';
+  renderLM();el('lm-overlay').classList.add('open');
+}
+function closeLM(){el('lm-overlay').classList.remove('open');_E=null;}
+function renderLM(){
+  if(!_E)return;
+  const tabs=[{id:'info',l:'Info'},{id:'details',l:'Details'},{id:'scores',l:'Scores'},{id:'notes',l:'Notes'}];
+  el('lm-tabs').innerHTML=tabs.map(t=>`<button class="mtab ${S.lmTab===t.id?'on':''}" onclick="setLMTab('${t.id}')">${t.l}</button>`).join('');
+  renderLMBody();
+}
+function setLMTab(t){S.lmTab=t;renderLM();}
+function renderLMBody(){
+  const body=el('lm-body');if(!body||!_E)return;
+  const p=_E;
+  const inp=(k,ph='',type='text')=>`<input type="${type}" placeholder="${ph}" value="${esc(p[k]||'')} " oninput="_E['${k}']=this.value" onblur="_E['${k}']=this.value">`;
+  const sel=(k,opts)=>`<select onchange="_E['${k}']=this.value">${opts.map(([v,l])=>`<option value="${v}" ${p[k]===v?'selected':''} >${l}</option>`).join('')}</select>`;
+  const existing=S.listings.find(x=>x.id===p.id);
+  const foot=`<div class="mfoot">${existing?`<button class="btn btn-rust btn-sm" onclick="deleteListing('${p.id}')">Delete</button>`:''} ${existing&&!p.archived?`<button class="btn btn-ghost btn-sm" onclick="archiveListing('${p.id}')">Archive</button>`:''}<div style="flex:1"></div><button class="btn btn-ghost btn-sm" onclick="closeLM()">Cancel</button><button class="btn btn-ink btn-sm" onclick="saveLM()">Save</button></div>`;
+  if(S.lmTab==='info'){body.innerHTML=`<div class="field"><label class="lbl">Name / nickname</label>${inp('name','e.g. The Oak Street place')}</div><div class="field"><label class="lbl">Address</label>${inp('address','123 Main St, Fort Collins')}</div><div class="fr2"><div class="field"><label class="lbl">Neighborhood</label>${inp('neighborhood','e.g. Midtown')}</div><div class="field"><label class="lbl">Type</label>${sel('type',[['Apartment','Apartment'],['Townhouse','Townhouse'],['House','House'],['Condo','Condo']])}</div></div><div class="fr2"><div class="field"><label class="lbl">Status</label>${sel('status',STATUSES.map(s=>[s,s]))}</div><div class="field"><label class="lbl">Available</label>${inp('availDate','','date')}</div></div><div class="fr3"><div class="field"><label class="lbl">Rent</label>${inp('rent','1850','number')}</div><div class="field"><label class="lbl">Deposit</label>${inp('deposit','1850','number')}</div><div class="field"><label class="lbl">Sq ft</label>${inp('sqft','900','number')}</div></div><div class="fr2"><div class="field"><label class="lbl">Beds</label>${sel('beds',[['1','1 BR'],['2','2 BR'],['3','3 BR']])}</div><div class="field"><label class="lbl">Baths</label>${sel('baths',[['1','1 BA'],['1.5','1.5 BA'],['2','2 BA']])}</div></div><div class="fr2"><div class="field"><label class="lbl">Listing URL</label>${inp('url','https://zillow.com/...','url')}</div><div class="field"><label class="lbl">Photo URL</label>${inp('photo','https://...','url')}</div></div>${foot}`;}
+  else if(S.lmTab==='details'){const lO=[[''  ,'Unknown'],['Yes — in unit','In-unit W/D'],['In-unit hookups','W/D hookups'],['Shared laundry','Shared'],['None','None']];const pO=[[''  ,'Unknown'],['1 spot included','1 included'],['2 spots included','2 included'],['Street only','Street only'],['Paid available','Paid available'],['No parking','None']];const uO=[[''  ,'Unknown'],['None — tenant pays all','Tenant pays all'],['Water only','Water only'],['Water + trash','Water + trash'],['All except electric','All except electric'],['All included','All included']];body.innerHTML=`<div class="sec-h">Precious 🐱</div><div class="field"><label class="lbl">Cat policy</label>${inp('catPolicy','e.g. 1 cat OK, $300 deposit, $35/mo')}</div><div class="fr2"><div class="field"><label class="lbl">Cat deposit</label>${inp('catDeposit','300','number')}</div><div class="field"><label class="lbl">Monthly cat rent</label>${inp('catRent','35','number')}</div></div><hr class="divider"><div class="sec-h">Amenities</div><div class="field"><label class="lbl">Laundry</label>${sel('laundry',lO)}</div><div class="field"><label class="lbl">Parking</label>${sel('parking',pO)}</div><div class="field"><label class="lbl">Utilities</label>${sel('utilities',uO)}</div><div class="fr2"><div class="field"><label class="lbl">Lease length</label>${inp('leaseLength','12 months')}</div><div class="field"><label class="lbl">Next action</label>${inp('nextAction','e.g. Call Tuesday')}</div></div><hr class="divider"><div class="sec-h">Commute</div>${['ameliaWork','josiahWork'].map(k=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><div style="flex:1;font-size:12px;color:var(--ink2)">${k==='ameliaWork'?'Amelia':'Josiah'} work: <span style="color:var(--ink3)">${S.settings[k]||'Not set in Settings'}</span></div>${p.address&&S.settings[k]?`<a href="https://www.google.com/maps/dir/${encodeURIComponent(p.address)}/${encodeURIComponent(S.settings[k])}" target="_blank" rel="noreferrer" class="btn btn-ghost btn-xs">Maps ↗</a>`:''}</div>`).join('')}<div style="font-size:11px;color:var(--ink3)">Set work addresses in Settings to get commute links.</div>${foot}`;}
+  else if(S.lmTab==='scores'){const sg=(w,label,scores)=>`<div style="margin-bottom:18px"><div class="sec-h">${label}</div>${SCORE_CATS.map(cat=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:12px;color:var(--ink2);width:68px;flex-shrink:0">${cat.l}</span><div class="stars">${[1,2,3,4,5].map(n=>`<span class="star ${n<=(scores[cat.k]||0)?'on':''}" onclick="_E.${w}Scores['${cat.k}']=$ {n};renderLM()">★</span>`).join('')}</div><span style="font-family:var(--mono);font-size:11px;color:var(--ink3);min-width:24px">${scores[cat.k]>0?scores[cat.k]+'/5':''}</span></div>`).join('')}</div>`;body.innerHTML=sg('amelia','Amelia',p.ameliaScores||{})+sg('josiah','Josiah',p.josiahScores||{})+foot;}
+  else if(S.lmTab==='notes'){body.innerHTML=`<div class="field"><label class="lbl">Pros</label><textarea oninput="_E.pros=this.value">${esc(p.pros||'')} </textarea></div><div class="field"><label class="lbl">Cons</label><textarea oninput="_E.cons=this.value">${esc(p.cons||'')} </textarea></div><div class="field"><label class="lbl">Tour notes</label><textarea oninput="_E.tourNotes=this.value">${esc(p.tourNotes||'')} </textarea></div><div class="field"><label class="lbl">General notes</label><textarea oninput="_E.notes=this.value">${esc(p.notes||'')} </textarea></div>${foot}`;}
+}
+function saveLM(){
+  if(!_E)return;
+  if(!_E.name&&!_E.address){toast('Add a name or address first');return;}
+  const idx=S.listings.findIndex(x=>x.id===_E.id);
+  if(idx>=0)S.listings[idx]=_E;else S.listings.push(_E);
+  persist('listings');closeLM();toast('✓ Saved');
+  if(S.tab==='listings')renderListings();else if(S.tab==='dash')renderDash();buildChrome();
+}
+function deleteListing(id){
+  if(!confirm('Delete this listing?'))return;
+  S.listings=S.listings.filter(x=>x.id!==id);persist('listings');closeLM();toast('Deleted');renderListings();buildChrome();
+}
+function archiveListing(id){
+  const p=S.listings.find(x=>x.id===id);if(!p)return;
+  p.archived=true;p.status='Rejected';persist('listings');closeLM();toast('Archived');renderListings();buildChrome();
+}
 
-    <div class="ai-tabs">
-      ${modes.map(m=>`<button class="atab ${S.aiMode===m.id?'on':''}" onclick="setAIMode('${m.id}')">${m.label}</button>`).join('')}
+function openSettings(){
+  el('sm-body').innerHTML=`
+    <div style="margin-bottom:16px"><div class="sec-h">Who is using this device?</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn ${who()==='amelia'?'btn-ink':'btn-ghost'} btn-sm" onclick="setWho('amelia')">Amelia</button>
+        <button class="btn ${who()==='josiah'?'btn-ink':'btn-ghost'} btn-sm" onclick="setWho('josiah')">Josiah</button>
+      </div>
+      <div style="font-size:11.5px;color:var(--ink3);margin-top:6px">Affects whose votes show as "yours" on listing cards.</div>
     </div>
-
-    <div id="ai-mode-body"></div>
-    <div id="ai-output"></div>
-  `;
-  renderAIMode();
-}
-
-function setAIMode(mode) {
-  S.aiMode = mode;
-  document.querySelectorAll('.atab').forEach(b=>{
-    const map = {'analyze':'Analyze listing','insights':'Cross-listing insights'};
-    b.classList.toggle('on', b.textContent.trim()===map[mode]);
-  });
-  if(el('ai-output')) el('ai-output').innerHTML='';
-  renderAIMode();
-}
-
-function renderAIMode() {
-  const body = el('ai-mode-body'); if(!body) return;
-
-  if(S.aiMode==='analyze') {
-    body.innerHTML = `
-      <div class="card">
-        <div style="font-size:13px;font-weight:600;margin-bottom:12px">Analyze a listing</div>
-        <div class="field"><label class="lbl">Paste listing text or just a URL</label>
-          <textarea id="ai-text" rows="6" placeholder="Paste from Zillow, Apartments.com, Craigslist, or Facebook. Or just paste the URL and AI will fetch it automatically."></textarea></div>
-        <div class="field-r" style="margin-bottom:12px">
-          <div class="field" style="margin-bottom:0"><label class="lbl">Landlord type</label>
-            <select id="ai-lt"><option value="">Unknown</option><option value="complex">Apartment complex</option><option value="private">Private landlord</option></select></div>
-          <div class="field" style="margin-bottom:0"><label class="lbl">Already toured?</label>
-            <select id="ai-toured"><option value="no">Not yet</option><option value="yes">Yes</option><option value="virtual">Virtual only</option></select></div>
-        </div>
-        <div class="field" style="margin-bottom:14px"><label class="lbl">Anything specific to focus on?</label>
-          <input id="ai-focus" placeholder="e.g. is the price fair, light situation, cat policy…"></div>
-        <button class="btn btn-primary" onclick="runAnalysis()" id="analyze-btn" style="width:100%;justify-content:center">Analyze with AI</button>
-      </div>`;
-  } else if(S.aiMode==='insights') {
-    const active = S.listings.filter(p=>!p.archived);
-    body.innerHTML = `
-      <div class="card">
-        <div style="font-size:13px;font-weight:600;margin-bottom:6px">Cross-listing insights</div>
-        <div style="font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.6">
-          Claude analyzes all ${active.length} listing${active.length!==1?'s':''} you've saved together. It finds patterns, flags what you keep compromising on, and gives a straight recommendation.
-        </div>
-        ${active.length<2
-          ? `<div style="font-size:13px;color:var(--amber)">Add at least 2 listings to use this feature.</div>`
-          : `<button class="btn btn-primary" onclick="runInsights()" id="insights-btn" style="width:100%;justify-content:center">Analyze all ${active.length} listings</button>`
-        }
-      </div>`;
-  }
-}
-
-async function runAnalysis() {
-  const text = el('ai-text')?.value.trim();
-  if(!text) return showToast('Paste some listing text or a URL first');
-
-  const btn = el('analyze-btn');
-  if(btn){ btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Analyzing…'; }
-
-  const lt     = el('ai-lt')?.value||'';
-  const toured = el('ai-toured')?.value||'no';
-  const focus  = el('ai-focus')?.value||'';
-  const isURL  = /^https?:\/\//i.test(text);
-
-  const extras = [
-    lt==='complex'?'This is an apartment complex — ask about other units/floor plans and which floors get the most light.':'',
-    lt==='private'?'Private landlord — note any flexibility on price or deposit terms.':'',
-    toured==='yes'?'They have already toured — focus on helping them decide, not just what to ask.':'',
-    focus?`Pay special attention to: ${focus}`:'',
-  ].filter(Boolean).join('\n');
-
-  const prompt = `${isURL?`Please visit this URL and analyze the rental listing you find there: ${text}\n\n`:'Analyze this rental listing:\n\n'+text+'\n\n'}
-${CRITERIA}
-${extras}
-
-Respond with ONLY valid JSON, no markdown:
-{
-  "name": "listing name or address",
-  "rent": "monthly rent number only (no $)",
-  "address": "full address if found",
-  "summary": "2–3 sentence plain summary",
-  "verdict": "one punchy sentence — tour it / skip it / apply now",
-  "score": 0.0–5.0,
-  "passesNonNeg": {"petFriendly":"yes|no|unclear","inUnitLaundry":"yes|no|unclear","parking":"yes|no|unclear"},
-  "inZone": "yes|no|unclear",
-  "catVerdict": "cat policy details",
-  "lightNote": "natural light assessment",
-  "estimatedMonthly": "total monthly with utilities",
-  "greenFlags": ["up to 5"],
-  "redFlags": ["up to 5"],
-  "missedInfo": ["up to 4 things they must find out"],
-  "questionsToAsk": ["6–8 specific questions"],
-  "negotiationAngle": "specific leverage they have",
-  "scores": {"location":0–5,"value":0–5,"light":0–5,"cat":0–5,"vibe":0–5}
-}`;
-
-  try {
-    const raw  = await callClaude(prompt, { useSearch: isURL });
-    const r    = parseJSON(raw);
-    showAnalysisResult(r);
-  } catch(e) {
-    el('ai-output').innerHTML = `<div class="card" style="border-color:var(--red)"><div style="color:var(--red);font-size:13px;font-weight:600">Error</div><div style="font-size:13px;color:var(--t2);margin-top:4px">${esc(e.message)}</div>${e.code==='no-key'?'<button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="openSettings()">Add API key →</button>':''}</div>`;
-  } finally {
-    if(btn){ btn.disabled=false; btn.textContent='Analyze with AI'; }
-  }
-}
-
-function showAnalysisResult(r) {
-  const out = el('ai-output'); if(!out) return;
-  const pc = v => v==='yes'?'var(--green)':v==='no'?'var(--red)':'var(--amber)';
-  const pb = v => v==='yes'?'var(--green-l)':v==='no'?'var(--red-l)':'var(--amber-l)';
-
-  out.innerHTML = `
-    <div class="verdict-bar" style="margin-top:14px">
-      <div style="flex:1">
-        <div style="font-size:10px;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Verdict</div>
-        <div style="font-size:15px;color:#fff;font-style:italic;line-height:1.45">"${esc(r.verdict)}"</div>
-      </div>
-      <div style="text-align:center;flex-shrink:0;min-width:54px">
-        <div style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-.03em">${(r.score||0).toFixed(1)}</div>
-        <div style="font-size:11px;color:#6B7280">/ 5.0</div>
-      </div>
-    </div>
-
-    <div class="g2" style="gap:10px;margin-bottom:10px">
-      <div class="card" style="grid-column:1/-1">
-        <div class="sec-h">Summary</div>
-        <p style="font-size:13px;color:var(--t2);line-height:1.7">${esc(r.summary)}</p>
-        ${r.estimatedMonthly?`<div style="margin-top:10px;display:inline-flex;gap:8px;align-items:center;background:var(--blue-l);padding:5px 11px;border-radius:var(--rs)"><span style="font-size:11px;color:var(--blue);font-weight:600">Est. total monthly</span><span style="font-size:14px;font-weight:700;color:var(--blue-d)">${esc(r.estimatedMonthly)}</span></div>`:''}
-      </div>
-
-      <div class="card">
-        <div class="sec-h">Non-negotiables</div>
-        ${[['petFriendly','Precious (cat)'],['inUnitLaundry','In-unit W/D'],['parking','Parking']].map(([k,l])=>`
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 9px;border-radius:var(--rs);background:${pb(r.passesNonNeg?.[k]||'unclear')};margin-bottom:5px">
-            <span style="font-size:13px">${l}</span>
-            <span class="badge" style="color:${pc(r.passesNonNeg?.[k]||'unclear')};background:${pb(r.passesNonNeg?.[k]||'unclear')}">${(r.passesNonNeg?.[k]||'unclear').toUpperCase()}</span>
-          </div>`).join('')}
-        <hr class="div">
-        <div style="font-size:12px;color:${r.inZone==='yes'?'var(--green)':r.inZone==='no'?'var(--red)':'var(--t3)'}">
-          ${r.inZone==='yes'?'✓ In zone (S of Mulberry, E of College)':r.inZone==='no'?'✗ Outside target zone':'Zone unclear from listing'}
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="sec-h">Precious &amp; Light</div>
-        <div style="padding:9px 11px;background:var(--green-l);border-radius:var(--rs);margin-bottom:9px;border:1px solid #BBF7D0">
-          <div style="font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Cat</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.catVerdict||'No cat info found')}</div>
-        </div>
-        <div style="padding:9px 11px;background:var(--amber-l);border-radius:var(--rs);border:1px solid #FDE68A">
-          <div style="font-size:10px;color:var(--amber);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Light</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(r.lightNote||'No light info found')}</div>
-        </div>
-      </div>
-
-      ${r.greenFlags?.length?`<div class="card"><div class="sec-h">Green flags</div>${r.greenFlags.map(f=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-l)"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><span style="font-size:13px;color:var(--t2);line-height:1.4">${esc(f)}</span></div>`).join('')}</div>`:''}
-      ${r.redFlags?.length?`<div class="card"><div class="sec-h">Red flags</div>${r.redFlags.map(f=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-l)"><span style="color:var(--red);font-weight:700;flex-shrink:0">!</span><span style="font-size:13px;color:var(--t2);line-height:1.4">${esc(f)}</span></div>`).join('')}</div>`:''}
-      ${r.missedInfo?.length?`<div class="card"><div class="sec-h">Find out before deciding</div>${r.missedInfo.map(m=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-l)"><span style="color:var(--amber);font-weight:700;flex-shrink:0">?</span><span style="font-size:13px;color:var(--t2);line-height:1.4">${esc(m)}</span></div>`).join('')}</div>`:''}
-      ${r.questionsToAsk?.length?`<div class="card"><div class="sec-h">Questions to ask</div>${r.questionsToAsk.map(q=>`<div style="padding:7px 10px;background:var(--bg);border-radius:var(--rs);margin-bottom:5px;font-size:13px;color:var(--t2);line-height:1.5;border-left:2px solid var(--blue)">${esc(q)}</div>`).join('')}</div>`:''}
-      ${r.negotiationAngle?`<div class="card" style="grid-column:1/-1"><div class="sec-h">Negotiation angle</div><div style="padding:9px 11px;background:var(--green-l);border-radius:var(--rs);border:1px solid #BBF7D0;font-size:13px;color:var(--green);line-height:1.6">${esc(r.negotiationAngle)}</div></div>`:''}
-    </div>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-      <button class="btn btn-primary" onclick="addFromAnalysis(${JSON.stringify(r).replace(/'/g,'&#39;')})">+ Add to listings</button>
-      <button class="btn btn-ghost" onclick="setAIMode('analyze')">Analyze another</button>
-    </div>
-  `;
-  out.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-async function runInsights() {
-  const active = S.listings.filter(p=>!p.archived);
-  if(active.length<2) return showToast('Add at least 2 listings first');
-
-  const btn = el('insights-btn');
-  if(btn){ btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Analyzing all listings…'; }
-
-  const listingsSummary = active.map((p,i) => `
-Listing ${i+1}: ${p.name||'Unnamed'}
-- Rent: ${p.rent?'$'+p.rent+'/mo':'unknown'}, Sqft: ${p.sqft||'unknown'}, Type: ${p.type}
-- Address: ${p.address||'unknown'}, Neighborhood: ${p.neighborhood||'unknown'}
-- Cat policy: ${p.catPolicy||'unknown'}, Parking: ${p.parking||'unknown'}, Laundry: ${p.laundry||'unknown'}
-- Available: ${p.availDate||'unknown'}, Status: ${p.status}
-- Amelia vote: ${p.ameliaVote||'no vote'}, Josiah vote: ${p.josiahVote||'no vote'}
-- Amelia scores: ${JSON.stringify(p.ameliaScores)}, Josiah scores: ${JSON.stringify(p.josiahScores)}
-- Pros: ${p.pros||'none listed'}, Cons: ${p.cons||'none listed'}
-- Notes: ${p.notes||'none'}`).join('\n\n');
-
-  const prompt = `You are an expert apartment advisor helping Amelia and Josiah.
-${CRITERIA}
-
-Here are all their current listings:
-${listingsSummary}
-
-Analyze all these listings together and provide honest, insightful observations they might not have considered themselves.
-
-Respond with ONLY valid JSON, no markdown:
-{
-  "overallAssessment": "2–3 sentences on where their search stands right now",
-  "topPick": "name of the listing you'd recommend most and why in 1 sentence",
-  "patterns": ["3–4 patterns you notice across their listings — what they keep choosing or avoiding"],
-  "compromises": ["2–3 things they keep compromising on that they said were important"],
-  "blindspots": ["2–3 things they might not be considering that matter a lot for their specific situation"],
-  "preciousAlert": "specific observation about how well (or poorly) these listings actually serve Precious",
-  "lightReport": "honest assessment of natural light across their listings — their #1 priority",
-  "budgetReality": "frank assessment of how their listings align with their stated budget",
-  "recommendation": "specific, actionable next step — what should they do in the next 48 hours",
-  "listingRanking": [{"name":"listing name","reason":"1 sentence why this rank"}]
-}`;
-
-  try {
-    const raw = await callClaude(prompt);
-    const r   = parseJSON(raw);
-    showInsightsResult(r, active);
-  } catch(e) {
-    el('ai-output').innerHTML = `<div class="card" style="border-color:var(--red)"><div style="color:var(--red);font-size:13px;font-weight:600">${esc(e.message)}</div>${e.code==='no-key'?'<button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="openSettings()">Add API key →</button>':''}</div>`;
-  } finally {
-    if(btn){ btn.disabled=false; btn.textContent=`Analyze all ${active.length} listings`; }
-  }
-}
-
-function showInsightsResult(r, listings) {
-  const out = el('ai-output'); if(!out) return;
-  out.innerHTML = `
-    <div style="margin-top:14px">
-      <div class="card" style="background:var(--t1);border-color:var(--t1);margin-bottom:10px;padding:20px">
-        <div style="font-size:10px;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Overall Assessment</div>
-        <div style="font-size:14px;color:#fff;line-height:1.65">${esc(r.overallAssessment)}</div>
-        ${r.topPick?`<div style="margin-top:12px;padding:10px 12px;background:rgba(255,255,255,.08);border-radius:var(--rs)"><span style="font-size:11px;color:#9CA3AF;font-weight:600;text-transform:uppercase">Top Pick: </span><span style="font-size:13px;color:#fff">${esc(r.topPick)}</span></div>`:''}
-      </div>
-
-      <div class="g2" style="gap:10px;margin-bottom:10px">
-        ${r.patterns?.length?`<div class="card"><div class="sec-h">Patterns we see</div>${r.patterns.map(p=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-l)"><span style="color:var(--blue);font-weight:700;flex-shrink:0">→</span><span style="font-size:13px;color:var(--t2);line-height:1.4">${esc(p)}</span></div>`).join('')}</div>`:''}
-        ${r.compromises?.length?`<div class="card"><div class="sec-h">What you keep compromising on</div>${r.compromises.map(c=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-l)"><span style="color:var(--amber);font-weight:700;flex-shrink:0">⚠</span><span style="font-size:13px;color:var(--t2);line-height:1.4">${esc(c)}</span></div>`).join('')}</div>`:''}
-        ${r.preciousAlert?`<div class="card" style="background:var(--green-l);border-color:#BBF7D0"><div class="sec-h" style="color:var(--green)">Precious 🐱</div><div style="font-size:13px;color:var(--t2);line-height:1.6">${esc(r.preciousAlert)}</div></div>`:''}
-        ${r.lightReport?`<div class="card" style="background:var(--amber-l);border-color:#FDE68A"><div class="sec-h" style="color:var(--amber)">Natural Light ☀️</div><div style="font-size:13px;color:var(--t2);line-height:1.6">${esc(r.lightReport)}</div></div>`:''}
-        ${r.budgetReality?`<div class="card"><div class="sec-h">Budget Reality</div><div style="font-size:13px;color:var(--t2);line-height:1.6">${esc(r.budgetReality)}</div></div>`:''}
-        ${r.blindspots?.length?`<div class="card"><div class="sec-h">Blind spots</div>${r.blindspots.map(b=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-l)"><span style="color:var(--red);font-weight:700;flex-shrink:0">!</span><span style="font-size:13px;color:var(--t2);line-height:1.4">${esc(b)}</span></div>`).join('')}</div>`:''}
-      </div>
-
-      ${r.listingRanking?.length?`<div class="card" style="margin-bottom:10px"><div class="sec-h">Ranking</div>${r.listingRanking.map((l,i)=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-l)"><span style="font-size:18px;font-weight:800;color:${i===0?'var(--blue)':'var(--t3)'};min-width:24px;line-height:1">${i+1}</span><div><div style="font-size:13px;font-weight:600">${esc(l.name)}</div><div style="font-size:12px;color:var(--t3);margin-top:1px">${esc(l.reason)}</div></div></div>`).join('')}</div>`:''}
-
-      ${r.recommendation?`<div class="card" style="background:var(--blue-l);border-color:#BFDBFE"><div class="sec-h" style="color:var(--blue)">Next 48 Hours</div><div style="font-size:14px;color:var(--blue-d);line-height:1.65;font-weight:500">${esc(r.recommendation)}</div></div>`:''}
-    </div>
-  `;
-  out.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-function addFromAnalysis(r) {
-  const p = mkListing();
-  p.name   = r.name || prompt('Name for this listing:') || 'New listing';
-  p.rent   = String(r.rent||'').replace(/[^0-9]/g,'');
-  p.address= r.address||'';
-  p.ameliaScores = {...(r.scores||{})};
-  p.josiahScores = {...(r.scores||{})};
-  p.pros = (r.greenFlags||[]).slice(0,2).join('; ');
-  p.cons = (r.redFlags||[]).slice(0,2).join('; ');
-  p.notes= r.summary||'';
-  saveListing(p);
-  showToast('✓ Added to listings');
-  goTab('listings');
-}
-
-// ═══════════════════════════════════════════════════
-//  QUICK CAPTURE
-// ═══════════════════════════════════════════════════
-function openQC() {
-  el('qc-body').innerHTML = `
-    <div style="font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.65">
-      Paste a listing URL from Zillow, Apartments.com, or Craigslist. Claude will fetch it, extract all the details, and pre-fill the listing form for you.
-    </div>
-    <div class="field">
-      <label class="lbl">Listing URL</label>
-      <input id="qc-url" type="url" placeholder="https://www.zillow.com/homedetails/..." autofocus>
-    </div>
-    <div class="field">
-      <label class="lbl">Or paste listing text directly (for Facebook, etc.)</label>
-      <textarea id="qc-text" rows="4" placeholder="Paste any text from the listing here…"></textarea>
-    </div>
-    <div id="qc-err" style="color:var(--red);font-size:12px;min-height:14px;margin-bottom:10px"></div>
-    <button class="btn btn-primary" onclick="runQC()" id="qc-btn" style="width:100%;justify-content:center">⚡ Capture listing</button>
-  `;
-  el('qc-modal').classList.add('open');
-}
-
-function closeQC() { el('qc-modal').classList.remove('open'); }
-
-async function runQC() {
-  const url  = el('qc-url')?.value.trim() || '';
-  const text = el('qc-text')?.value.trim() || '';
-  const input = url || text;
-  if(!input) { el('qc-err').textContent = 'Paste a URL or listing text first'; return; }
-
-  const btn = el('qc-btn');
-  if(btn){ btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Fetching &amp; extracting…'; }
-  el('qc-err').textContent = '';
-
-  const isURL = /^https?:\/\//i.test(input);
-  const prompt = `${isURL
-    ? `Visit this URL and extract all rental listing details: ${input}`
-    : `Extract rental listing details from this text:\n\n${input}`}
-
-${CRITERIA}
-
-Return ONLY valid JSON:
-{
-  "name": "property name or address",
-  "address": "full street address",
-  "neighborhood": "neighborhood",
-  "type": "Apartment|Townhouse|House",
-  "rent": "monthly rent, digits only",
-  "deposit": "security deposit, digits only",
-  "sqft": "square footage, digits only",
-  "beds": "number of bedrooms",
-  "baths": "number of bathrooms",
-  "catPolicy": "cat policy details",
-  "catDeposit": "cat deposit, digits only",
-  "catRent": "monthly pet rent, digits only",
-  "parking": "parking details",
-  "laundry": "laundry situation",
-  "utilities": "what utilities are included",
-  "availDate": "availability date as YYYY-MM-DD or empty",
-  "url": "${url||''}",
-  "pros": "top 2–3 positive things",
-  "cons": "top 1–2 concerns or missing info",
-  "lightNote": "any window/orientation/floor info for natural light"
-}
-Only include fields with real data. Use empty string for unknowns.`;
-
-  try {
-    const raw = await callClaude(prompt, { useSearch: isURL });
-    const r   = parseJSON(raw);
-    closeQC();
-    const p = mkListing();
-    Object.assign(p, {
-      name: r.name||'', address: r.address||'', neighborhood: r.neighborhood||'',
-      type: r.type||'Apartment',
-      rent: String(r.rent||'').replace(/[^0-9]/g,''),
-      deposit: String(r.deposit||'').replace(/[^0-9]/g,''),
-      sqft: String(r.sqft||'').replace(/[^0-9]/g,''),
-      beds: r.beds||'2', baths: r.baths||'1',
-      catPolicy: r.catPolicy||'', catDeposit: String(r.catDeposit||'').replace(/[^0-9]/g,''),
-      catRent: String(r.catRent||'').replace(/[^0-9]/g,''),
-      parking: r.parking||'', laundry: r.laundry||'', utilities: r.utilities||'',
-      availDate: r.availDate||'', url: r.url||url||'',
-      pros: r.pros||'', cons: r.cons||'',
-      notes: r.lightNote ? '☀️ Light: '+r.lightNote : '',
-    });
-    openListingModal(null, p);
-    showToast('✓ Pre-filled from listing');
-  } catch(e) {
-    el('qc-err').textContent = e.code==='no-key' ? 'Add your Anthropic API key in Settings.' : e.message;
-  } finally {
-    if(btn){ btn.disabled=false; btn.textContent='⚡ Capture listing'; }
-  }
-}
-
-// ═══════════════════════════════════════════════════
-//  LISTING MODAL
-// ═══════════════════════════════════════════════════
-let _editListing = null;
-
-function openListingModal(id, prefill=null) {
-  _editListing = id ? (S.listings.find(p=>p.id===id) || mkListing()) : (prefill || mkListing());
-  if(!id) _editListing.id = mkId();
-  S.lmTab = 'info';
-  el('lm-title').textContent = id ? 'Edit Listing' : 'Add Listing';
-  renderListingModal();
-  el('listing-modal').classList.add('open');
-}
-
-function closeListingModal() {
-  el('listing-modal').classList.remove('open');
-  _editListing = null;
-}
-
-function renderListingModal() {
-  if(!_editListing) return;
-  const p = _editListing;
-  const tabs = [
-    {id:'info',   l:'Info'},
-    {id:'details',l:'Details'},
-    {id:'scores', l:'Scores'},
-    {id:'notes',  l:'Notes'},
-  ];
-  el('lm-tabs').innerHTML = tabs.map(t=>`<button class="mtab ${S.lmTab===t.id?'on':''}" onclick="setLMTab('${t.id}')">${t.l}</button>`).join('');
-  renderLMTab();
-}
-
-function setLMTab(t) { S.lmTab=t; renderListingModal(); }
-
-function renderLMTab() {
-  const body = el('lm-body'); if(!body||!_editListing) return;
-  const p = _editListing;
-  const inp   = (k, ph='', type='text', ro=false) => `<input ${ro?'readonly':''} type="${type}" placeholder="${ph}" value="${esc(p[k]||'')}" oninput="_editListing['${k}']=this.value" onblur="_editListing['${k}']=this.value">`;
-  const sel   = (k, opts) => `<select onchange="_editListing['${k}']=this.value">${opts.map(([v,l])=>`<option value="${v}" ${p[k]===v?'selected':''}>${l}</option>`).join('')}</select>`;
-  const field = (l, input, full=false) => `<div class="field" style="${full?'grid-column:1/-1':''}"><label class="lbl">${l}</label>${input}</div>`;
-
-  const amenOpts = [['','Unknown'],['Yes — in unit','Yes — in unit'],['In-unit W/D hookups','In-unit W/D hookups'],['Shared laundry','Shared laundry'],['None','None']];
-  const parkOpts = [['','Unknown'],['1 spot included','1 spot included'],['2 spots included','2 spots included'],['Street only','Street only'],['Paid parking available','Paid parking available'],['No parking','No parking']];
-  const utilOpts = [['','Unknown'],['None — tenant pays all','None — tenant pays all'],['Water only','Water only'],['Water + trash','Water + trash'],['All except electric','All except electric'],['All utilities included','All utilities included']];
-
-  if(S.lmTab==='info') {
-    body.innerHTML = `
-      <div class="field"><label class="lbl">Name / Nickname</label>${inp('name','e.g. "The Harmony Place"')}</div>
-      <div class="field"><label class="lbl">Address</label>${inp('address','123 Main St, Fort Collins, CO')}</div>
-      <div class="field-r">
-        <div class="field"><label class="lbl">Neighborhood</label>${inp('neighborhood','e.g. Midtown')}</div>
-        ${field('Type', sel('type',[['Apartment','Apartment'],['Townhouse','Townhouse'],['House','House'],['Condo','Condo']]))}
-      </div>
-      <div class="field-r">
-        <div class="field"><label class="lbl">Status</label>${sel('status',STATUSES.map(s=>[s,s]))}</div>
-        <div class="field"><label class="lbl">Listing URL</label>${inp('url','https://zillow.com/...', 'url')}</div>
-      </div>
-      <div class="field-r3">
-        <div class="field"><label class="lbl">Rent ($/mo)</label>${inp('rent','1850','number')}</div>
-        <div class="field"><label class="lbl">Deposit ($)</label>${inp('deposit','1850','number')}</div>
-        <div class="field"><label class="lbl">Sq Ft</label>${inp('sqft','900','number')}</div>
-      </div>
-      <div class="field-r">
-        <div class="field"><label class="lbl">Beds</label>${sel('beds',[['1','1BR'],['2','2BR'],['3','3BR']])}</div>
-        <div class="field"><label class="lbl">Baths</label>${sel('baths',[['1','1BA'],['1.5','1.5BA'],['2','2BA']])}</div>
-      </div>
-      <div class="field"><label class="lbl">Available date</label>${inp('availDate','','date')}</div>
-      <div class="field"><label class="lbl">Photo URL (optional)</label>${inp('photo','https://...')}</div>
-      ${renderModalFoot()}`;
-
-  } else if(S.lmTab==='details') {
-    body.innerHTML = `
-      <div class="sec-h">Precious 🐱</div>
-      <div class="field"><label class="lbl">Cat policy notes</label>${inp('catPolicy','e.g. 1 cat OK, $300 deposit, $35/mo')}</div>
-      <div class="field-r">
-        <div class="field"><label class="lbl">Cat deposit ($)</label>${inp('catDeposit','300','number')}</div>
-        <div class="field"><label class="lbl">Monthly cat rent ($)</label>${inp('catRent','35','number')}</div>
-      </div>
-      <hr class="div">
-      <div class="sec-h">Amenities</div>
-      <div class="field"><label class="lbl">Laundry</label>${sel('laundry', amenOpts)}</div>
-      <div class="field"><label class="lbl">Parking</label>${sel('parking', parkOpts)}</div>
-      <div class="field"><label class="lbl">Utilities included</label>${sel('utilities', utilOpts)}</div>
-      <div class="field-r">
-        <div class="field"><label class="lbl">Lease length</label>${inp('leaseLength','e.g. 12 months')}</div>
-        <div class="field"><label class="lbl">Next action</label>${inp('nextAction','e.g. Call to schedule tour')}</div>
-      </div>
-      <hr class="div">
-      <div class="sec-h">Commute Check</div>
-      ${[{name:'ameliaWork',label:'Amelia work address'},{name:'josiahWork',label:'Josiah work address'}].map(w=>`
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-          <div style="flex:1;font-size:12px;color:var(--t2)">${w.label}: <span style="color:var(--t3)">${S.settings[w.name]||'Not set'}</span></div>
-          ${p.address?`<a href="https://www.google.com/maps/dir/${encodeURIComponent(p.address)}/${encodeURIComponent(S.settings[w.name]||'Fort Collins, CO')}" target="_blank" rel="noreferrer" class="btn btn-ghost btn-xs">Maps ↗</a>`:''}
-        </div>`).join('')}
-      <div style="font-size:11px;color:var(--t3)">Set work addresses in Settings to get commute links for every listing.</div>
-      ${renderModalFoot()}`;
-
-  } else if(S.lmTab==='scores') {
-    const scoreGroup = (who, label, scores) => `
-      <div style="margin-bottom:16px">
-        <div class="sec-h">${label}</div>
-        ${SCORE_CATS.map(cat=>`
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-            <span style="font-size:12px;color:var(--t2);width:70px;flex-shrink:0">${cat.l}</span>
-            <div class="stars" id="stars-${who}-${cat.k}">
-              ${[1,2,3,4,5].map(n=>`<span class="star ${n<=(scores[cat.k]||0)?'on':''}" onclick="_editListing.${who}Scores['${cat.k}']=${n};renderLMTab()"  data-n="${n}">★</span>`).join('')}
-            </div>
-            <span style="font-size:12px;color:var(--t3);min-width:24px">${scores[cat.k]>0?scores[cat.k]+'/5':''}</span>
-          </div>`).join('')}
-      </div>`;
-    body.innerHTML = scoreGroup('amelia','Amelia',p.ameliaScores||{}) + scoreGroup('josiah','Josiah',p.josiahScores||{}) + renderModalFoot();
-
-  } else if(S.lmTab==='notes') {
-    body.innerHTML = `
-      <div class="field"><label class="lbl">Pros</label><textarea rows="3" placeholder="What's good about this one?" oninput="_editListing.pros=this.value" onblur="_editListing.pros=this.value">${esc(p.pros||'')}</textarea></div>
-      <div class="field"><label class="lbl">Cons</label><textarea rows="3" placeholder="Concerns or red flags?" oninput="_editListing.cons=this.value" onblur="_editListing.cons=this.value">${esc(p.cons||'')}</textarea></div>
-      <div class="field"><label class="lbl">Tour notes</label><textarea rows="3" placeholder="Notes from your visit…" oninput="_editListing.tourNotes=this.value" onblur="_editListing.tourNotes=this.value">${esc(p.tourNotes||'')}</textarea></div>
-      <div class="field"><label class="lbl">General notes</label><textarea rows="3" placeholder="Anything else…" oninput="_editListing.notes=this.value" onblur="_editListing.notes=this.value">${esc(p.notes||'')}</textarea></div>
-      ${renderModalFoot()}`;
-  }
-}
-
-function renderModalFoot() {
-  const p = _editListing;
-  const existing = S.listings.find(x=>x.id===p?.id);
-  return `<div class="mfoot">
-    ${existing?`<button class="btn btn-danger btn-sm" onclick="delListing('${p.id}');closeListingModal()">Delete</button>`:''}
-    ${existing&&!p.archived?`<button class="btn btn-ghost btn-sm" onclick="archiveListing('${p.id}');closeListingModal();showToast('Archived')">Archive</button>`:''}
-    <div style="flex:1"></div>
-    <button class="btn btn-ghost btn-sm" onclick="closeListingModal()">Cancel</button>
-    <button class="btn btn-primary btn-sm" onclick="saveListingModal()">Save</button>
-  </div>`;
-}
-
-function saveListingModal() {
-  if(!_editListing) return;
-  if(!_editListing.name && !_editListing.address) {
-    showToast('Add a name or address first');
-    return;
-  }
-  saveListing({..._editListing});
-  closeListingModal();
-  showToast('✓ Saved');
-}
-
-// ═══════════════════════════════════════════════════
-//  CHECKLIST
-// ═══════════════════════════════════════════════════
-const PHASES = [
-  { phase:'Get Ready', color:'#DC2626', items:[
-    {id:'c1',  task:'Get pay stubs (last 2)'},
-    {id:'c2',  task:'Get bank statements (last 2 months)'},
-    {id:'c3',  task:'Get a letter of employment'},
-    {id:'c4',  task:'Get photo ID ready'},
-    {id:'c5',  task:'Check both credit scores'},
-    {id:'c6',  task:'Write a renter\'s intro letter (mention Precious is indoor-only)'},
-    {id:'c7',  task:'Set search budget and put it in the Budget tab'},
-  ]},
-  { phase:'Active Search', color:'#D97706', items:[
-    {id:'c8',  task:'Check Zillow, Apartments.com, Craigslist daily'},
-    {id:'c9',  task:'Check Facebook Marketplace weekly'},
-    {id:'c10', task:'Drive the target area — look for "For Rent" signs'},
-    {id:'c11', task:'Set up email alerts on Zillow'},
-    {id:'c12', task:'Call about Precious before every tour — confirm deposit + monthly fee'},
-    {id:'c13', task:'Ask window orientation (N/S/E/W) and floor at every showing'},
-    {id:'c14', task:'Ask what the previous tenant actually paid for utilities'},
-  ]},
-  { phase:'Touring & Deciding', color:'#2563EB', items:[
-    {id:'c15', task:'Tour top 3 listings in person'},
-    {id:'c16', task:'Both vote Apply/Maybe/Pass in the Decide tab'},
-    {id:'c17', task:'Get a lease to review before signing'},
-    {id:'c18', task:'Check for lease red flags: entry notice, rent increase policy'},
-    {id:'c19', task:'Negotiate — deposit, move-in date, or first month free'},
-    {id:'c20', task:'Verify Precious is confirmed in writing before signing'},
-    {id:'c21', task:'Pay application fee on your top choice'},
-  ]},
-  { phase:'Moving In', color:'#16A34A', items:[
-    {id:'c22', task:'Sign the lease'},
-    {id:'c23', task:'Set up renters insurance (required by most FoCo landlords)'},
-    {id:'c24', task:'Book moving truck — May fills up fast'},
-    {id:'c25', task:'Set up Xcel Energy account'},
-    {id:'c26', task:'Set up internet (check if Ting fiber is available)'},
-    {id:'c27', task:'Change addresses (USPS, bank, etc.)'},
-    {id:'c28', task:'Help Josiah find a sublease or list on Facebook/Craigslist'},
-    {id:'c29', task:'Set up a "Precious safe room" first — one quiet room before any boxes'},
-  ]},
-];
-
-const ALL_ITEMS = PHASES.flatMap(ph=>ph.items);
-
-function renderChecklist() {
-  const pg = el('page-checklist'); if(!pg) return;
-  const done  = Object.values(S.checked).filter(Boolean).length;
-  const total = ALL_ITEMS.length;
-  const pct   = Math.round((done/total)*100);
-
-  if(!S.openPhase) {
-    const first = PHASES.find(ph=>ph.items.some(i=>!S.checked[i.id]));
-    if(first) S.openPhase = first.phase;
-  }
-
-  pg.innerHTML = `
-    <div style="margin-bottom:20px">
-      <div class="pg-h">Checklist</div>
-      <div class="pg-s" style="margin-bottom:10px">Your search, step by step.</div>
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
-        <div class="prog" style="flex:1;height:6px"><div class="prog-f" style="width:${pct}%;background:var(--blue)"></div></div>
-        <span style="font-size:13px;font-weight:600;color:var(--blue);white-space:nowrap">${done}/${total} · ${pct}%</span>
-      </div>
-    </div>
-
-    ${PHASES.map(ph=>{
-      const pd   = ph.items.filter(i=>S.checked[i.id]).length;
-      const done = pd===ph.items.length;
-      const open = S.openPhase===ph.phase;
-      return `<div class="phase-wrap">
-        <div class="phase-hd" onclick="S.openPhase=S.openPhase==='${ph.phase}'?null:'${ph.phase}';renderChecklist()">
-          <div class="pdot" style="background:${ph.color}"></div>
-          <span style="flex:1;font-size:13px;font-weight:600">${ph.phase}</span>
-          <span style="font-size:12px;color:${done?'var(--green)':'var(--t3)'};font-weight:600;margin-right:6px">${pd}/${ph.items.length}</span>
-          <span style="font-size:12px;color:var(--t3)">${open?'▲':'▼'}</span>
-        </div>
-        ${open?ph.items.map(item=>`
-          <div class="citem ${S.checked[item.id]?'done':''}" onclick="toggleTask('${item.id}')">
-            <div class="cbox ${S.checked[item.id]?'on':''}">✓</div>
-            <span style="font-size:13px;line-height:1.45;font-weight:500">${esc(item.task)}</span>
-          </div>`).join(''):''}
-      </div>`;
-    }).join('')}
-  `;
-}
-
-function toggleTask(id) {
-  const next = !S.checked[id];
-  const updated = {...S.checked, [id]: next};
-  saveChecked(updated);
-}
-
-// ═══════════════════════════════════════════════════
-//  SETTINGS MODAL
-// ═══════════════════════════════════════════════════
-function openSettings() {
-  const body = el('settings-body'); if(!body) return;
-  const key = apiKey();
-
-  body.innerHTML = `
-    <div style="margin-bottom:16px">
-      <div class="sec-h">Identity</div>
-      <div class="card" style="padding:12px">
-        <div style="font-size:13px;margin-bottom:8px">Logged in as: <strong>${who()==='amelia'?'Amelia':'Josiah'}</strong></div>
-        <div style="display:flex;gap:7px">
-          <button class="btn btn-ghost btn-sm ${who()==='amelia'?'btn-primary':''}" onclick="localStorage.setItem('hb-who','amelia');el('sb-who-name').textContent='Amelia';buildChrome();showToast('Switched to Amelia')">Amelia</button>
-          <button class="btn btn-ghost btn-sm ${who()==='josiah'?'btn-primary':''}" onclick="localStorage.setItem('hb-who','josiah');el('sb-who-name').textContent='Josiah';buildChrome();showToast('Switched to Josiah')">Josiah</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-bottom:16px">
-      <div class="sec-h">Anthropic API Key</div>
-      <div class="field"><input id="s-api-key" type="password" placeholder="sk-ant-api03-..." value="${esc(key)}"></div>
-      <button class="btn btn-ghost btn-sm" onclick="const k=el('s-api-key').value.trim();if(k){localStorage.setItem('hb-api-key',k);showToast('✓ API key saved')}">Save key</button>
-      ${key?`<button class="btn btn-danger btn-sm" style="margin-left:8px" onclick="localStorage.removeItem('hb-api-key');el('s-api-key').value='';showToast('Key removed')">Remove</button>`:''}
-    </div>
-
-    <div style="margin-bottom:16px">
-      <div class="sec-h">Commute Addresses</div>
-      <div class="field"><label class="lbl">Amelia's work address</label>
-        <input id="s-amelia-work" placeholder="123 Main St, Fort Collins, CO" value="${esc(S.settings.ameliaWork||'')}">
-      </div>
-      <div class="field"><label class="lbl">Josiah's work address</label>
-        <input id="s-josiah-work" placeholder="456 Oak Ave, Fort Collins, CO" value="${esc(S.settings.josiahWork||'')}">
-      </div>
+    <div style="margin-bottom:16px"><div class="sec-h">Commute addresses</div>
+      <div class="field"><label class="lbl">Amelia's work</label><input id="s-aw" placeholder="123 Main St, Fort Collins" value="${esc(S.settings.ameliaWork||'')}"></div>
+      <div class="field"><label class="lbl">Josiah's work</label><input id="s-jw" placeholder="456 Oak Ave, Fort Collins" value="${esc(S.settings.josiahWork||'')}"></div>
       <button class="btn btn-ghost btn-sm" onclick="saveCommute()">Save addresses</button>
     </div>
-
-    <div>
-      <div class="sec-h">Firebase</div>
-      <div style="font-size:12px;color:var(--t3);margin-bottom:8px">Connected: ${S.fbReady?'<span style="color:var(--green)">✓ Yes</span>':'<span style="color:var(--red)">✗ Not connected</span>'}</div>
-      <button class="btn btn-danger btn-xs" onclick="if(confirm('Re-run setup?')){localStorage.removeItem('hb-fb');location.reload()}">Reconnect Firebase</button>
+    <div style="margin-bottom:16px"><div class="sec-h">Data</div>
+      <div style="font-size:12px;color:var(--ink3);margin-bottom:8px">Saved in your browser. Nothing leaves your device.</div>
+      <button class="btn btn-ghost btn-sm" onclick="exportData()">Export backup</button>
+      <button class="btn btn-rust btn-xs" style="margin-left:8px" onclick="if(confirm('Clear ALL data?'))clearData()">Clear all</button>
     </div>
-
-    <div class="mfoot"><button class="btn btn-ghost btn-sm" onclick="closeSettings()">Done</button></div>
-  `;
-  el('settings-modal').classList.add('open');
+    <div class="mfoot"><button class="btn btn-ghost btn-sm" onclick="closeSM()">Done</button></div>`;
+  el('sm-overlay').classList.add('open');
 }
-
-function closeSettings() { el('settings-modal').classList.remove('open'); }
-
-function saveCommute() {
-  S.settings.ameliaWork = el('s-amelia-work')?.value||'';
-  S.settings.josiahWork = el('s-josiah-work')?.value||'';
-  saveSettings(S.settings);
-  showToast('✓ Addresses saved');
+function closeSM(){el('sm-overlay').classList.remove('open');}
+function setWho(w){S.settings.who=w;persist('settings');openSettings();buildChrome();toast('Switched to '+(w==='amelia'?'Amelia':'Josiah'));}
+function saveCommute(){S.settings.ameliaWork=el('s-aw')?.value||'';S.settings.josiahWork=el('s-jw')?.value||'';persist('settings');toast('✓ Addresses saved');}
+function exportData(){
+  const data={listings:S.listings,budget:S.budget,checked:S.checked,settings:S.settings,exportedAt:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='homebase-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();
 }
+function clearData(){Object.values(KEYS).forEach(k=>localStorage.removeItem(k));location.reload();}
 
-// ═══════════════════════════════════════════════════
-//  FC TIPS
-// ═══════════════════════════════════════════════════
-const FC_TIPS = [
-  'SE Fort Collins 2BR runs $1,500–$2,100/mo right now. Under $1,700 is a great deal — move fast.',
-  'Always ask what the previous tenant actually paid for electric + gas. Xcel bills swing wildly by insulation.',
-  'Ting fiber is excellent in SE Fort Collins and often faster than Xfinity. Ask before you sign.',
-  'May is CSU graduation month — movers book up fast. Reserve a truck the day you sign.',
-  'Private landlords are far more flexible on Precious than big complexes. "No pets" is sometimes negotiable.',
-  'Colorado requires 24-hour notice before landlord entry. Any lease waiving this is a red flag.',
-  'Ask about rent-increase policy at renewal upfront — some FC landlords raise 10–15% annually.',
-  'Xcel gas bills spike Oct–March. Budget $80–100/mo in winter, not $40.',
-  'For Precious: a refundable deposit beats monthly pet rent. $400 deposit &gt; $50/mo after 8 months.',
-  'South-facing = afternoon light year-round. West-facing = golden hour. North-facing = very little direct sun.',
-];
-
-// ═══════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════
-window.addEventListener('click', e => {
-  if(e.target === el('listing-modal')) closeListingModal();
-  if(e.target === el('settings-modal')) closeSettings();
-  if(e.target === el('qc-modal')) closeQC();
-});
-
-const ready = checkSetup();
-if(ready) {
-  buildChrome();
-  goTab('dash');
-}
+window.addEventListener('click',e=>{if(e.target===el('lm-overlay'))closeLM();if(e.target===el('sm-overlay'))closeSM();});
+load();buildChrome();goTab('dash');
 </script>
 </body>
 </html>
